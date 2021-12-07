@@ -1,0 +1,137 @@
+query findOrganizations {
+  organizations {
+    uuid
+    organizationUuid
+    name
+  }
+}
+
+query findOrganizationTrees {
+  organizations {
+    uuid
+    organizationUuid
+    name
+    countUsers
+    organizations {
+      uuid
+      organizationUuid
+      name
+      countUsers
+      organizations {
+        uuid
+        organizationUuid
+        name
+        countUsers
+        organizations {
+          uuid
+          organizationUuid
+          name
+          countUsers
+          organizations {
+            uuid
+            organizationUuid
+            name
+            countUsers
+            organizations {
+              uuid
+              organizationUuid
+              name
+              countUsers
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query findOrganizationsWithRoles {
+  organizations {
+    uuid
+    name
+    organizationUuid
+    roles {
+      uuid
+    }
+    organizations {
+      uuid
+      name
+      organizationUuid
+      roles {
+        uuid
+      }
+      organizations {
+        uuid
+        name
+        organizationUuid
+        roles {
+          uuid
+        }
+        organizations {
+          uuid
+          name
+          organizationUuid
+          roles {
+            uuid
+          }
+          organizations {
+            uuid
+            name
+            organizationUuid
+            roles {
+              uuid
+            }
+            organizations {
+              uuid
+              name
+              organizationUuid
+              roles {
+                uuid
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation sendInvitation($input: InviteOrganizationsUsersInput!) {
+  inviteOrganizationUsers(input: $input)
+  {
+    organizationUuid
+    invitationErrors {
+      user {
+        email
+        roleUuid
+      }
+      description
+    }
+    invitedUsers {
+      email
+    }
+  }
+}
+
+mutation createOrganization($input: CreateOrganizationInput!) {
+  createOrganization(input: $input)
+  {
+    organization {
+      uuid,
+      name
+    }
+  }
+}
+
+mutation updateOrganizationUser($input: OrganizationUserInput!) {
+  updateOrganizationUser(input: $input) {
+    organizationUser {
+      uuid
+      organizationUuid
+      role {
+        uuid,
+        name
+      }
+    }
+  }
+}

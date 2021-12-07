@@ -1,0 +1,57 @@
+<div class="pt-4">
+  <div nz-row class="pt-5">
+    <div nz-col nzSpan="6">
+      <div class="pb-5">
+        <a href="#">Data</a>
+      </div>
+      <div class="pt-3 pb-4">
+        <a href="#">Accounts</a>
+      </div>
+      <div>
+        <a href="#">Features & Tools</a>
+      </div>
+    </div>
+    <div nz-col nzSpan="18">
+      <org-admin-permission-sub
+        title="Data"
+        description="(May be pulling out data section - it's currently in quartermaster - exports)"
+      >
+        <div nz-row class="mb-5">
+          <div nz-col nzSpan="12" class="px-2">
+            <nz-card nzTitle="Geography" [nzExtra]="edit" class="shadow-sm">
+              <button nz-button nzType="default">United States</button>
+            </nz-card>
+            <ng-template #edit>
+              <a>Edit</a>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="12" class="px-2">
+            <nz-card nzTitle="Sources" [nzExtra]="edit" class="shadow-sm">
+              <div class="pt-2 ps-5">L2, TargetSmart</div>
+            </nz-card>
+            <ng-template #edit>
+              <a>Edit</a>
+            </ng-template>
+          </div>
+        </div>
+      </org-admin-permission-sub>
+      <org-admin-permission-sub title="Account Roles">
+        <org-admin-permission-card
+          title="Account Permissions"
+          [permissions]="accountPermissions"
+        ></org-admin-permission-card>
+      </org-admin-permission-sub>
+      <org-admin-permission-sub title="Features & Tools">
+        <org-admin-permission-card
+          title="Campaign"
+          [permissions]="campaignPermissions"
+        ></org-admin-permission-card>
+        <org-admin-permission-card
+          title="Email"
+          [permissions]="emailPermissions"
+        ></org-admin-permission-card>
+      </org-admin-permission-sub>
+      <org-admin-permission-sub title="User Roles"> </org-admin-permission-sub>
+    </div>
+  </div>
+</div>

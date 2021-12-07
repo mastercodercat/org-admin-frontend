@@ -1,0 +1,33 @@
+<div class="organizer-info"></div>
+<div class="login">
+  <h1 class="login-to-org">Log in to Organizer</h1>
+  <form nz-form [formGroup]="loginForm" (ngSubmit)="login()">
+    <nz-form-item>
+      <nz-form-control [nzErrorTip]="emailNotValid">
+        <input nz-input nzRequired placeholder="Email address" formControlName="email" type="email"/>
+        <ng-template #emailNotValid><div class="validation-error">Please enter a valid email</div></ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzExtra]="forgotPasswordTemp">
+        <nz-input-group [nzSuffix]="viewPasswordTemp">
+          <input nz-input nzRequired placeholder="Password" formControlName="password" [type]="showPassword ? 'text' : 'password'"/>
+        </nz-input-group>
+        <ng-template #viewPasswordTemp>
+          <span class="view-password" (click)="togglePassword()">View Password</span>
+        </ng-template>
+        <ng-template #forgotPasswordTemp>
+          <a class="forgot-password" routerLink="/login/recover-password">Forgot Password?</a>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="emailPassNotValid">
+      <div class="validation-error">We couldn't find an account matching the email address and password you entered. Please check your email and password and try again.</div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button [disabled]="loginForm.status === 'INVALID'" nzType="primary" class="login-btn">Log In</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>  
+</div>

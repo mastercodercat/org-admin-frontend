@@ -1,0 +1,57 @@
+<nz-collapse [nzBordered]="false" class="w-100" nz-accordion>
+  <nz-collapse-panel
+    #p
+    *ngFor="let account of accounts"
+    [nzHeader]="header"
+    [nzExtra]="moreIcon"
+    [ngStyle]="customStyle"
+    [nzExpandedIcon]="expandedIcon"
+    [nzShowArrow]="account.subaccounts && account.subaccounts.length > 0"
+  >
+    <div *ngIf="account.subaccounts && account.subaccounts.length > 0">
+      <org-admin-account-collapse
+        [accounts]="account.subaccounts"
+      ></org-admin-account-collapse>
+    </div>
+    <ng-template #header>
+      <div class="d-inline-block">
+        <div nz-row nzAlign="middle">
+          <nz-avatar nzIcon="user"></nz-avatar>
+          <div class="ms-3">
+            <div class="fw-bold">{{ account.name }}</div>
+            <div>
+              <span>{{ account.members }} members </span>
+              <span
+                *ngIf="account.subaccounts && account.subaccounts.length > 0"
+              >
+                | {{ account.subaccounts.length }} Subaccounts
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #expandedIcon let-active>
+      <i
+        nz-icon
+        nzType="caret-left"
+        class="ant-collapse-arrow"
+        [nzRotate]="p.nzActive ? 90 : -90"
+      ></i>
+    </ng-template>
+    <ng-template #moreIcon>
+      <a nz-button nzType="link" nz-dropdown [nzDropdownMenu]="menu">
+        <i nz-icon nzType="more"></i>
+      </a>
+    </ng-template>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item>
+      <span>Manage permissions</span>
+      <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
+    </li>
+  </ul>
+</nz-dropdown-menu>

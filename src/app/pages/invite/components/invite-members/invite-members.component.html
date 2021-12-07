@@ -1,0 +1,37 @@
+<div class="invite-members">
+  <i nz-icon nzType="user-add" nzTheme="outline" class="fs-1"></i>
+  <h4 class="mt-3" nz-typography>Invite new members to Mumuration</h4>
+  <p class="mt-4"><strong>a. Enter email addresses</strong></p>
+  <form
+    nz-form
+    nzLayout="vertical" 
+    [formGroup]="emailForm"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item>
+      <nz-form-label>Enter one or more email addresses; comma separated.</nz-form-label>
+      <nz-form-control nzErrorTip="Please input email list">
+        <input nz-input placeholder="Email List" formControlName="emails" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <div class="text-end mt-3">
+          <button nz-button nzType="primary">Invite via email</button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <p class="mt-5"><strong>b. Import .csv files</strong></p>
+  <p>You can <a href="#" target="_blank">download CSV template</a>, to make sure your file is imported correctly. For more information on imports, come check out our blog and read more about it.</p>
+  <nz-upload
+    nzType="drag"
+    [nzBeforeUpload]="beforeUpload"
+  >
+    <img src="/assets/images/upload.svg" />
+    <p class="ant-upload-text">Drop .csv files to upload</p>
+    <p class="ant-upload-hint">
+      or browse to choose a file
+    </p>
+  </nz-upload>
+</div>

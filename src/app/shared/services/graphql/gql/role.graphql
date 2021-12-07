@@ -1,0 +1,6 @@
+query findRoles($input: RolesInput) {
+  roles(input: $input) {
+    uuid
+    name
+  }
+}

@@ -1,0 +1,20 @@
+<div class="p-4 admin">
+  <div nz-row nzAlign="middle">
+    <div nz-col nzFlex="auto">
+      <h1 nz-typography class="mb-0">Account Management</h1>
+    </div>
+  </div>
+  <div nz-row class="pt-4">
+    <nz-tabset [nzSelectedIndex]="activeTab" class="w-100">
+      <nz-tab *ngFor="let tab of tabs; let i = index" [nzTitle]="titleTemplate">
+        <ng-template #titleTemplate>
+          <a [routerLink]="tab.route" class="text-black">
+            <i nz-icon [nzType]="tab.icon"></i>
+            {{ tab.name }}
+          </a>
+        </ng-template>
+        <router-outlet></router-outlet>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="p-4 d-flex align-items-center justify-content-center h-100">
+  <div nz-row class="join">
+    <div nz-col nzSpan="15">
+      <div class="d-flex align-items-center mt-3">
+        <i nz-icon nzType="radar-chart" nzTheme="outline"></i>
+        <h4 class="mb-0 ps-2 d-block" nz-typography>Organizer</h4>
+      </div>
+    </div>
+    <div nz-col nzSpan="9">
+      <div class="d-flex align-items-center justify-content-center h-100" *ngIf="isLoading">
+        <nz-spin nzSimple></nz-spin>
+      </div>
+      <ng-container *ngIf="!isLoading">
+        <div class="d-flex flex-column justify-content-center h-100" *ngIf="status === 'EXPIRED'">
+          <h4 nz-typography>This invitation has expired</h4>
+          <p nz-typography>Try contacting the person who sent the invitation</p>
+        </div>
+        <ng-container *ngIf="status !== 'EXPIRED'">
+          <div *ngIf="status === 'NEW'">
+            <h4 nz-typography>Create my account</h4>
+            <p class="fw-bold">{{ email }}</p>
+          </div>
+
+          <div *ngIf="status === 'EXISTING'">
+            <h4 nz-typography>Hi {{ name }},</h4>
+            <p>We have found an existing account under:</p>
+            <p class="fw-bold">{{ email }}</p>
+          </div>
+
+          <div *ngIf="status === 'EXISTING' || status === 'NEW'">
+            <form nz-form [formGroup]="joinForm" (ngSubmit)="login()">
+              <ng-container *ngIf="status === 'NEW'">
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input nzRequired placeholder="First Name" formControlName="firstName" />
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input nzRequired placeholder="Last Name" formControlName="lastName" />
+                  </nz-form-control>
+                </nz-form-item>
+              </ng-container>
+
+              <nz-form-item>
+                <nz-form-control [nzExtra]="extraTemplate">
+                  <nz-input-group
+                    [nzSuffix]="suffixTemplate"
+                    nz-popover
+                    [nzPopoverContent]="contentTemplate"
+                    [nzPopoverVisible]="joinForm.controls['password']?.touched && (passwordFocus || !joinForm.controls['password'].valid)"
+                    [nzPopoverTrigger]="null"
+                    nzPopoverPlacement="rightTop"
+                  >
+                    <input
+                      nz-input
+                      nzRequired
+                      placeholder="Password"
+                      formControlName="password"
+                      [type]="passwordVisible ? 'text' : 'password'"
+                      (focus)="passwordFocus = true" 
+                      (blur)="passwordFocus = false"
+                    />
+                  </nz-input-group>
+                  <ng-template #suffixTemplate>
+                    <a nzType="primary" (click)="passwordVisible = !passwordVisible">View Password</a>
+                  </ng-template>
+
+                  <ng-template #contentTemplate>
+                    <div class="mb-1 d-flex" *ngIf="joinForm.controls['password'].valid">
+                      <div nz-typography nzType="success">
+                        <i nz-icon nzType="check-circle" nzTheme="fill" class="me-1"></i>
+                      </div> <span>Password accepted!</span>
+                    </div>
+                    <div nz-typography class="mb-1 fw-bold">Your password must:</div>
+
+                    <div nz-typography [nzType]="joinForm.controls['password'].hasError('length') ? 'danger' : 'success'" class="mb-1">
+                      <i nz-icon [nzType]="joinForm.controls['password'].hasError('length') ? 'warning' : 'check'" nzTheme="outline"></i> Be at least 8-10 characters long
+                    </div>
+
+                    <div nz-typography [nzType]="joinForm.controls['password'].hasError('special') ? 'danger' : 'success'" class="mb-1">
+                      <i nz-icon [nzType]="joinForm.controls['password'].hasError('special') ? 'warning' : 'check'" nzTheme="outline"></i> Have at least one special character
+                    </div>
+
+                    <div nz-typography [nzType]="joinForm.controls['password'].hasError('number') ? 'danger' : 'success'" class="mb-1">
+                      <i nz-icon [nzType]="joinForm.controls['password'].hasError('number') ? 'warning' : 'check'" nzTheme="outline"></i> Have at least one number
+                    </div>
+
+                    <div nz-typography [nzType]="joinForm.controls['password'].hasError('lowercase') ? 'danger' : 'success'" class="mb-1">
+                      <i nz-icon [nzType]="joinForm.controls['password'].hasError('lowercase') ? 'warning' : 'check'" nzTheme="outline"></i> Have at least one lowercase
+                    </div>
+
+                    <div nz-typography [nzType]="joinForm.controls['password'].hasError('uppercase') ? 'danger' : 'success'" class="mb-1">
+                      <i nz-icon [nzType]="joinForm.controls['password'].hasError('uppercase') ? 'warning' : 'check'" nzTheme="outline"></i> Have at least one uppercase
+                    </div>
+                  </ng-template>      
+
+                  <ng-template #extraTemplate>
+                    <div class="validation-error mb-1" *ngIf="emailPassNotValid">There was error while logging. Please check information and try again.</div>      
+                    <a routerLink="/login/recover-password" nzType="primary" class="mt-1">Forgot password?</a>      
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+
+              <p class="mt-2">
+                By clicking below you agree to the Helm <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+              </p>
+
+              <div nz-typography nzType="danger" class="mb-1" *ngIf="error">
+                {{ error }}
+              </div>
+
+              <nz-form-item>
+                <nz-form-control>
+                  <button
+                    nz-button
+                    [disabled]="joinForm.status === 'INVALID'"
+                    nzType="primary"
+                    class="login-btn"
+                    [nzLoading]="isFormLoading"
+                  >
+                    {{ status === 'NEW' ? "Join" : "Continue Logging In" }}
+                  </button>
+                </nz-form-control>
+              </nz-form-item>
+            </form>  
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

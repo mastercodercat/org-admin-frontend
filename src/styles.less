@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+@import "styles/custom.less";
+
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@primary-color: #ff56da;
+
+@import "../node_modules/bootstrap/dist/css/bootstrap-utilities.css";
+
+.search-btn {
+  input {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    font-size: 14px;
+    height: 40px;
+  }
+
+  button {
+    border-top-right-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+    font-size: 14px;
+  }
+}
+
+org-admin-members {
+  .ant-table-pagination {
+    justify-content: center !important;
+  }
+}
+
+org-admin-account-collapse {
+  nz-collapse {
+    background: white !important;
+
+    .ant-collapse-content-box {
+      background: white;
+      padding-top: 24px !important;
+      padding-right: 0px !important;
+
+      .ant-collapse-no-arrow {
+        .ant-collapse-header {
+          padding-left: 38px !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<div nz-row class="shadow-sm w-100 p-4 mb-3 ant-card-bordered">
+  <div nz-col nzSpan="6">
+    <span class="fw-bold">{{ title }}</span>
+  </div>
+  <div nz-col nzSpan="12">
+    <div class="text-black-50 pb-2" *ngFor="let permission of permissions">
+      {{ permission.question }}
+    </div>
+  </div>
+  <div nz-col nzSpan="5">
+    <div
+      class="text-end text-black-50 pb-2"
+      *ngFor="let permission of permissions"
+    >
+      <span>{{ permission.role }}</span>
+      <a nz-button nzType="link">
+        <i nz-icon nzType="edit" nzTheme="outline"></i>
+      </a>
+    </div>
+  </div>
+</div>

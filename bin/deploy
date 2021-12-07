@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DEBUG=""
+CDK_COMMAND="deploy"
+BOOTSTRAP="true"
+FORCE=""
+usage() {
+    echo -n """
+$0 -s STAGE -a APP -t STACK [-d][-r]
+[-s | --stage] i.e., sandbox, staging, production
+[-a | --app] CDK app to deploy (i.e. infrastructure/bin/\${APP}.ts)
+[-t | --stack] CDK stack to deploy
+[-d | --debug] Enable debug output
+[-r | --dry-run] Show a diff of what's going to change, but don't actually deploy anything.
+[-e | --destroy] Tear down a stack.
+[-h | --help] Show this message.
+[-f | --force] Run command no matter what.
+"""
+}
+
+while [ $# -gt 0 ]; do
+    case ${1} in
+        -s|--stage) STAGE=$2; shift;;
+        -a|--app) APP=$2; shift;;
+        -t|--stack) STACK=$2; shift;;
+        -d|--debug) DEBUG=true;;
+        -h|--help) usage; exit 0;;
+        -r|--dry-run) CDK_COMMAND="diff"; BOOTSTRAP="false" ;;
+        -e|--destroy) CDK_COMMAND="destroy";;
+        -f|--force) FORCE="--force";;
+        *)
+            echo "Argument $1 not supported"
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+STACK_ID="${STACK}-${STAGE}"
+
+if [ -n "${DEBUG}" ];
+then
+    echo "Stage: ${STAGE}"
+    echo "App: ${APP}"
+    echo "Stack: ${STACK}"
+    echo "CDK Command: ${CDK_COMMAND}"
+    echo "Bootstrap: ${BOOTSTRAP}"
+    echo "Force: ${FORCE}"
+    echo "CDK stack ID: ${STACK_ID}"
+    set -x
+fi
+
+if ! [ -f "infrastructure/bin/${APP}.ts" ];
+then
+    echo "App ${APP} not found!"
+    usage
+fi
+
+cd infrastructure
+if [ "${BOOTSTRAP}" == "true" ];
+then
+    npx cdk bootstrap -a "npx ts-node --prefer-ts-exts bin/${APP}.ts" "aws://${AWS_ACCOUNT}/us-east-1"
+fi
+npx cdk "${CDK_COMMAND}" -a "npx ts-node --prefer-ts-exts bin/${APP}.ts" --require-approval=never -O "${STACK_ID}-outputs.json" "${FORCE}" "${STACK_ID}"

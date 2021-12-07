@@ -1,0 +1,105 @@
+<nz-avatar class="user-avatar mb-2 mt-5" nz-icon="user" [nzSrc]="(userInfo$ | async)?.picture"></nz-avatar>
+<h1 nz-typography>{{ user?.firstName }} {{ user?.lastName }}</h1>
+<p>{{ title }}</p>
+
+<nz-tabset nzCentered>
+  <nz-tab nzTitle="Personal info">
+    <ul>
+      <li class="d-flex align-items-center my-2">
+        <i nz-icon nzType="mail" nzTheme="outline"></i>
+        <strong class="profile__personal-heading mx-1">Email:</strong>
+        <span class="flex-1">{{ user?.email }}</span>
+      </li>
+      <li class="d-flex align-items-center my-2">
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        <strong class="profile__personal-heading mx-1">Title:</strong>
+        <span class="flex-1">{{ title }}</span>
+      </li>
+      <li class="d-flex align-items-center my-2">
+        <i nz-icon nzType="mobile" nzTheme="outline"></i>
+        <strong class="profile__personal-heading mx-1">Phone:</strong>
+        <div class="flex-1">
+          <input nz-input nzRequired placeholder="Enter phone number" [value]="user?.phone" (change)="handlePhoneNumberChange($event)" />
+        </div>
+      </li>
+    </ul>
+  </nz-tab>
+
+  <nz-tab nzTitle="Accounts">
+    <div *ngFor="let organizationUser of user?.organizationUsers">
+      <div *ngIf="organizationUser?.status !== 'DELETED'" class="d-flex align-items-center mb-1" >
+        <nz-avatar nzSize="small" nzIcon="user"></nz-avatar>
+        <span class="profile__organizer-name ms-2">{{ organizationUser?.organization?.name }}</span>
+
+        <div class="profile__organizer-role mx-2">
+          <a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click">
+            {{ userRole[organizationUser?.organizationUuid || '']?.name || '' }}
+            <i nz-icon nzType="down"></i>
+          </a>
+
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li
+                nz-menu-item
+                (click)="openRoleUpdate(organizationUser, role)"
+                *ngFor="let role of (organizationRoles[organizationUser?.organizationUuid || ''] || [])"
+              >{{ role.name }}</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+
+        <button nz-button nzType="link" (click)="openRemoveModal(organizationUser)">Remove access</button>
+      </div>
+    </div>
+    <a nz-dropdown [nzDropdownMenu]="organizationMenu">
+      <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+      Add to another account
+    </a>
+    <nz-dropdown-menu #organizationMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <ng-container *ngFor="let organization of organizations">
+          <li nz-menu-item *ngIf="organization.roles.length > 0" (click)="handleOpenAddModal(organization)">{{ organization.name }}</li>
+        </ng-container>
+      </ul>
+    </nz-dropdown-menu>
+  </nz-tab>
+</nz-tabset>
+
+<!-- Remove Access -->
+<nz-modal
+  [nzVisible]="!!removeOrganization"
+  nzTitle="Removing access"
+  (nzOnCancel)="handleRemoveCancel()"
+  (nzOnOk)="handleRemove()"
+  nzOkText="YES, REMOVE MEMBER"
+  nzCancelText="NO, DO NOT REMOVE MEMBER">
+  <ng-container *nzModalContent>
+    <p>{{ user?.firstName }} will not have access to any information or updates from this account.  Do you want to continue removing this member?</p>
+  </ng-container>
+</nz-modal>
+
+<!-- Add Account -->
+<nz-modal
+  [nzVisible]="!!addOrganization"
+  nzTitle="Add To Accounts"
+  (nzOnCancel)="handleAddCancel()"
+  (nzOnOk)="handleAdd()"
+  [nzCancelText]="null"
+  nzOkText="YES, ADD NEW ACCOUNT">
+  <ng-container *nzModalContent>
+    <p>You are adding {{ user?.firstName }} to {{ addOrganization?.name }}. Do you want to continue?</p>
+  </ng-container>
+</nz-modal>
+
+<!-- Change User Role -->
+<nz-modal
+  [nzVisible]="!!changeOrganization"
+  nzTitle="Continue changing role?"
+  (nzOnCancel)="handleChangeRoleCancel()"
+  (nzOnOk)="handleChangeRole()"
+  [nzCancelText]="null"
+  nzOkText="YES, CHANGE USER ROLE">
+  <ng-container *nzModalContent>
+    <p>You are changing {{ user?.firstName }}'s role in {{ changeOrganization?.name }} to {{ changeUserRole?.name }}. Do you want to continue?</p>
+  </ng-container>
+</nz-modal>

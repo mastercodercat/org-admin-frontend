@@ -1,0 +1,25 @@
+<div class="invite p-4">
+  <div nz-row nzAlign="middle">
+    <div nz-col nzFlex="auto">
+      <nz-breadcrumb nz-page-header-breadcrumb>
+        <nz-breadcrumb-item>
+          Choose method
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngIf="step > 0">Assign roles</nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngIf="step > 1">Send invitation</nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+    <div nz-col *ngIf="step !== 2">
+      <a routerLink="/dashboard/members" nz-button nzType="primary">Exit</a>
+    </div>
+  </div>
+
+  <div class="p-4 d-flex justify-content-center mt-5">
+    <nz-spin nzSimple *ngIf="isLoading"></nz-spin>
+    <ng-container *ngIf="!isLoading">
+      <org-invite-members *ngIf="step === 0" (submitEmails)="handleSubmitEmails($event)"></org-invite-members>
+      <org-assign-roles *ngIf="step === 1" [emails]="emails" (sendInvite)="handleSendInvite($event)" [roles]="roles"></org-assign-roles>
+      <org-invitation-sent *ngIf="step === 2"></org-invitation-sent>
+    </ng-container>
+  </div>
+</div>

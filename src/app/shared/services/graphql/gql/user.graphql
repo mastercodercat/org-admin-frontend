@@ -1,0 +1,85 @@
+query findUser($input: UserInput!) {
+  user(input: $input) {
+    uuid
+    status
+    firstName
+    lastName
+    email
+    phone
+    resetToken
+    organizationUsers {
+      uuid
+      status
+      organizationUuid
+      organization {
+          uuid,
+          name
+      },
+      role {
+          uuid,
+          name
+      },
+      title
+    }
+  }
+}
+
+mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
+  acceptOrganizationUserInvite(input: $input)
+}
+
+query findMembers($after: String, $first: Int, $input: UsersInput) {
+  users(first: $first, after: $after, input: $input) {
+    totalCount,
+    pageInfo {
+        hasNextPage,
+        startCursor,
+        endCursor
+    },
+    edges {
+      cursor
+      node {
+        uuid,
+        firstName,
+        lastName,
+        email,
+        phone,
+        organizationUsers {
+          organization {
+            uuid
+            name
+          }
+          role {
+              uuid,
+              name
+          },
+          title
+        }
+      }
+    }
+  }
+}
+
+query validateAssociationToken($input: ValidateAssociationTokenInputType!) {
+  validateAssociationToken(input: $input) {
+    status
+    email
+    name
+  }
+}
+
+mutation requestUserPasswordReset($input: RequestUserPasswordResetInput!) {
+  requestUserPasswordReset(input: $input)
+}
+
+mutation resetUserPassword($input: ResetUserPasswordInput!) {
+   resetUserPassword(input: $input)
+}
+
+mutation updateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    user {
+      uuid
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center">
+  <nz-spin nzSimple *ngIf="isLoading"></nz-spin>
+</div>
+<ng-container *ngIf="!isLoading">
+  <div nz-row nzAlign="middle" class="pt-5 pb-4">
+    <div nz-col nzSpan="12" class="search-btn">
+      <nz-input-group
+        nzSearch
+        nzSize="large"
+        [nzAddOnAfter]="suffixIconButton"
+        class="rounded-3 w-75"
+      >
+        <input type="text" nz-input placeholder="Search members, accounts..." />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch class="w-auto px-3">
+          <i nz-icon nzType="search"></i>
+        </button>
+      </ng-template>
+    </div>
+    <div nz-col nzSpan="9" class="ms-auto">
+      <div nz-row nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <a
+            routerLink='/create-org'
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            class="text-uppercase action-btn"
+          >Create Organziation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-row>
+    <org-admin-account-collapse
+      class="w-100"
+      [accounts]="accounts"
+    ></org-admin-account-collapse>
+  </div>
+</ng-container>

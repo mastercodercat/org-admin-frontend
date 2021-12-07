@@ -1,0 +1,59 @@
+<div>
+  <div nz-row class="pt-5">
+    <div nz-col class="search-btn w-50 pb-4">
+      <nz-input-group
+        nzSearch
+        nzSize="large"
+        [nzAddOnAfter]="suffixIconButton"
+        class="rounded-3 w-75"
+      >
+        <input type="text" nz-input placeholder="Search members, accounts..." />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch class="w-auto px-3">
+          <i nz-icon nzType="search"></i>
+        </button>
+      </ng-template>
+    </div>
+    <div nz-col class="ms-auto">
+      <a
+        routerLink='/invite'
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        class="text-uppercase action-btn"
+      >Invite Members</a>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col>
+      <nz-table
+        #membersTable
+        nzShowPagination
+        nzShowSizeChanger
+        [nzPageSize]="10"
+        [nzData]="members"
+        [nzLoading]="isLoading"
+        [nzNoResult]="'No Members available.'"
+      >
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone number</th>
+            <th>Accounts</th>
+            <th nzWidth="70px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let member of membersTable.data">
+            <tr class="org-admin-member-row" 
+              [member]="member"
+              >
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

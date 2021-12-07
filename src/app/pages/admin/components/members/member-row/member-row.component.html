@@ -1,0 +1,47 @@
+<td class="align-baseline">
+  <div class="d-flex align-items-center">
+    <nz-avatar nzIcon="user" [nzSrc]="member.avatar"></nz-avatar>
+    <div class="mx-2">
+      <div class="fw-bold">{{ member.name }}</div>
+      <div>{{ member.position }}</div>
+    </div>
+  </div>
+</td>
+<td class="align-baseline">
+  <a [routerLink]="['/profile', member.uuid]">{{ member.email }}</a>
+</td>
+<td class="align-baseline">
+  <a [routerLink]="['/profile', member.uuid]">{{ member.phone }}</a>
+</td>
+<td class="align-baseline">
+  <div *ngFor="let organizationUser of member.organizationUsers; let i = index">
+    <div *ngIf="i < 5 || isDetail">
+      <a href="#">{{ organizationUser.organization.name }}</a>
+      |
+      <span>{{ organizationUser.role.name }}</span>
+    </div>
+  </div>
+  <div *ngIf="member.organizationUsers.length > 5" class="px-2 py-3">
+    <a nz-button nzType="link" (click)="more($event)">
+      <span *ngIf="!isDetail">
+        View more <i nz-icon nzType="down" nzTheme="outline"></i>
+      </span>
+      <span *ngIf="isDetail">
+        View less <i nz-icon nzType="up" nzTheme="outline"></i>
+      </span>
+    </a>
+  </div>
+</td>
+<td class="align-baseline">
+  <a nz-button nzType="link" nz-dropdown [nzDropdownMenu]="menu">
+    <i nz-icon nzType="more"></i>
+  </a>
+</td>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item>
+      <a [routerLink]="['/profile', member.uuid]">Edit Account Access</a>
+    </li>
+  </ul>
+</nz-dropdown-menu>
