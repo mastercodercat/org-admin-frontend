@@ -21,6 +21,7 @@ import { reducers, metaReducers } from './store/reducers';
 import { environment } from '../environments/environment';
 import { AppEffects } from './store/effects/app.effects';
 import { GraphQLModule } from './graphql.module';
+import { UserEffects } from './store/effects/user.effects';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { GraphQLModule } from './graphql.module';
     
     // NgRx
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects, UserEffects]),
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 25}) : [],
     GraphQLModule,
   ],

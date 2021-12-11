@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import { BaseComponent } from 'src/app/core/base/base.component';
-import { Organization } from 'src/app/pages/organization/shared/organization.model';
-import { OrganizationService } from 'src/app/select-organization/services/organization.service';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { UserService } from 'src/app/shared/services/user/user.service';
-import { AppState } from 'src/app/store/reducers';
 import * as fromLoginSelectors from '../store/selectors/login.selectors';
 import * as fromUserSelectors from '../../store/selectors/user.selectors';
+import * as fromAppSelectors from '../../store/selectors/app.selectors';
+import { UserState } from '../../store/reducers/user.reducer';
+import { BaseComponent } from '../../core/base/base.component';
+import { AuthService } from '../../shared/services/auth/auth.service';
+import { UserService } from '../../shared/services/user/user.service';
 
 @Component({
   selector: 'org-login',
@@ -18,7 +17,7 @@ import * as fromUserSelectors from '../../store/selectors/user.selectors';
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
   showPassword: boolean = false;
   emailPassNotValid: boolean = false;
 
@@ -26,27 +25,22 @@ export class LoginComponent extends BaseComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private auth: AuthService,
-    private store: Store<AppState>,
-    private userService: UserService,
-    private orgService: OrganizationService) {
+    private store: Store<UserState>,
+    private userService: UserService,) {
     super();
-  }
-
-  ngOnInit() {
     this.loginForm = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required]],
     });
+  }
 
-    // Select login success value from store and if login is successful, navigate to home page
-    this.store.pipe(select(fromLoginSelectors.selectLoginSuccess), takeUntil(this.ngUnsubscribe$))
+  ngOnInit() {
+    // Select login and org success value from store and if successful, navigate to home page
+    this.store.pipe(select(fromAppSelectors.selectLoginOrgSuccess), takeUntil(this.ngUnsubscribe$))
       .subscribe(success => {
         if (success) {
           this.userService.getUserInfo();
-          this.orgService.getOrganizations().subscribe(result => { // TODO: Clean this up, subscriptions inside of subscriptions are very bad
-            this.userService.addOrganizations(result.data.organizations as Organization[]);
-            this.navigateHome();
-          });
+          this.navigateHome();
         }
       });
 
@@ -89,16 +83,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   /**
-   * Use router to navigate to the home page
+   * Use router to navigate to the home page or select organization if user has access to multiple orgs
    *
    * @private
    * @memberof LoginComponent
    */
   private navigateHome() {
     this.emailPassNotValid = false;
-    this.store.pipe(select(fromUserSelectors.selectUserOrganizations), takeUntil(this.ngUnsubscribe$)) // TODO: FIX THIS!! I am deeply embarrassed by the amount of nesting going on here
-      .subscribe(orgs => {
-        if (orgs && orgs?.length > 1) {
+    this.store.pipe(select(fromUserSelectors.selectOrganizationsCount), takeUntil(this.ngUnsubscribe$))
+      .subscribe((count: number) => {
+        if (count > 1) {
           this.router.navigate(['/select-organization']);
         } else {
           this.router.navigate(['/home']);

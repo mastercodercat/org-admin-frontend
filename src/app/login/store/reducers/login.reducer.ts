@@ -20,6 +20,7 @@ export const loginReducer = createReducer(
 
   on(fromActions.loginSuccess, (state) => { 
     return {
+      ...state,
       success: true,
       failure: false
     }
@@ -27,6 +28,7 @@ export const loginReducer = createReducer(
 
   on(fromActions.loginFailure, (state, {error}) => {
     return {
+      ...state,
       success: false,
       failure: true,
       error

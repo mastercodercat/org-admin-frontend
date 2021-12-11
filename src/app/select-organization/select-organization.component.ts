@@ -1,47 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { AppState } from '../store/reducers';
 import * as fromUserSelectors from '../store/selectors/user.selectors';
 import { AuthService } from '../shared/services/auth/auth.service';
-import { OrganizationService } from './services/organization.service';
 import { UserState } from '../store/reducers/user.reducer';
-import { Organization } from '../pages/organization/shared/organization.model';
 import { UserService } from '../shared/services/user/user.service';
-import { Router } from '@angular/router';
+import { Organization } from '../shared/models/organization.model';
 
 @Component({
   selector: 'org-select-organization',
   templateUrl: './select-organization.component.html',
   styleUrls: ['./select-organization.component.less']
 })
-export class SelectOrganizationComponent implements OnInit {
-  userInfo$!: Observable<UserState>;
-  orgList: any;
+export class SelectOrganizationComponent {
+  userInfo$: Observable<UserState>;
+  orgList$: Observable<Organization[]>;
 
   constructor(
     private store: Store<AppState>,
     private auth: AuthService,
-    private orgService: OrganizationService,
     private userService: UserService,
-    private router: Router) { }
-
-  ngOnInit(): void {
-    this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
-    this.orgService.getOrganizations().subscribe(result => {
-      this.orgList = result.data.organizations;
-    });
+    private router: Router) { 
+      this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
+      this.orgList$ = this.store.pipe(select(fromUserSelectors.selectAllOrganizations));
   }
 
   /**
    * Selects the organization and saves to store
    *
-   * @param {Organization} org
+   * @param {string} orgUuid
    * @memberof SelectOrganizationComponent
    */
-  selectOrg(org: Organization) {
-    this.userService.addSelectedOrganization(org);
-    localStorage.setItem('selected_org', org.uuid);
+  selectOrg(orgUuid: string) {
+    localStorage.setItem('selected_org', orgUuid);
+    this.userService.addSelectedOrganizationUuid(orgUuid);
     this.router.navigate(['/home']);
   }
 

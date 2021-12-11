@@ -11,7 +11,7 @@
         [nzSrc]="(userInfo$ | async)?.picture"
       ></nz-avatar>
       <div class="user-name d-inline ms-3 fs-5 fw-bold">
-        {{ (userInfo$ | async)?.selectedOrganization?.name || "Helm" }}
+        {{ (currOrgInfo$ | async)?.name }}
       </div>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu>

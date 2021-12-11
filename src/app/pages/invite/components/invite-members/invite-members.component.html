@@ -1,6 +1,6 @@
 <div class="invite-members">
   <i nz-icon nzType="user-add" nzTheme="outline" class="fs-1"></i>
-  <h4 class="mt-3" nz-typography>Invite new members to Mumuration</h4>
+  <h4 class="mt-3" nz-typography>Invite new members to {{ (currOrgInfo$ | async)?.name }}</h4>
   <p class="mt-4"><strong>a. Enter email addresses</strong></p>
   <form
     nz-form

@@ -1,8 +1,5 @@
+import { Organization } from '../../../../shared/models/organization.model';
 
-export interface Organization {
-  uuid: string;
-  name: string;
-}
 export interface Role {
   uuid: string;
   name: string;

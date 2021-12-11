@@ -1,41 +1,37 @@
 import { createReducer, on } from '@ngrx/store';
-import { Organization } from 'src/app/pages/organization/shared/organization.model';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { Organization } from '../../shared/models/organization.model';
 import * as fromActions from '../actions/user.actions';
 
-export interface UserState {
+export const userFeatureKey = 'user';
+
+export interface UserState extends EntityState<Organization> {
   email: string | undefined;
-  email_verified: boolean;
   name: string;
   nickname: string;
   picture: string;
-  sub: string;
-  updated_at: string;
-  user_id: string;
-  clientID: string;
-  identities: string[];
-  created_at: string;
-  selectedOrganization?: Organization;
-  organizations?: Organization[];
+  selectedOrganizationUuid?: string;
+  addOrgsSuccess: boolean;
+  addOrgsFailure: boolean;
 }
 
-export const initialState: UserState = {
+export const adapter: EntityAdapter<Organization> = createEntityAdapter<Organization>({
+  selectId: (org: Organization) => org.uuid,
+});
+export const initialState: UserState = adapter.getInitialState({
   email: '',
-  email_verified: false,
   name: '',
   nickname: '',
   picture: '',
-  sub: '',
-  updated_at: '',
-  user_id: '',
-  clientID: '',
-  identities: [],
-  created_at: '',
-};
+  addOrgsSuccess: false,
+  addOrgsFailure: false,
+});
+
 
 export const userReducer = createReducer(
   initialState,
   
-  on(fromActions.getUser, (state, { user }) => {
+  on(fromActions.addUserInfo, (state, { user }) => {
     return {
       ...state,
       email: user.email,
@@ -45,17 +41,33 @@ export const userReducer = createReducer(
     }
   }),
 
-  on(fromActions.addSelectedOrg, (state, { selectedOrganization }) => {
+  on(fromActions.addSelectedOrgUuid, (state, { selectedOrganizationUuid }) => {
     return {
       ...state,
-      selectedOrganization,
+      selectedOrganizationUuid,
     }
   }),
 
-  on(fromActions.addUserOrgs, (state, { organizations }) => {
+  on(fromActions.requestOrganizationsSuccess, (state, { organizations }) => {
+    return adapter.addMany(organizations, {
+      ...state,
+      addOrgsSuccess: true,
+      addOrgsFailure: false,
+    });
+  }),
+
+  on(fromActions.requestOrganizationsFailure, (state) => {
     return {
       ...state,
-      organizations,
+      addOrgsFailure: true,
+      addOrgsSuccess: false,
     }
   }),
 );
+
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal,
+} = adapter.getSelectors();

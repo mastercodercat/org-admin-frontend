@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect } from '@ngrx/effects';
-
-
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
+import { switchMap } from 'rxjs/operators';
+import * as fromUserActions from '../actions/user.actions';
 
 @Injectable()
 export class AppEffects {
 
-
+  init$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ROOT_EFFECTS_INIT),
+      switchMap(() => [
+        fromUserActions.requestUserInfo(),
+        fromUserActions.addSelectedOrgUuid({ selectedOrganizationUuid: localStorage.getItem('selected_org') as string }),
+        fromUserActions.requestOrganizations(),
+      ])
+    )
+  )
 
   constructor(private actions$: Actions) {}
 

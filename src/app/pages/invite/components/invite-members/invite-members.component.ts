@@ -1,7 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-
+import { UserState } from 'src/app/store/reducers/user.reducer';
+import * as fromUserSelectors from '../../../../store/selectors/user.selectors';
+import { Organization } from 'src/app/shared/models/organization.model';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'org-invite-members',
   templateUrl: './invite-members.component.html',
@@ -10,8 +14,13 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 export class InviteMembersComponent implements OnInit {
   @Output() submitEmails = new EventEmitter();
   emailForm!: FormGroup;
+  currOrgInfo$: Observable<Organization | undefined>;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<UserState>) {
+      this.currOrgInfo$ = this.store.pipe(select(fromUserSelectors.selectCurrentOrganization));
+    }
 
   ngOnInit(): void {
     this.emailForm = this.fb.group({

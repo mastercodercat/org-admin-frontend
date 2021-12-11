@@ -18,7 +18,7 @@
         </button>
       </ng-template>
     </div>
-    <div nz-col nzSpan="9" class="ms-auto">
+    <div *ngIf="isHelmAdmin$ | async" nz-col nzSpan="9" class="ms-auto">
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="11">
           <a
@@ -27,7 +27,7 @@
             nzType="primary"
             nzSize="large"
             class="text-uppercase action-btn"
-          >Create Organziation</a>
+          >Create Organization</a>
         </div>
       </div>
     </div>

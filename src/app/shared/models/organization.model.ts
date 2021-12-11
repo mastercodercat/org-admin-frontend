@@ -4,6 +4,6 @@ export interface Organization {
   name: string;
   type?: OrganizationEnumType;
   subscriptionType?: SubscriptionEnumType;
-  uuid: string;
-  parentOrgUuid: string;
+  uuid: string; // Organization uuid
+  organizationUuid?: string; // Parent organization uuid
 }

@@ -2,8 +2,8 @@ import {
   ActionReducerMap,
   MetaReducer
 } from '@ngrx/store';
-import { loginReducer, LoginState } from 'src/app/login/store/reducers/login.reducer';
 import { environment } from '../../../environments/environment';
+import { loginReducer, LoginState } from '../../login/store/reducers/login.reducer';
 import { userReducer, UserState } from './user.reducer';
 
 

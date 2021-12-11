@@ -103,7 +103,6 @@ mutation sendInvitation($input: InviteOrganizationsUsersInput!) {
     invitationErrors {
       user {
         email
-        roleUuid
       }
       description
     }
@@ -117,7 +116,7 @@ mutation createOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input)
   {
     organization {
-      uuid,
+      uuid
       name
     }
   }

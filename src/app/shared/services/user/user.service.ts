@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Organization } from 'src/app/pages/organization/shared/organization.model';
-import * as fromActions from 'src/app/store/actions/user.actions';
-import * as fromSelectors from 'src/app/store/selectors/user.selectors';
-import { AppState } from 'src/app/store/reducers';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromActions from '../../../store/actions/user.actions';
+import * as fromSelectors from '../../../store/selectors/user.selectors';
 import { AuthService } from '../auth/auth.service';
+import { UserState } from '../../../store/reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(public auth: AuthService, private store: Store<AppState>) { }
+  constructor(public auth: AuthService, private store: Store<UserState>) { }
 
   /**
    * Get user info from Auth0
@@ -27,28 +27,28 @@ export class UserService {
     // Call auth0 using the access token to grab the user info and save to the store
     this.auth.auth0.client.userInfo(accessToken, (err, userInfo) => {
       if (userInfo) {
-        this.store.dispatch(fromActions.getUser({ user: { ...userInfo }}));
+        this.store.dispatch(fromActions.addUserInfo({ user: { ...userInfo }}));
       }
     });
   }
 
   /**
-   * Adds the users organizations to the store
+   * Adds the selected organization uuid to the user in the store
    *
-   * @param {Organization[]} orgs
+   * @param {string} orgUuid Organization uuid
    * @memberof UserService
    */
-  addOrganizations(orgs: Organization[]) {
-    this.store.dispatch(fromActions.addUserOrgs({ organizations: orgs }));
+  addSelectedOrganizationUuid(orgUuid: string) {
+    this.store.dispatch(fromActions.addSelectedOrgUuid({ selectedOrganizationUuid: orgUuid }));
   }
 
   /**
-   * Adds the selected organization to the user in the store
+   * A selector that returns if the user is a Helm admin
    *
-   * @param {Organization} org
+   * @returns {Observable<boolean>}
    * @memberof UserService
    */
-  addSelectedOrganization(org: Organization) {
-    this.store.dispatch(fromActions.addSelectedOrg({selectedOrganization: org}));
+  isHelmAdmin$(): Observable<boolean> {
+    return this.store.pipe(select(fromSelectors.selectIsHelmAdmin));
   }
 }

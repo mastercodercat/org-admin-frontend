@@ -23,7 +23,8 @@ export class InviteComponent implements OnInit {
   isLoading = true;
 
   emails: string[] = [];
-  constructor(private findRolesService: FindRolesGQL, private sendInvitationService: SendInvitationGQL) {}
+  constructor(private findRolesService: FindRolesGQL, 
+              private sendInvitationService: SendInvitationGQL) {}
 
   ngOnInit() {
     this.findRolesService.fetch({ input: {organizationUuid: localStorage.getItem('selected_org') }}).pipe(take(1)).subscribe(result => {
@@ -31,7 +32,7 @@ export class InviteComponent implements OnInit {
       if (result?.data?.roles) {
         this.roles = result.data.roles as any[];
         this.isLoading = false;
-      }
+      } 
     });
   }
 
@@ -52,3 +53,7 @@ export class InviteComponent implements OnInit {
     });
   }
 }
+
+
+
+

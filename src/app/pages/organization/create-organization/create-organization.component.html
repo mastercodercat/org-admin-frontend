@@ -20,16 +20,6 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control>
-      <input nz-input formControlName="adminName" type="text" placeholder="Name"/>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <input nz-input formControlName="adminPhone" placeholder="Phone Number"/>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
     <nz-form-control [nzErrorTip]="emailNotValid">
       <input nz-input nzRequired formControlName="adminEmail" type="email" placeholder="Email"/>
       <ng-template #emailNotValid><div class="px-3 py-2 mb-3 mt-1 validation-error">Please enter a valid email</div></ng-template>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CreateOrganizationGQL, OrganizationEnumType, SubscriptionEnumType } from 'src/app/shared/services/graphql/graphql.service';
+import { CreateOrganizationGQL, OrganizationEnumType, SubscriptionEnumType } from '../../../shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-create-organization',
@@ -41,7 +41,7 @@ export class CreateOrganizationComponent implements OnInit {
         adminEmail: this.createOrgForm.get('adminEmail')?.value,
         subscriptionType: this.createOrgForm.get('subscriptionType')?.value,
         organizationType: this.createOrgForm.get('orgType')?.value,
-        organizationUuid: localStorage.getItem('selected_org')
+        organizationUuid: localStorage.getItem('selected_org'),
       }
     }).subscribe(res => {
       this.router.navigate(['/home']);

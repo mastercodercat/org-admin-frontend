@@ -83,6 +83,16 @@ export type CreateRolePayloadType = {
   role?: Maybe<RoleType>;
 };
 
+export type DeleteRoleInputType = {
+  uuid: Scalars['String'];
+  replacementRoleUuid: Scalars['String'];
+};
+
+export type DeleteRolePayloadType = {
+  __typename?: 'DeleteRolePayloadType';
+  role?: Maybe<RoleType>;
+};
+
 export type DeleteUserInput = {
   uuid: Scalars['ID'];
 };
@@ -171,6 +181,7 @@ export type Mutation = {
   assignUserPermission?: Maybe<AssignUserPermissionPayloadType>;
   /** Creates a new Role Permission */
   assignRolePermission?: Maybe<AssignRolePermissionPayloadType>;
+  deleteRole?: Maybe<DeleteRolePayloadType>;
   /** Updates the Role name and description */
   updateRole?: Maybe<UpdateRolePayloadType>;
 };
@@ -253,6 +264,11 @@ export type MutationAssignUserPermissionArgs = {
 
 export type MutationAssignRolePermissionArgs = {
   input: AssignRolePermissionInputType;
+};
+
+
+export type MutationDeleteRoleArgs = {
+  input: DeleteRoleInputType;
 };
 
 
@@ -537,6 +553,7 @@ export type RoleType = {
   name: Scalars['String'];
   organizationUuid: Scalars['ID'];
   description?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 export type RolesInput = {
@@ -700,7 +717,6 @@ export type UserInput = {
 export type UserOutput = {
   __typename?: 'UserOutput';
   email: Scalars['String'];
-  roleUuid: Scalars['String'];
 };
 
 export type UserPermissionType = {
@@ -851,7 +867,7 @@ export type SendInvitationMutation = (
       & Pick<InvitateUserErrorType, 'description'>
       & { user?: Maybe<(
         { __typename?: 'UserOutput' }
-        & Pick<UserOutput, 'email' | 'roleUuid'>
+        & Pick<UserOutput, 'email'>
       )> }
     )>>>, invitedUsers?: Maybe<Array<Maybe<(
       { __typename?: 'UserOutput' }
@@ -1170,7 +1186,6 @@ export const SendInvitationDocument = gql`
     invitationErrors {
       user {
         email
-        roleUuid
       }
       description
     }

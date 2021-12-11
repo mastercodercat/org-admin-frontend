@@ -5,7 +5,7 @@
 </div>
 <nz-card class="organization-list mb-2" nzTitle="Select an account">
   <ul class='org-list'>
-    <li nz-typography *ngFor="let org of orgList" class="org-list-item" (click)="selectOrg(org)">
+    <li nz-typography *ngFor="let org of orgList$ | async" class="org-list-item" (click)="selectOrg(org.uuid)">
       {{org.name}}
     </li>
   </ul>
