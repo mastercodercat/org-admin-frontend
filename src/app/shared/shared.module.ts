@@ -20,6 +20,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
   declarations: [],
@@ -47,6 +48,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzCardModule,
     NzSpinModule,
     NzNotificationModule,
+    NzPopoverModule,
   ],
   providers: [],
 })
