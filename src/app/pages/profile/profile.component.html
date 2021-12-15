@@ -48,7 +48,7 @@
 
         <div class="profile__organizer-role mx-2">
           <a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click">
-            {{ userRole[organizationUser?.organizationUuid || ""]?.name || "" }}
+            {{ userRole[organizationUser?.organizationUuid || '']?.name || '' }}
             <i nz-icon nzType="down"></i>
           </a>
 

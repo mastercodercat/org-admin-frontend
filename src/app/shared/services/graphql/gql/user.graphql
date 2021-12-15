@@ -1,5 +1,5 @@
-query findUser($input: UserInput!) {
-  user(input: $input) {
+query findUser($uuid: ID!) {
+  user(uuid: $uuid) {
     uuid
     status
     firstName
@@ -12,13 +12,13 @@ query findUser($input: UserInput!) {
       status
       organizationUuid
       organization {
-          uuid,
+          uuid
           name
-      },
+      }
       role {
-          uuid,
+          uuid
           name
-      },
+      }
       title
     }
   }
@@ -28,48 +28,37 @@ mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
   acceptOrganizationUserInvite(input: $input)
 }
 
-query findMembers($after: String, $first: Int, $input: UsersInput) {
-  users(first: $first, after: $after, input: $input) {
-    totalCount,
-    pageInfo {
-        hasNextPage,
-        startCursor,
-        endCursor
-    },
-    edges {
-      cursor
-      node {
-        uuid,
-        firstName,
-        lastName,
-        email,
-        phone,
-        organizationUsers {
-          organization {
-            uuid
-            name
-          }
-          role {
-              uuid,
-              name
-          },
-          title
-        }
+query findMembers($search: String) {
+  users(search: $search) {
+    uuid
+    firstName
+    lastName
+    email
+    phone
+    organizationUsers {
+      organization {
+        uuid
+        name
       }
+      role {
+          uuid
+          name
+      }
+      title
     }
   }
 }
 
-query validateAssociationToken($input: ValidateAssociationTokenInputType!) {
-  validateAssociationToken(input: $input) {
+query validateAssociationToken($token: String!) {
+  validateAssociationToken(token: $token) {
     status
     email
     name
   }
 }
 
-mutation requestUserPasswordReset($input: RequestUserPasswordResetInput!) {
-  requestUserPasswordReset(input: $input)
+mutation requestUserPasswordReset($email: String!) {
+  requestUserPasswordReset(email: $email)
 }
 
 mutation resetUserPassword($input: ResetUserPasswordInput!) {
@@ -78,8 +67,6 @@ mutation resetUserPassword($input: ResetUserPasswordInput!) {
 
 mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
-    user {
       uuid
-    }
   }
 }

@@ -17,7 +17,7 @@ export type Scalars = {
 
 
 export type AcceptOrganizationUserInput = {
-  token: Scalars['String'];
+  token?: Maybe<Scalars['String']>;
   user?: Maybe<AcceptOrganizationUserInputUser>;
 };
 
@@ -28,212 +28,95 @@ export type AcceptOrganizationUserInputUser = {
   password?: Maybe<Scalars['String']>;
 };
 
-export type AssignRolePermissionInputType = {
+export type AssignRolePermissionInput = {
   roleUuid: Scalars['String'];
   permissionUuid: Scalars['String'];
   ability: Scalars['String'];
 };
 
-export type AssignRolePermissionPayloadType = {
-  __typename?: 'AssignRolePermissionPayloadType';
-  rolePermission?: Maybe<RolePermissionType>;
-};
-
 export type AssignUserPermissionInputType = {
+  __typename?: 'AssignUserPermissionInputType';
   organizationUserId: Scalars['String'];
   permissionId: Scalars['String'];
   ability: Scalars['String'];
-};
-
-export type AssignUserPermissionPayloadType = {
-  __typename?: 'AssignUserPermissionPayloadType';
-  userPermission?: Maybe<UserPermissionType>;
-};
-
-export type BlockUserInput = {
-  uuid: Scalars['ID'];
-};
-
-export type BlockUserPayloadType = {
-  __typename?: 'BlockUserPayloadType';
-  user?: Maybe<UserType>;
 };
 
 export type CreateOrganizationInput = {
   name: Scalars['String'];
   organizationUuid?: Maybe<Scalars['ID']>;
   adminEmail: Scalars['String'];
-  subscriptionType: SubscriptionEnumType;
-  organizationType: OrganizationEnumType;
+  subscriptionType: SubscriptionEnum;
+  organizationType: OrganizationEnum;
 };
 
-export type CreateOrganizationPayloadType = {
-  __typename?: 'CreateOrganizationPayloadType';
-  organization?: Maybe<OrganizationType>;
-};
-
-export type CreateRoleInputType = {
+export type CreateRoleInput = {
   organizationId: Scalars['String'];
   roleName: Scalars['String'];
   roleDescription?: Maybe<Scalars['String']>;
 };
 
-export type CreateRolePayloadType = {
-  __typename?: 'CreateRolePayloadType';
-  role?: Maybe<RoleType>;
-};
-
-export type DeleteRoleInputType = {
+export type DeleteRoleInput = {
   uuid: Scalars['String'];
-  replacementRoleUuid: Scalars['String'];
+  roleUuid: Scalars['String'];
 };
 
-export type DeleteRolePayloadType = {
-  __typename?: 'DeleteRolePayloadType';
-  role?: Maybe<RoleType>;
+export type InviteOrganizationUserInput = {
+  token?: Maybe<Scalars['String']>;
+  user?: Maybe<InviteOrganizationUserInputUser>;
 };
 
-export type DeleteUserInput = {
-  uuid: Scalars['ID'];
+export type InviteOrganizationUserInputUser = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
 };
 
-export type DeleteUserPayloadType = {
-  __typename?: 'DeleteUserPayloadType';
-  user?: Maybe<UserType>;
-};
-
-export type DisableOrganizationInput = {
-  uuid: Scalars['ID'];
-};
-
-export type DisableOrganizationPayloadType = {
-  __typename?: 'DisableOrganizationPayloadType';
-  organization?: Maybe<OrganizationType>;
-};
-
-export type DisableUserInput = {
-  uuid: Scalars['ID'];
-};
-
-export type DisableUserPayloadType = {
-  __typename?: 'DisableUserPayloadType';
-  user?: Maybe<UserType>;
-};
-
-export type EnableOrganizationInput = {
-  uuid: Scalars['ID'];
-};
-
-export type EnableOrganizationPayloadType = {
-  __typename?: 'EnableOrganizationPayloadType';
-  organization?: Maybe<OrganizationType>;
-};
-
-export type EnableUserInput = {
-  uuid: Scalars['ID'];
-};
-
-export type EnableUserPayloadType = {
-  __typename?: 'EnableUserPayloadType';
-  user?: Maybe<UserType>;
-};
-
-export type InvitateUserErrorType = {
-  __typename?: 'InvitateUserErrorType';
-  user?: Maybe<UserOutput>;
-  description?: Maybe<Array<Maybe<Scalars['String']>>>;
+export type InviteOrganizationUserInvitationErrors = {
+  __typename?: 'InviteOrganizationUserInvitationErrors';
+  email: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export type InviteOrganizationUserPayload = {
   __typename?: 'InviteOrganizationUserPayload';
   organizationUuid: Scalars['String'];
-  invitationErrors?: Maybe<Array<Maybe<InvitateUserErrorType>>>;
-  invitedUsers?: Maybe<Array<Maybe<UserOutput>>>;
+  invitationErrors?: Maybe<Array<Maybe<InviteOrganizationUserInvitationErrors>>>;
+  invitedUsers?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type InviteOrganizationsUsersInput = {
-  organizationUuid: Scalars['String'];
-  users: Array<InviteUserInput>;
-};
-
-export type InviteUserInput = {
+export type InviteOrganizationUsersEmailRoleInput = {
   email: Scalars['String'];
   roleUuid: Scalars['String'];
 };
 
+export type InviteOrganizationUsersInput = {
+  organizationUuid: Scalars['String'];
+  users: Array<Maybe<InviteOrganizationUsersEmailRoleInput>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  inviteOrganizationUsers?: Maybe<InviteOrganizationUserPayload>;
-  createOrganization?: Maybe<CreateOrganizationPayloadType>;
-  updateOrganizationUser?: Maybe<OrganizationUserPayloadType>;
-  requestUserPasswordReset?: Maybe<Scalars['String']>;
-  resetUserPassword?: Maybe<Scalars['String']>;
-  updateUser?: Maybe<UpdateUserPayloadType>;
-  blockUser?: Maybe<BlockUserPayloadType>;
-  deleteUser?: Maybe<DeleteUserPayloadType>;
-  disableUser?: Maybe<DisableUserPayloadType>;
-  enableUser?: Maybe<EnableUserPayloadType>;
   acceptOrganizationUserInvite?: Maybe<Scalars['String']>;
-  enableOrganization?: Maybe<EnableOrganizationPayloadType>;
-  disableOrganization?: Maybe<DisableOrganizationPayloadType>;
-  createRole?: Maybe<CreateRolePayloadType>;
-  /** Creates a new User Permission */
-  assignUserPermission?: Maybe<AssignUserPermissionPayloadType>;
-  /** Creates a new Role Permission */
-  assignRolePermission?: Maybe<AssignRolePermissionPayloadType>;
-  deleteRole?: Maybe<DeleteRolePayloadType>;
-  /** Updates the Role name and description */
-  updateRole?: Maybe<UpdateRolePayloadType>;
-};
-
-
-export type MutationInviteOrganizationUsersArgs = {
-  input: InviteOrganizationsUsersInput;
-};
-
-
-export type MutationCreateOrganizationArgs = {
-  input: CreateOrganizationInput;
-};
-
-
-export type MutationUpdateOrganizationUserArgs = {
-  input: OrganizationUserInput;
-};
-
-
-export type MutationRequestUserPasswordResetArgs = {
-  input: RequestUserPasswordResetInput;
-};
-
-
-export type MutationResetUserPasswordArgs = {
-  input: ResetUserPasswordInput;
-};
-
-
-export type MutationUpdateUserArgs = {
-  input: UpdateUserInput;
-};
-
-
-export type MutationBlockUserArgs = {
-  input: BlockUserInput;
-};
-
-
-export type MutationDeleteUserArgs = {
-  input: DeleteUserInput;
-};
-
-
-export type MutationDisableUserArgs = {
-  input: DisableUserInput;
-};
-
-
-export type MutationEnableUserArgs = {
-  input: EnableUserInput;
+  createOrganization?: Maybe<SchemaOrganization>;
+  disableOrganization?: Maybe<SchemaOrganization>;
+  enableOrganization?: Maybe<SchemaOrganization>;
+  inviteOrganizationUsers?: Maybe<InviteOrganizationUserPayload>;
+  assignUserPermission?: Maybe<SchemaUserPermission>;
+  blockUser?: Maybe<SchemaUser>;
+  deleteUser?: Maybe<SchemaUser>;
+  disableUser?: Maybe<SchemaUser>;
+  enableUser?: Maybe<SchemaUser>;
+  requestUserPasswordReset?: Maybe<Scalars['Boolean']>;
+  resetUserPassword?: Maybe<Scalars['Boolean']>;
+  assignRolePermission?: Maybe<SchemaRolePermission>;
+  createRole?: Maybe<SchemaRole>;
+  deleteRole?: Maybe<SchemaRole>;
+  updateRole?: Maybe<SchemaRole>;
+  blockOrganizationUser?: Maybe<SchemaOrganizationUser>;
+  deleteOrganizationUser?: Maybe<SchemaOrganizationUser>;
+  updateOrganizationUser?: Maybe<SchemaOrganizationUser>;
+  updateUser?: Maybe<SchemaUser>;
 };
 
 
@@ -242,41 +125,101 @@ export type MutationAcceptOrganizationUserInviteArgs = {
 };
 
 
-export type MutationEnableOrganizationArgs = {
-  input: EnableOrganizationInput;
+export type MutationCreateOrganizationArgs = {
+  input: CreateOrganizationInput;
 };
 
 
 export type MutationDisableOrganizationArgs = {
-  input: DisableOrganizationInput;
+  uuid: Scalars['ID'];
 };
 
 
-export type MutationCreateRoleArgs = {
-  input: CreateRoleInputType;
+export type MutationEnableOrganizationArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationInviteOrganizationUsersArgs = {
+  input: InviteOrganizationUsersInput;
 };
 
 
 export type MutationAssignUserPermissionArgs = {
-  input: AssignUserPermissionInputType;
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationBlockUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationDisableUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationEnableUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationRequestUserPasswordResetArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationResetUserPasswordArgs = {
+  input: ResetUserPasswordInput;
 };
 
 
 export type MutationAssignRolePermissionArgs = {
-  input: AssignRolePermissionInputType;
+  input: AssignRolePermissionInput;
+};
+
+
+export type MutationCreateRoleArgs = {
+  input: CreateRoleInput;
 };
 
 
 export type MutationDeleteRoleArgs = {
-  input: DeleteRoleInputType;
+  input: DeleteRoleInput;
 };
 
 
 export type MutationUpdateRoleArgs = {
-  input: UpdateRoleInputType;
+  input: UpdateRoleInput;
 };
 
-export enum OrganizationEnumType {
+
+export type MutationBlockOrganizationUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationDeleteOrganizationUserArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type MutationUpdateOrganizationUserArgs = {
+  input: UpdateOrganizationUserInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+export enum OrganizationEnum {
   Advocacy = 'ADVOCACY',
   Agency = 'AGENCY',
   Association = 'ASSOCIATION',
@@ -291,237 +234,64 @@ export enum OrganizationEnumType {
   Philanthropy = 'PHILANTHROPY'
 }
 
-export type OrganizationInput = {
-  uuid?: Maybe<Scalars['ID']>;
+export type Query = {
+  __typename?: 'Query';
+  organization?: Maybe<SchemaOrganization>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganization>>>;
+  myOrganizations?: Maybe<Array<Maybe<SchemaOrganization>>>;
+  permission?: Maybe<SchemaPermission>;
+  permissions?: Maybe<Array<Maybe<SchemaPermission>>>;
+  role?: Maybe<SchemaRole>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  user?: Maybe<SchemaUser>;
+  users?: Maybe<Array<Maybe<SchemaUser>>>;
+  validateAssociationToken?: Maybe<ValidateAssociationTokenPayload>;
+  validatePasswordResetToken?: Maybe<Scalars['Boolean']>;
 };
 
-export type OrganizationNested = {
-  __typename?: 'OrganizationNested';
+
+export type QueryOrganizationArgs = {
   uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizations?: Maybe<Array<Maybe<OrganizationNested1>>>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
 };
 
-export type OrganizationNested1 = {
-  __typename?: 'OrganizationNested1';
+
+export type QueryOrganizationsArgs = {
+  search?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryPermissionArgs = {
   uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizations?: Maybe<Array<Maybe<OrganizationNested2>>>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
 };
 
-export type OrganizationNested2 = {
-  __typename?: 'OrganizationNested2';
+
+export type QueryRoleArgs = {
   uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizations?: Maybe<Array<Maybe<OrganizationNested3>>>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
 };
 
-export type OrganizationNested3 = {
-  __typename?: 'OrganizationNested3';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizations?: Maybe<Array<Maybe<OrganizationNested4>>>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
-};
 
-export type OrganizationNested4 = {
-  __typename?: 'OrganizationNested4';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
-};
-
-export type OrganizationPermissionType = {
-  __typename?: 'OrganizationPermissionType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  permission?: Maybe<PermissionType>;
-  permissionUuid?: Maybe<Scalars['ID']>;
-  ability?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of items. */
-export type OrganizationRolePermissionsConnection = {
-  __typename?: 'OrganizationRolePermissionsConnection';
-  /** Information to aid in pagination. */
-  pageInfo?: Maybe<PageInfo>;
-  /** A list of edges. */
-  edges?: Maybe<Array<Maybe<OrganizationRolePermissionsEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-/** An edge in a connection. */
-export type OrganizationRolePermissionsEdge = {
-  __typename?: 'OrganizationRolePermissionsEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<PermissionType>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type OrganizationRolePermissionsInput = {
+export type QueryRolesArgs = {
   organizationUuid: Scalars['ID'];
 };
 
-export type OrganizationType = {
-  __typename?: 'OrganizationType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  name: Scalars['String'];
-  organizationType?: Maybe<OrganizationEnumType>;
-  subscriptionType?: Maybe<SubscriptionEnumType>;
-  organizations?: Maybe<Array<Maybe<OrganizationNested>>>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  organizationPermissions?: Maybe<OrganizationPermissionType>;
-  countUsers?: Maybe<Scalars['Int']>;
-};
 
-export type OrganizationUserInput = {
-  uuid: Scalars['ID'];
-  status?: Maybe<StatusEnumType>;
-  userUuid?: Maybe<Scalars['ID']>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  roleUuid?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type OrganizationUserPayloadType = {
-  __typename?: 'OrganizationUserPayloadType';
-  organizationUser?: Maybe<OrganizationUserType>;
-};
-
-/** A connection to a list of items. */
-export type OrganizationUserPermissionsConnection = {
-  __typename?: 'OrganizationUserPermissionsConnection';
-  /** Information to aid in pagination. */
-  pageInfo?: Maybe<PageInfo>;
-  /** A list of edges. */
-  edges?: Maybe<Array<Maybe<OrganizationUserPermissionsEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-/** An edge in a connection. */
-export type OrganizationUserPermissionsEdge = {
-  __typename?: 'OrganizationUserPermissionsEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<PermissionType>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type OrganizationUserPermissionsInput = {
-  organizationUserUuid: Scalars['ID'];
-};
-
-export type OrganizationUserType = {
-  __typename?: 'OrganizationUserType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  title?: Maybe<Scalars['String']>;
-  userUuid?: Maybe<Scalars['ID']>;
-  organization?: Maybe<OrganizationType>;
-  organizationUuid?: Maybe<Scalars['ID']>;
-  role?: Maybe<RoleType>;
-  roleUuid?: Maybe<Scalars['ID']>;
-  userPermissions?: Maybe<Array<Maybe<UserPermissionType>>>;
-};
-
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['String']>;
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['String']>;
-};
-
-export type PermissionInput = {
+export type QueryUserArgs = {
   uuid: Scalars['ID'];
 };
 
-export type PermissionType = {
-  __typename?: 'PermissionType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  abilities?: Maybe<Scalars['String']>;
+
+export type QueryUsersArgs = {
+  search?: Maybe<Scalars['String']>;
 };
 
-/** A connection to a list of items. */
-export type PermissionsConnection = {
-  __typename?: 'PermissionsConnection';
-  /** Information to aid in pagination. */
-  pageInfo?: Maybe<PageInfo>;
-  /** A list of edges. */
-  edges?: Maybe<Array<Maybe<PermissionsEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
+
+export type QueryValidateAssociationTokenArgs = {
+  token: Scalars['String'];
 };
 
-/** An edge in a connection. */
-export type PermissionsEdge = {
-  __typename?: 'PermissionsEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<PermissionType>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
 
-export type RequestUserPasswordResetInput = {
-  email: Scalars['String'];
+export type QueryValidatePasswordResetTokenArgs = {
+  token: Scalars['String'];
 };
 
 export type ResetUserPasswordInput = {
@@ -529,24 +299,150 @@ export type ResetUserPasswordInput = {
   password: Scalars['String'];
 };
 
-export type RoleInput = {
-  uuid?: Maybe<Scalars['ID']>;
-};
-
-export type RolePermissionType = {
-  __typename?: 'RolePermissionType';
+export type SchemaOrganization = {
+  __typename?: 'SchemaOrganization';
   uuid: Scalars['ID'];
   createdAt?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
-  role?: Maybe<RoleType>;
-  roleUuid?: Maybe<Scalars['ID']>;
-  permission?: Maybe<PermissionType>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganizationNested1>>>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationNested1 = {
+  __typename?: 'SchemaOrganizationNested1';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganizationNested2>>>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationNested2 = {
+  __typename?: 'SchemaOrganizationNested2';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganizationNested3>>>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationNested3 = {
+  __typename?: 'SchemaOrganizationNested3';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganizationNested4>>>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationNested4 = {
+  __typename?: 'SchemaOrganizationNested4';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizations?: Maybe<Array<Maybe<SchemaOrganizationNested5>>>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationNested5 = {
+  __typename?: 'SchemaOrganizationNested5';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  name: Scalars['String'];
+  organizationType?: Maybe<OrganizationEnum>;
+  subscriptionType?: Maybe<SubscriptionEnum>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
+  roles?: Maybe<Array<Maybe<SchemaRole>>>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationPermission = {
+  __typename?: 'SchemaOrganizationPermission';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  organization?: Maybe<SchemaOrganization>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  permission?: Maybe<SchemaPermission>;
   permissionUuid?: Maybe<Scalars['ID']>;
   ability?: Maybe<Scalars['String']>;
 };
 
-export type RoleType = {
-  __typename?: 'RoleType';
+export type SchemaOrganizationUser = {
+  __typename?: 'SchemaOrganizationUser';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  title?: Maybe<Scalars['String']>;
+  user?: Maybe<SchemaUser>;
+  userUuid?: Maybe<Scalars['ID']>;
+  organization?: Maybe<SchemaOrganization>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  role?: Maybe<SchemaRole>;
+  roleUuid?: Maybe<Scalars['ID']>;
+  userPermissions?: Maybe<Array<Maybe<SchemaUserPermission>>>;
+};
+
+export type SchemaPermission = {
+  __typename?: 'SchemaPermission';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  abilities?: Maybe<Scalars['String']>;
+  organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
+  rolePermissions?: Maybe<Array<Maybe<SchemaRolePermission>>>;
+  userPermissions?: Maybe<Array<Maybe<SchemaUserPermission>>>;
+};
+
+export type SchemaRole = {
+  __typename?: 'SchemaRole';
   uuid: Scalars['ID'];
   createdAt?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
@@ -556,102 +452,45 @@ export type RoleType = {
   status?: Maybe<Scalars['String']>;
 };
 
-export type RolesInput = {
-  organizationUuid?: Maybe<Scalars['ID']>;
+export type SchemaRolePermission = {
+  __typename?: 'SchemaRolePermission';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  role?: Maybe<SchemaRole>;
+  roleUuid?: Maybe<Scalars['ID']>;
+  permission?: Maybe<SchemaPermission>;
+  permissionUuid?: Maybe<Scalars['ID']>;
+  ability?: Maybe<Scalars['String']>;
 };
 
-/** The top-level API */
-export type RootQueryType = {
-  __typename?: 'RootQueryType';
-  migration?: Maybe<Scalars['String']>;
-  role?: Maybe<RoleType>;
-  roles?: Maybe<Array<Maybe<RoleType>>>;
-  user?: Maybe<UserType>;
-  users?: Maybe<UserConnection>;
-  organization?: Maybe<OrganizationType>;
-  organizations?: Maybe<Array<Maybe<OrganizationType>>>;
-  validateAssociationToken?: Maybe<ValidateAssociationTokenPayloadType>;
-  permission?: Maybe<PermissionType>;
-  permissions?: Maybe<PermissionsConnection>;
-  organizationRolePermissions?: Maybe<OrganizationRolePermissionsConnection>;
-  organizationUserPermissions?: Maybe<OrganizationUserPermissionsConnection>;
+export type SchemaUser = {
+  __typename?: 'SchemaUser';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  status?: Maybe<StatusEnum>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  resetToken?: Maybe<Scalars['String']>;
+  organizationUsers?: Maybe<Array<Maybe<SchemaOrganizationUser>>>;
 };
 
-
-/** The top-level API */
-export type RootQueryTypeMigrationArgs = {
-  seed?: Maybe<Scalars['Boolean']>;
-  reset?: Maybe<Scalars['Boolean']>;
+export type SchemaUserPermission = {
+  __typename?: 'SchemaUserPermission';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  organizationUser?: Maybe<SchemaOrganizationUser>;
+  organizationUserUuid?: Maybe<Scalars['ID']>;
+  permission?: Maybe<SchemaPermission>;
+  permissionUuid?: Maybe<Scalars['ID']>;
+  ability?: Maybe<Scalars['String']>;
 };
 
-
-/** The top-level API */
-export type RootQueryTypeRoleArgs = {
-  input: RoleInput;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeRolesArgs = {
-  input?: Maybe<RolesInput>;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeUserArgs = {
-  input: UserInput;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeUsersArgs = {
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  input?: Maybe<UsersInput>;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeOrganizationArgs = {
-  input?: Maybe<OrganizationInput>;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeValidateAssociationTokenArgs = {
-  input: ValidateAssociationTokenInputType;
-};
-
-
-/** The top-level API */
-export type RootQueryTypePermissionArgs = {
-  input: PermissionInput;
-};
-
-
-/** The top-level API */
-export type RootQueryTypePermissionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeOrganizationRolePermissionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  input?: Maybe<OrganizationRolePermissionsInput>;
-};
-
-
-/** The top-level API */
-export type RootQueryTypeOrganizationUserPermissionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  input?: Maybe<OrganizationUserPermissionsInput>;
-};
-
-export enum StatusEnumType {
+export enum StatusEnum {
   Deleted = 'DELETED',
   Blocked = 'BLOCKED',
   Suspended = 'SUSPENDED',
@@ -659,7 +498,7 @@ export enum StatusEnumType {
   Active = 'ACTIVE'
 }
 
-export enum SubscriptionEnumType {
+export enum SubscriptionEnum {
   Explorer = 'EXPLORER',
   Starter = 'STARTER',
   Basic = 'BASIC',
@@ -667,16 +506,17 @@ export enum SubscriptionEnumType {
   Enterprise = 'ENTERPRISE'
 }
 
-export type UpdateRoleInputType = {
-  uuid: Scalars['String'];
-  name: Scalars['String'];
-  description: Scalars['String'];
-  organizationUuid: Scalars['String'];
+export type UpdateOrganizationUserInput = {
+  uuid: Scalars['ID'];
+  roleUuid?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
 };
 
-export type UpdateRolePayloadType = {
-  __typename?: 'UpdateRolePayloadType';
-  role?: Maybe<RoleType>;
+export type UpdateRoleInput = {
+  uuid: Scalars['String'];
+  organizationId: Scalars['String'];
+  roleName: Scalars['String'];
+  roleDescription?: Maybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -686,74 +526,8 @@ export type UpdateUserInput = {
   phone?: Maybe<Scalars['String']>;
 };
 
-export type UpdateUserPayloadType = {
-  __typename?: 'UpdateUserPayloadType';
-  user?: Maybe<UserType>;
-};
-
-/** A connection to a list of items. */
-export type UserConnection = {
-  __typename?: 'UserConnection';
-  /** Information to aid in pagination. */
-  pageInfo?: Maybe<PageInfo>;
-  /** A list of edges. */
-  edges?: Maybe<Array<Maybe<UserEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-/** An edge in a connection. */
-export type UserEdge = {
-  __typename?: 'UserEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<UserType>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type UserInput = {
-  uuid?: Maybe<Scalars['ID']>;
-};
-
-export type UserOutput = {
-  __typename?: 'UserOutput';
-  email: Scalars['String'];
-};
-
-export type UserPermissionType = {
-  __typename?: 'UserPermissionType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  organizationUserUuid?: Maybe<Scalars['ID']>;
-  permission?: Maybe<PermissionType>;
-  permissionUuid?: Maybe<Scalars['ID']>;
-  ability?: Maybe<Scalars['String']>;
-};
-
-export type UserType = {
-  __typename?: 'UserType';
-  uuid: Scalars['ID'];
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  status?: Maybe<StatusEnumType>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  resetToken?: Maybe<Scalars['String']>;
-  organizationUsers?: Maybe<Array<Maybe<OrganizationUserType>>>;
-};
-
-export type UsersInput = {
-  search?: Maybe<Scalars['String']>;
-};
-
-export type ValidateAssociationTokenInputType = {
-  token: Scalars['String'];
-};
-
-export type ValidateAssociationTokenPayloadType = {
-  __typename?: 'ValidateAssociationTokenPayloadType';
+export type ValidateAssociationTokenPayload = {
+  __typename?: 'ValidateAssociationTokenPayload';
   token?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -764,10 +538,21 @@ export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindOrganizationsQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
-    { __typename?: 'OrganizationType' }
-    & Pick<OrganizationType, 'uuid' | 'organizationUuid' | 'name'>
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name'>
+  )>>> }
+);
+
+export type FindMyOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindMyOrganizationsQuery = (
+  { __typename?: 'Query' }
+  & { myOrganizations?: Maybe<Array<Maybe<(
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid' | 'name'>
   )>>> }
 );
 
@@ -775,25 +560,25 @@ export type FindOrganizationTreesQueryVariables = Exact<{ [key: string]: never; 
 
 
 export type FindOrganizationTreesQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
-    { __typename?: 'OrganizationType' }
-    & Pick<OrganizationType, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
     & { organizations?: Maybe<Array<Maybe<(
-      { __typename?: 'OrganizationNested' }
-      & Pick<OrganizationNested, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+      { __typename?: 'SchemaOrganizationNested1' }
+      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
       & { organizations?: Maybe<Array<Maybe<(
-        { __typename?: 'OrganizationNested1' }
-        & Pick<OrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+        { __typename?: 'SchemaOrganizationNested2' }
+        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
         & { organizations?: Maybe<Array<Maybe<(
-          { __typename?: 'OrganizationNested2' }
-          & Pick<OrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+          { __typename?: 'SchemaOrganizationNested3' }
+          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
           & { organizations?: Maybe<Array<Maybe<(
-            { __typename?: 'OrganizationNested3' }
-            & Pick<OrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+            { __typename?: 'SchemaOrganizationNested4' }
+            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
             & { organizations?: Maybe<Array<Maybe<(
-              { __typename?: 'OrganizationNested4' }
-              & Pick<OrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+              { __typename?: 'SchemaOrganizationNested5' }
+              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
             )>>> }
           )>>> }
         )>>> }
@@ -806,43 +591,43 @@ export type FindOrganizationsWithRolesQueryVariables = Exact<{ [key: string]: ne
 
 
 export type FindOrganizationsWithRolesQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
-    { __typename?: 'OrganizationType' }
-    & Pick<OrganizationType, 'uuid' | 'name' | 'organizationUuid'>
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid' | 'name' | 'organizationUuid'>
     & { roles?: Maybe<Array<Maybe<(
-      { __typename?: 'RoleType' }
-      & Pick<RoleType, 'uuid'>
+      { __typename?: 'SchemaRole' }
+      & Pick<SchemaRole, 'uuid'>
     )>>>, organizations?: Maybe<Array<Maybe<(
-      { __typename?: 'OrganizationNested' }
-      & Pick<OrganizationNested, 'uuid' | 'name' | 'organizationUuid'>
+      { __typename?: 'SchemaOrganizationNested1' }
+      & Pick<SchemaOrganizationNested1, 'uuid' | 'name' | 'organizationUuid'>
       & { roles?: Maybe<Array<Maybe<(
-        { __typename?: 'RoleType' }
-        & Pick<RoleType, 'uuid'>
+        { __typename?: 'SchemaRole' }
+        & Pick<SchemaRole, 'uuid'>
       )>>>, organizations?: Maybe<Array<Maybe<(
-        { __typename?: 'OrganizationNested1' }
-        & Pick<OrganizationNested1, 'uuid' | 'name' | 'organizationUuid'>
+        { __typename?: 'SchemaOrganizationNested2' }
+        & Pick<SchemaOrganizationNested2, 'uuid' | 'name' | 'organizationUuid'>
         & { roles?: Maybe<Array<Maybe<(
-          { __typename?: 'RoleType' }
-          & Pick<RoleType, 'uuid'>
+          { __typename?: 'SchemaRole' }
+          & Pick<SchemaRole, 'uuid'>
         )>>>, organizations?: Maybe<Array<Maybe<(
-          { __typename?: 'OrganizationNested2' }
-          & Pick<OrganizationNested2, 'uuid' | 'name' | 'organizationUuid'>
+          { __typename?: 'SchemaOrganizationNested3' }
+          & Pick<SchemaOrganizationNested3, 'uuid' | 'name' | 'organizationUuid'>
           & { roles?: Maybe<Array<Maybe<(
-            { __typename?: 'RoleType' }
-            & Pick<RoleType, 'uuid'>
+            { __typename?: 'SchemaRole' }
+            & Pick<SchemaRole, 'uuid'>
           )>>>, organizations?: Maybe<Array<Maybe<(
-            { __typename?: 'OrganizationNested3' }
-            & Pick<OrganizationNested3, 'uuid' | 'name' | 'organizationUuid'>
+            { __typename?: 'SchemaOrganizationNested4' }
+            & Pick<SchemaOrganizationNested4, 'uuid' | 'name' | 'organizationUuid'>
             & { roles?: Maybe<Array<Maybe<(
-              { __typename?: 'RoleType' }
-              & Pick<RoleType, 'uuid'>
+              { __typename?: 'SchemaRole' }
+              & Pick<SchemaRole, 'uuid'>
             )>>>, organizations?: Maybe<Array<Maybe<(
-              { __typename?: 'OrganizationNested4' }
-              & Pick<OrganizationNested4, 'uuid' | 'name' | 'organizationUuid'>
+              { __typename?: 'SchemaOrganizationNested5' }
+              & Pick<SchemaOrganizationNested5, 'uuid' | 'name' | 'organizationUuid'>
               & { roles?: Maybe<Array<Maybe<(
-                { __typename?: 'RoleType' }
-                & Pick<RoleType, 'uuid'>
+                { __typename?: 'SchemaRole' }
+                & Pick<SchemaRole, 'uuid'>
               )>>> }
             )>>> }
           )>>> }
@@ -853,7 +638,7 @@ export type FindOrganizationsWithRolesQuery = (
 );
 
 export type SendInvitationMutationVariables = Exact<{
-  input: InviteOrganizationsUsersInput;
+  input: InviteOrganizationUsersInput;
 }>;
 
 
@@ -861,17 +646,10 @@ export type SendInvitationMutation = (
   { __typename?: 'Mutation' }
   & { inviteOrganizationUsers?: Maybe<(
     { __typename?: 'InviteOrganizationUserPayload' }
-    & Pick<InviteOrganizationUserPayload, 'organizationUuid'>
+    & Pick<InviteOrganizationUserPayload, 'organizationUuid' | 'invitedUsers'>
     & { invitationErrors?: Maybe<Array<Maybe<(
-      { __typename?: 'InvitateUserErrorType' }
-      & Pick<InvitateUserErrorType, 'description'>
-      & { user?: Maybe<(
-        { __typename?: 'UserOutput' }
-        & Pick<UserOutput, 'email'>
-      )> }
-    )>>>, invitedUsers?: Maybe<Array<Maybe<(
-      { __typename?: 'UserOutput' }
-      & Pick<UserOutput, 'email'>
+      { __typename?: 'InviteOrganizationUserInvitationErrors' }
+      & Pick<InviteOrganizationUserInvitationErrors, 'email' | 'description'>
     )>>> }
   )> }
 );
@@ -884,66 +662,77 @@ export type CreateOrganizationMutationVariables = Exact<{
 export type CreateOrganizationMutation = (
   { __typename?: 'Mutation' }
   & { createOrganization?: Maybe<(
-    { __typename?: 'CreateOrganizationPayloadType' }
-    & { organization?: Maybe<(
-      { __typename?: 'OrganizationType' }
-      & Pick<OrganizationType, 'uuid' | 'name'>
-    )> }
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid' | 'name'>
   )> }
 );
 
 export type UpdateOrganizationUserMutationVariables = Exact<{
-  input: OrganizationUserInput;
+  input: UpdateOrganizationUserInput;
 }>;
 
 
 export type UpdateOrganizationUserMutation = (
   { __typename?: 'Mutation' }
   & { updateOrganizationUser?: Maybe<(
-    { __typename?: 'OrganizationUserPayloadType' }
-    & { organizationUser?: Maybe<(
-      { __typename?: 'OrganizationUserType' }
-      & Pick<OrganizationUserType, 'uuid' | 'organizationUuid'>
-      & { role?: Maybe<(
-        { __typename?: 'RoleType' }
-        & Pick<RoleType, 'uuid' | 'name'>
-      )> }
+    { __typename?: 'SchemaOrganizationUser' }
+    & Pick<SchemaOrganizationUser, 'uuid' | 'organizationUuid'>
+    & { role?: Maybe<(
+      { __typename?: 'SchemaRole' }
+      & Pick<SchemaRole, 'uuid' | 'name'>
+    )> }
+  )> }
+);
+
+export type DeleteOrganizationUserMutationVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type DeleteOrganizationUserMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOrganizationUser?: Maybe<(
+    { __typename?: 'SchemaOrganizationUser' }
+    & Pick<SchemaOrganizationUser, 'uuid' | 'organizationUuid'>
+    & { role?: Maybe<(
+      { __typename?: 'SchemaRole' }
+      & Pick<SchemaRole, 'uuid' | 'name'>
     )> }
   )> }
 );
 
 export type FindRolesQueryVariables = Exact<{
-  input?: Maybe<RolesInput>;
+  organizationUuid: Scalars['ID'];
 }>;
 
 
 export type FindRolesQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { roles?: Maybe<Array<Maybe<(
-    { __typename?: 'RoleType' }
-    & Pick<RoleType, 'uuid' | 'name'>
+    { __typename?: 'SchemaRole' }
+    & Pick<SchemaRole, 'uuid' | 'name'>
   )>>> }
 );
 
 export type FindUserQueryVariables = Exact<{
-  input: UserInput;
+  uuid: Scalars['ID'];
 }>;
 
 
 export type FindUserQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { user?: Maybe<(
-    { __typename?: 'UserType' }
-    & Pick<UserType, 'uuid' | 'status' | 'firstName' | 'lastName' | 'email' | 'phone' | 'resetToken'>
+    { __typename?: 'SchemaUser' }
+    & Pick<SchemaUser, 'uuid' | 'status' | 'firstName' | 'lastName' | 'email' | 'phone' | 'resetToken'>
     & { organizationUsers?: Maybe<Array<Maybe<(
-      { __typename?: 'OrganizationUserType' }
-      & Pick<OrganizationUserType, 'uuid' | 'status' | 'organizationUuid' | 'title'>
+      { __typename?: 'SchemaOrganizationUser' }
+      & Pick<SchemaOrganizationUser, 'uuid' | 'status' | 'organizationUuid' | 'title'>
       & { organization?: Maybe<(
-        { __typename?: 'OrganizationType' }
-        & Pick<OrganizationType, 'uuid' | 'name'>
+        { __typename?: 'SchemaOrganization' }
+        & Pick<SchemaOrganization, 'uuid' | 'name'>
       )>, role?: Maybe<(
-        { __typename?: 'RoleType' }
-        & Pick<RoleType, 'uuid' | 'name'>
+        { __typename?: 'SchemaRole' }
+        & Pick<SchemaRole, 'uuid' | 'name'>
       )> }
     )>>> }
   )> }
@@ -960,57 +749,44 @@ export type AcceptOrganizationUserInviteMutation = (
 );
 
 export type FindMembersQueryVariables = Exact<{
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  input?: Maybe<UsersInput>;
+  search?: Maybe<Scalars['String']>;
 }>;
 
 
 export type FindMembersQuery = (
-  { __typename?: 'RootQueryType' }
-  & { users?: Maybe<(
-    { __typename?: 'UserConnection' }
-    & Pick<UserConnection, 'totalCount'>
-    & { pageInfo?: Maybe<(
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'startCursor' | 'endCursor'>
-    )>, edges?: Maybe<Array<Maybe<(
-      { __typename?: 'UserEdge' }
-      & Pick<UserEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename?: 'UserType' }
-        & Pick<UserType, 'uuid' | 'firstName' | 'lastName' | 'email' | 'phone'>
-        & { organizationUsers?: Maybe<Array<Maybe<(
-          { __typename?: 'OrganizationUserType' }
-          & Pick<OrganizationUserType, 'title'>
-          & { organization?: Maybe<(
-            { __typename?: 'OrganizationType' }
-            & Pick<OrganizationType, 'uuid' | 'name'>
-          )>, role?: Maybe<(
-            { __typename?: 'RoleType' }
-            & Pick<RoleType, 'uuid' | 'name'>
-          )> }
-        )>>> }
+  { __typename?: 'Query' }
+  & { users?: Maybe<Array<Maybe<(
+    { __typename?: 'SchemaUser' }
+    & Pick<SchemaUser, 'uuid' | 'firstName' | 'lastName' | 'email' | 'phone'>
+    & { organizationUsers?: Maybe<Array<Maybe<(
+      { __typename?: 'SchemaOrganizationUser' }
+      & Pick<SchemaOrganizationUser, 'title'>
+      & { organization?: Maybe<(
+        { __typename?: 'SchemaOrganization' }
+        & Pick<SchemaOrganization, 'uuid' | 'name'>
+      )>, role?: Maybe<(
+        { __typename?: 'SchemaRole' }
+        & Pick<SchemaRole, 'uuid' | 'name'>
       )> }
     )>>> }
-  )> }
+  )>>> }
 );
 
 export type ValidateAssociationTokenQueryVariables = Exact<{
-  input: ValidateAssociationTokenInputType;
+  token: Scalars['String'];
 }>;
 
 
 export type ValidateAssociationTokenQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename?: 'Query' }
   & { validateAssociationToken?: Maybe<(
-    { __typename?: 'ValidateAssociationTokenPayloadType' }
-    & Pick<ValidateAssociationTokenPayloadType, 'status' | 'email' | 'name'>
+    { __typename?: 'ValidateAssociationTokenPayload' }
+    & Pick<ValidateAssociationTokenPayload, 'status' | 'email' | 'name'>
   )> }
 );
 
 export type RequestUserPasswordResetMutationVariables = Exact<{
-  input: RequestUserPasswordResetInput;
+  email: Scalars['String'];
 }>;
 
 
@@ -1037,11 +813,8 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = (
   { __typename?: 'Mutation' }
   & { updateUser?: Maybe<(
-    { __typename?: 'UpdateUserPayloadType' }
-    & { user?: Maybe<(
-      { __typename?: 'UserType' }
-      & Pick<UserType, 'uuid'>
-    )> }
+    { __typename?: 'SchemaUser' }
+    & Pick<SchemaUser, 'uuid'>
   )> }
 );
 
@@ -1060,6 +833,25 @@ export const FindOrganizationsDocument = gql`
   })
   export class FindOrganizationsGQL extends Apollo.Query<FindOrganizationsQuery, FindOrganizationsQueryVariables> {
     document = FindOrganizationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FindMyOrganizationsDocument = gql`
+    query findMyOrganizations {
+  myOrganizations {
+    uuid
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FindMyOrganizationsGQL extends Apollo.Query<FindMyOrganizationsQuery, FindMyOrganizationsQueryVariables> {
+    document = FindMyOrganizationsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1180,18 +972,14 @@ export const FindOrganizationsWithRolesDocument = gql`
     }
   }
 export const SendInvitationDocument = gql`
-    mutation sendInvitation($input: InviteOrganizationsUsersInput!) {
+    mutation sendInvitation($input: InviteOrganizationUsersInput!) {
   inviteOrganizationUsers(input: $input) {
     organizationUuid
     invitationErrors {
-      user {
-        email
-      }
+      email
       description
     }
-    invitedUsers {
-      email
-    }
+    invitedUsers
   }
 }
     `;
@@ -1209,10 +997,8 @@ export const SendInvitationDocument = gql`
 export const CreateOrganizationDocument = gql`
     mutation createOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input) {
-    organization {
-      uuid
-      name
-    }
+    uuid
+    name
   }
 }
     `;
@@ -1228,15 +1014,13 @@ export const CreateOrganizationDocument = gql`
     }
   }
 export const UpdateOrganizationUserDocument = gql`
-    mutation updateOrganizationUser($input: OrganizationUserInput!) {
+    mutation updateOrganizationUser($input: UpdateOrganizationUserInput!) {
   updateOrganizationUser(input: $input) {
-    organizationUser {
+    uuid
+    organizationUuid
+    role {
       uuid
-      organizationUuid
-      role {
-        uuid
-        name
-      }
+      name
     }
   }
 }
@@ -1252,9 +1036,32 @@ export const UpdateOrganizationUserDocument = gql`
       super(apollo);
     }
   }
+export const DeleteOrganizationUserDocument = gql`
+    mutation deleteOrganizationUser($uuid: ID!) {
+  deleteOrganizationUser(uuid: $uuid) {
+    uuid
+    organizationUuid
+    role {
+      uuid
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteOrganizationUserGQL extends Apollo.Mutation<DeleteOrganizationUserMutation, DeleteOrganizationUserMutationVariables> {
+    document = DeleteOrganizationUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const FindRolesDocument = gql`
-    query findRoles($input: RolesInput) {
-  roles(input: $input) {
+    query findRoles($organizationUuid: ID!) {
+  roles(organizationUuid: $organizationUuid) {
     uuid
     name
   }
@@ -1272,8 +1079,8 @@ export const FindRolesDocument = gql`
     }
   }
 export const FindUserDocument = gql`
-    query findUser($input: UserInput!) {
-  user(input: $input) {
+    query findUser($uuid: ID!) {
+  user(uuid: $uuid) {
     uuid
     status
     firstName
@@ -1326,34 +1133,23 @@ export const AcceptOrganizationUserInviteDocument = gql`
     }
   }
 export const FindMembersDocument = gql`
-    query findMembers($after: String, $first: Int, $input: UsersInput) {
-  users(first: $first, after: $after, input: $input) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
+    query findMembers($search: String) {
+  users(search: $search) {
+    uuid
+    firstName
+    lastName
+    email
+    phone
+    organizationUsers {
+      organization {
         uuid
-        firstName
-        lastName
-        email
-        phone
-        organizationUsers {
-          organization {
-            uuid
-            name
-          }
-          role {
-            uuid
-            name
-          }
-          title
-        }
+        name
       }
+      role {
+        uuid
+        name
+      }
+      title
     }
   }
 }
@@ -1370,8 +1166,8 @@ export const FindMembersDocument = gql`
     }
   }
 export const ValidateAssociationTokenDocument = gql`
-    query validateAssociationToken($input: ValidateAssociationTokenInputType!) {
-  validateAssociationToken(input: $input) {
+    query validateAssociationToken($token: String!) {
+  validateAssociationToken(token: $token) {
     status
     email
     name
@@ -1390,8 +1186,8 @@ export const ValidateAssociationTokenDocument = gql`
     }
   }
 export const RequestUserPasswordResetDocument = gql`
-    mutation requestUserPasswordReset($input: RequestUserPasswordResetInput!) {
-  requestUserPasswordReset(input: $input)
+    mutation requestUserPasswordReset($email: String!) {
+  requestUserPasswordReset(email: $email)
 }
     `;
 
@@ -1424,9 +1220,7 @@ export const ResetUserPasswordDocument = gql`
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
-    user {
-      uuid
-    }
+    uuid
   }
 }
     `;

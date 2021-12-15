@@ -6,6 +6,12 @@ query findOrganizations {
   }
 }
 
+query findMyOrganizations {
+  myOrganizations {
+    uuid
+    name
+  }
+}
 query findOrganizationTrees {
   organizations {
     uuid
@@ -96,41 +102,44 @@ query findOrganizationsWithRoles {
   }
 }
 
-mutation sendInvitation($input: InviteOrganizationsUsersInput!) {
+mutation sendInvitation($input: InviteOrganizationUsersInput!) {
   inviteOrganizationUsers(input: $input)
   {
     organizationUuid
     invitationErrors {
-      user {
-        email
-      }
+      email
       description
     }
-    invitedUsers {
-      email
-    }
+    invitedUsers
   }
 }
 
 mutation createOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input)
   {
-    organization {
-      uuid
+    uuid
+    name
+  }
+}
+
+mutation updateOrganizationUser($input: UpdateOrganizationUserInput!) {
+  updateOrganizationUser(input: $input) {
+    uuid
+    organizationUuid
+    role {
+      uuid,
       name
     }
   }
 }
 
-mutation updateOrganizationUser($input: OrganizationUserInput!) {
-  updateOrganizationUser(input: $input) {
-    organizationUser {
-      uuid
-      organizationUuid
-      role {
-        uuid,
-        name
-      }
+mutation deleteOrganizationUser($uuid: ID!) {
+  deleteOrganizationUser(uuid: $uuid) {
+    uuid
+    organizationUuid
+    role {
+      uuid,
+      name
     }
   }
 }
