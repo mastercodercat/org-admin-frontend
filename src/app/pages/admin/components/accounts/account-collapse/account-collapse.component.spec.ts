@@ -79,7 +79,7 @@ describe('AccountCollapseComponent', () => {
       if (account.members) {
         expect(spectator.query(byText(`${account.members} members`))).toExist();
       }
-      if (account.subaccounts) {
+      if (account.subaccounts && account.subaccounts.length > 0) {
         expect(
           spectator.query(byText(`| ${account.subaccounts.length} Subaccounts`))
         ).toExist();
