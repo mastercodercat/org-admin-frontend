@@ -1,24 +1,41 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  Spectator,
+  byText,
+  createComponentFactory,
+  byPlaceholder,
+} from '@ngneat/spectator';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from 'src/app/store/reducers';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AccountsComponent } from './accounts.component';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 describe('AccountsComponent', () => {
-  let component: AccountsComponent;
-  let fixture: ComponentFixture<AccountsComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AccountsComponent],
-    }).compileComponents();
+  let spectator: Spectator<AccountsComponent>;
+  const createComponent = createComponentFactory({
+    component: AccountsComponent,
+    providers: [UserService],
+    imports: [
+      StoreModule.forRoot(reducers, { metaReducers }),
+      CommonModule,
+      SharedModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    setTimeout(() => {
+      expect(
+        spectator.query(byPlaceholder('Search members, accounts...'))
+      ).toExist();
+      expect(spectator.query(byText('Create Organization'))).toExist();
+    }, 3000);
   });
 });
