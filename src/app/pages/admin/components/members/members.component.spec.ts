@@ -49,9 +49,9 @@ describe('MembersComponent', () => {
       spectator.query(byPlaceholder('Search members, accounts...'))
     ).toExist();
     expect(spectator.query(byText('Invite Members'))).toExist();
-    expect(spectator.query(byText('Name')));
-    expect(spectator.query(byText('Email')));
-    expect(spectator.query(byText('Phone number')));
-    expect(spectator.query(byText('Accounts')));
+    expect(spectator.query(byText('Name'))).toExist();
+    expect(spectator.query(byText('Email'))).toExist();
+    expect(spectator.query(byText('Phone number'))).toExist();
+    expect(spectator.query(byText('Accounts'))).toExist();
   });
 });
