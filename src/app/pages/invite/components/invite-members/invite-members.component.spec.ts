@@ -4,9 +4,14 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserAddOutline } from '@ant-design/icons-angular/icons';
 
 import { InviteMembersComponent } from './invite-members.component';
 import { HttpClientModule } from '@angular/common/http';
+
+const icons: IconDefinition[] = [UserAddOutline];
 
 describe('InviteMembersComponent', () => {
   let spectator: Spectator<InviteMembersComponent>;
@@ -18,6 +23,7 @@ describe('InviteMembersComponent', () => {
       CommonModule,
       StoreModule.forRoot(reducers, { metaReducers }),
       HttpClientModule,
+      NzIconModule.forRoot(icons),
     ],
   });
 
