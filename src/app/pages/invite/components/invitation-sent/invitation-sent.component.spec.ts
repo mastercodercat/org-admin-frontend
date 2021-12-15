@@ -1,25 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { InvitationSentComponent } from './invitation-sent.component';
 
 describe('InvitationSentComponent', () => {
-  let component: InvitationSentComponent;
-  let fixture: ComponentFixture<InvitationSentComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ InvitationSentComponent ]
-    })
-    .compileComponents();
+  let spectator: Spectator<InvitationSentComponent>;
+  const createComponent = createComponentFactory({
+    component: InvitationSentComponent,
+    imports: [RouterTestingModule, SharedModule, CommonModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InvitationSentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    expect(spectator.query(byText('Your invitation was sent!'))).toExist();
+    expect(spectator.query(byText('Return to Managing My Account'))).toExist();
   });
 });
