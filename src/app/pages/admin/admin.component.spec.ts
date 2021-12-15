@@ -1,15 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Spectator,
-  byText,
-  createRoutingFactory,
-  createComponentFactory,
-  byPlaceholder,
-  SpectatorRouting,
-} from '@ngneat/spectator';
-import { Router, RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from 'src/app/store/reducers';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
+import { RouterModule } from '@angular/router';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline, ApartmentOutline } from '@ant-design/icons-angular/icons';
@@ -38,8 +29,7 @@ describe('AdminComponent', () => {
     spectator.detectChanges();
   });
 
-  it('should display ui', async () => {
-    await spectator.fixture.whenStable();
+  it('should display ui', () => {
     expect(spectator).toBeTruthy();
   });
 });

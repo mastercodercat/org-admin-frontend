@@ -13,6 +13,7 @@ import {
   UserOutline,
   MoreOutline,
   CaretLeftOutline,
+  UserAddOutline,
 } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
@@ -24,6 +25,7 @@ const icons: IconDefinition[] = [
   ExportOutline,
   UserOutline,
   MoreOutline,
+  UserAddOutline,
   CaretLeftOutline,
 ];
 
