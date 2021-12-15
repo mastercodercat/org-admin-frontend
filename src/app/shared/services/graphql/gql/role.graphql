@@ -1,5 +1,5 @@
-query findRoles($input: RolesInput) {
-  roles(input: $input) {
+query findRoles($organizationUuid: ID!) {
+  roles(organizationUuid: $organizationUuid) {
     uuid
     name
   }

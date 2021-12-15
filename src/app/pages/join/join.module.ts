@@ -14,6 +14,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { JoinComponent } from './join.component';
 import { JoinRoutingModule } from './join-routing.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,20 +24,7 @@ import { JoinRoutingModule } from './join-routing.module';
     JoinComponent,
   ],
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-
-    NzTypographyModule,
-    NzLayoutModule,
-    NzGridModule,
-    NzIconModule,
-    NzButtonModule,
-    NzInputModule,
-    NzFormModule,
-    NzPopoverModule,
-    NzSpinModule,
-
+    SharedModule,
     JoinRoutingModule,
   ]
 })

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Member } from './member';
 
 // TODO: Move to service component
-import { FindMembersGQL, UserEdge } from 'src/app/shared/services/graphql/graphql.service';
+import { FindMembersGQL } from 'src/app/shared/services/graphql/graphql.service';
 import { take } from 'rxjs/operators';
 import { OrganizationService } from 'src/app/select-organization/services/organization.service';
 
@@ -21,7 +21,7 @@ export class MembersComponent implements OnInit {
 
   ngOnInit() {
     this.organizationService.getUsers().subscribe(result => {
-        this.members = this.organizationService.mapUsersToMembers((result?.data.users?.edges || []) as UserEdge[])
+        this.members = this.organizationService.mapUsersToMembers((result?.data.users || []))
         this.isLoading = false;
       }
     )

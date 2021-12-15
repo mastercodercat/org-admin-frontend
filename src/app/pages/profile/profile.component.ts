@@ -5,7 +5,7 @@ import * as fromUserSelectors from '../../store/selectors/user.selectors';
 import { AppState } from 'src/app/store/reducers';
 import { UserState } from 'src/app/store/reducers/user.reducer';
 import { take } from 'rxjs/operators';
-import { FindOrganizationsWithRolesGQL, FindRolesGQL, FindUserGQL, SendInvitationGQL, StatusEnumType, UpdateOrganizationUserGQL, UpdateUserGQL, UserType } from 'src/app/shared/services/graphql/graphql.service';
+import { FindOrganizationsWithRolesGQL, FindRolesGQL, FindUserGQL, SendInvitationGQL, StatusEnum, UpdateOrganizationUserGQL, UpdateUserGQL, SchemaUser, DeleteOrganizationUserGQL } from 'src/app/shared/services/graphql/graphql.service';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -16,7 +16,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 })
 export class ProfileComponent implements OnInit {
   userInfo$!: Observable<UserState>;
-  user: UserType | undefined;
+  user: SchemaUser | undefined;
   userRole: any = {};
   organizationRoles: any = {};
 
@@ -37,14 +37,16 @@ export class ProfileComponent implements OnInit {
     private notification: NzNotificationService,
     private findOrganizationsService: FindOrganizationsWithRolesGQL,
     private updateOrganizationUserService: UpdateOrganizationUserGQL,
+    private deleteOrganizationUser: DeleteOrganizationUserGQL,
     private updateUserService: UpdateUserGQL,
     private sendInvitationService: SendInvitationGQL,
     private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
-    this.findUserService.fetch({ input: { uuid: this.route.snapshot.paramMap.get('id') } }).pipe(take(1)).subscribe(result => {
-      this.user = <UserType>result.data.user;
+    const uuid: string = this.route.snapshot.paramMap.get('id') as string;
+    this.findUserService.fetch({ uuid: uuid }).pipe(take(1)).subscribe(result => {
+      this.user = <SchemaUser>result.data.user;
 
       (this.user.organizationUsers || []).map(organizationUser => {
         this.userRole[organizationUser?.organizationUuid || ''] = organizationUser?.role;
@@ -53,7 +55,7 @@ export class ProfileComponent implements OnInit {
           this.title = organizationUser.title || '';
         }
 
-        this.findRolesService.fetch({ input: { organizationUuid: organizationUser?.organizationUuid } }).pipe(take(1)).subscribe(result => {
+        this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid as string}).pipe(take(1)).subscribe(result => {
           this.organizationRoles[organizationUser?.organizationUuid || ''] = result.data.roles || [];
         });
       });
@@ -110,33 +112,25 @@ export class ProfileComponent implements OnInit {
     this.updateOrganizationUserService.mutate({
       input: {
         uuid: this.changeOrganization.uuid,
-        userUuid: this.user?.uuid,
-        organizationUuid: this.changeOrganization.organizationUuid,
         roleUuid: this.changeUserRole.uuid,
       }
     }).subscribe((result) => {
-      this.userRole[result.data?.updateOrganizationUser?.organizationUser?.organizationUuid || ''] = this.changeUserRole;
+      this.userRole[result.data?.updateOrganizationUser?.organizationUuid || ''] = this.changeUserRole;
     });
 
     this.changeOrganization = '';
   }
 
   handleRemove() {
-    this.updateOrganizationUserService.mutate({
-      input: {
-        uuid: this.removeOrganization.uuid,
-        userUuid: this.user?.uuid,
-        organizationUuid: this.removeOrganization.organizationUuid,
-        roleUuid: this.userRole[this.removeOrganization.organizationUuid || ''].uuid,
-        status: StatusEnumType.Deleted
-      }
+    this.deleteOrganizationUser.mutate({
+      uuid: this.removeOrganization.uuid,
     }).subscribe((result) => {
       if (this.user?.organizationUsers) {
         const newOrganizationUsers = (this.user.organizationUsers || []).map(organizationUser => {
           if (organizationUser) {
             let newOrganizationUser = { ...organizationUser };
-            if (organizationUser && organizationUser?.organizationUuid === result.data?.updateOrganizationUser?.organizationUser?.organizationUuid) {
-              newOrganizationUser['status'] = StatusEnumType.Deleted;
+            if (organizationUser && organizationUser?.organizationUuid === result.data?.deleteOrganizationUser?.organizationUuid) {
+              newOrganizationUser['status'] = StatusEnum.Deleted;
             }
             return newOrganizationUser;
           }

@@ -25,7 +25,8 @@ export class RecoverPasswordComponent implements OnInit {
    * @memberof RecoverPasswordComponent
    */
   resetPassword() {
-    this.requestPasswordChange.mutate({ input: { email: this.recoverPasswordForm.get('email')?.value } })
+    const email = this.recoverPasswordForm.get('email')?.value;
+    this.requestPasswordChange.mutate({ email })
       .subscribe(res => {
         this.router.navigate(['/login/request-sent']);
       });

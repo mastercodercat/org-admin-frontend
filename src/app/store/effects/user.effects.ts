@@ -10,7 +10,7 @@ import * as fromActions from '../actions/user.actions';
 @Injectable()
 export class UserEffects {
 
-  requestUserInfo$ = createEffect(() => 
+  requestUserInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromActions.requestUserInfo),
       tap(() => {
@@ -25,7 +25,7 @@ export class UserEffects {
       ofType(fromActions.requestOrganizations),
       switchMap(() => this.orgService.getOrganizations()
         .pipe(
-          map(result => fromActions.requestOrganizationsSuccess({ organizations: result.data.organizations as Organization[] }))
+          map(result => fromActions.requestOrganizationsSuccess({ organizations: result.data.myOrganizations as Organization[] }))
         )
       )
     )
