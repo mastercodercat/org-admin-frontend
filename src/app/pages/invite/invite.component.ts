@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { take, mergeMap } from 'rxjs/operators';
 import { FindRolesGQL, SendInvitationGQL } from 'src/app/shared/services/graphql/graphql.service';
+import * as fromUserSelectors from '../../store/selectors/user.selectors';
+import { UserState } from '../../store/reducers/user.reducer';
 
 export interface Role {
   name: string;
@@ -23,16 +26,18 @@ export class InviteComponent implements OnInit {
   isLoading = true;
 
   emails: string[] = [];
-  constructor(private findRolesService: FindRolesGQL, 
-              private sendInvitationService: SendInvitationGQL) {}
+  constructor(private findRolesService: FindRolesGQL,
+              private sendInvitationService: SendInvitationGQL,
+              private store: Store<UserState>) {}
 
   ngOnInit() {
-    this.findRolesService.fetch({ input: {organizationUuid: localStorage.getItem('selected_org') }}).pipe(take(1)).subscribe(result => {
-      console.log(result);
+    this.store.pipe(select(fromUserSelectors.selectCurrentOrganizationUuid)).pipe(
+      mergeMap(org => this.findRolesService.fetch({organizationUuid: org as string}).pipe(take(1)))
+    ).subscribe(result => {
       if (result?.data?.roles) {
         this.roles = result.data.roles as any[];
         this.isLoading = false;
-      } 
+      }
     });
   }
 

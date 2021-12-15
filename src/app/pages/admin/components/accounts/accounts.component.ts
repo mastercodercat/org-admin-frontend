@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { first, take, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import * as fromUserSelectors from '../../../../store/selectors/user.selectors';
 import { FindOrganizationTreesGQL } from '../../../../shared/services/graphql/graphql.service';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Account } from './account';
+import { UserState } from '../../../../store/reducers/user.reducer';
 @Component({
   selector: 'org-admin-accounts',
   templateUrl: './accounts.component.html',
@@ -14,21 +17,20 @@ export class AccountsComponent implements OnInit {
   accounts: Account[] = [];
   isLoading = true;
 
-  constructor(private findOrganizationsService: FindOrganizationTreesGQL, private userService: UserService) { 
+  constructor(private findOrganizationsService: FindOrganizationTreesGQL, private userService: UserService, private store: Store<UserState>) {
     this.isHelmAdmin$ = this.userService.isHelmAdmin$();
   }
 
   ngOnInit() {
     this.isLoading = true;
-    this.findOrganizationsService
-      .fetch()
-      .pipe(take(1))
-      .subscribe((result) => {
-        this.accounts = this.mapOrganizationData(
-          result.data.organizations || []
-        ).filter((org) => org.uuid === localStorage.getItem('selected_org'));
-        this.isLoading = false;
-      });
+
+    combineLatest([
+      this.store.pipe(select(fromUserSelectors.selectCurrentOrganizationUuid)),
+      this.findOrganizationsService.fetch().pipe(take(1)),
+    ]).subscribe(([uuid, result]) => {
+      this.accounts = this.mapOrganizationData(result.data.organizations || []).filter((org) => org.uuid === uuid);
+      this.isLoading = false;
+    });
   }
 
   mapOrganizationData(organizations: any[]): Account[] {

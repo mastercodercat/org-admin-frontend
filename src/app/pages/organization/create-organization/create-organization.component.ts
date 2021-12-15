@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CreateOrganizationGQL, OrganizationEnumType, SubscriptionEnumType } from '../../../shared/services/graphql/graphql.service';
+import { CreateOrganizationGQL, OrganizationEnum, SubscriptionEnum } from '../../../shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-create-organization',
@@ -22,8 +22,8 @@ export class CreateOrganizationComponent implements OnInit {
       adminPhone: [null],
       adminEmail: [null, [Validators.required, Validators.email]]
     });
-    this.subTypes = Object.entries(SubscriptionEnumType);
-    this.orgTypes = Object.entries(OrganizationEnumType);
+    this.subTypes = Object.entries(SubscriptionEnum);
+    this.orgTypes = Object.entries(OrganizationEnum);
   }
 
   ngOnInit(): void {

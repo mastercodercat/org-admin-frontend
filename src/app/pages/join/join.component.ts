@@ -6,6 +6,7 @@ import { BaseComponent } from 'src/app/core/base/base.component';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { AcceptOrganizationUserInviteGQL, ValidateAssociationTokenGQL } from 'src/app/shared/services/graphql/graphql.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { passwordValidator } from '../../utils/input';
 
 @Component({
   selector: 'org-join',
@@ -46,7 +47,7 @@ export class JoinComponent extends BaseComponent implements OnInit {
     this.isLoading = true;
     this.token = this.route.snapshot.queryParams.token || '';
 
-    this.validateAssociationTokenService.fetch({input: {token: this.token}}).pipe(take(1)).subscribe(result => {
+    this.validateAssociationTokenService.fetch({token: this.token}).pipe(take(1)).subscribe(result => {
       this.isLoading = false;
       this.status = result.data.validateAssociationToken?.status || '';
       this.email = result.data.validateAssociationToken?.email || '';
@@ -54,7 +55,7 @@ export class JoinComponent extends BaseComponent implements OnInit {
 
       if (this.status === 'EXISTING') {
         this.joinForm = this.fb.group({
-          password: ['', [Validators.required, this.confirmValidator]],
+          password: ['', [Validators.required, passwordValidator]],
         });
       }
 
@@ -62,7 +63,7 @@ export class JoinComponent extends BaseComponent implements OnInit {
         this.joinForm = this.fb.group({
           firstName: ['', [Validators.required]],
           lastName: ['', [Validators.required]],
-          password: ['', [Validators.required, this.confirmValidator]],
+          password: ['', [Validators.required, passwordValidator]],
         });
       }
     });
@@ -115,30 +116,4 @@ export class JoinComponent extends BaseComponent implements OnInit {
       })
   }
 
-  /**
-   * Custom validator to check if the passwords match
-   *
-   */
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    const value = control.value || '';
-    const validator: any = {};
-
-    if (value.length < 8) {
-      validator.length = true;
-    }
-    if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value)) {
-      validator.special = true;
-    }
-    if (!/\d/.test(value)) {
-      validator.number = true;
-    }
-    if (!/[a-z]/.test(value)) {
-      validator.lowercase = true;
-    }
-    if (!/[A-Z]/.test(value)) {
-      validator.uppercase = true;
-    }
-
-    return validator;
-  };
 }
