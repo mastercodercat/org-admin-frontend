@@ -1,31 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  Spectator,
+  byText,
+  createComponentFactory,
+  byPlaceholder,
+} from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from 'src/app/store/reducers';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ],
-      imports: [
-        StoreModule.forRoot({}),
-        RouterTestingModule,
-      ]
-    })
-    .compileComponents();
+  let spectator: Spectator<HomeComponent>;
+  const createComponent = createComponentFactory({
+    component: HomeComponent,
+    imports: [
+      StoreModule.forRoot(reducers, { metaReducers }),
+      CommonModule,
+      SharedModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    expect(spectator.component).toBeTruthy();
   });
 });

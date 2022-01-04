@@ -1,48 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { JoinComponent } from './join.component';
+import { FormBuilder } from '@angular/forms';
 
 describe('JoinComponent', () => {
-  let component: JoinComponent;
-  let fixture: ComponentFixture<JoinComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ JoinComponent ],
-      providers: [
-        FormBuilder,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-              snapshot: {
-                  paramMap: {
-                      get(): string {
-                          return '123';
-                      },
-                  },
-              },
-          },
-        },
-      ],
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-      ],
-    })
-    .compileComponents();
+  let spectator: Spectator<JoinComponent>;
+  const createComponent = createComponentFactory({
+    component: JoinComponent,
+    providers: [FormBuilder],
+    imports: [
+      RouterTestingModule,
+      SharedModule,
+      CommonModule,
+      StoreModule.forRoot(reducers, { metaReducers }),
+      HttpClientModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JoinComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    expect(spectator.component).toBeTruthy();
   });
 });

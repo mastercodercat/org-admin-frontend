@@ -1,29 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Spectator, byText, createRoutingFactory } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
-
+import { reducers, metaReducers } from 'src/app/store/reducers';
 import { LogoutComponent } from './logout.component';
 
 describe('LogoutComponent', () => {
-  let component: LogoutComponent;
-  let fixture: ComponentFixture<LogoutComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ LogoutComponent ],
-      imports: [
-        StoreModule.forRoot({}),
-      ]
-    })
-    .compileComponents();
+  let spectator: Spectator<LogoutComponent>;
+  const createComponent = createRoutingFactory({
+    component: LogoutComponent,
+    imports: [
+      RouterTestingModule,
+      StoreModule.forRoot(reducers, { metaReducers }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LogoutComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    expect(spectator.query(byText('Log Out'))).toExist();
   });
 });

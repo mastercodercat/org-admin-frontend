@@ -1,29 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
+import { RouterModule } from '@angular/router';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserOutline, ApartmentOutline } from '@ant-design/icons-angular/icons';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AdminComponent } from './admin.component';
 
-describe('AdminComponent', () => {
-  let component: AdminComponent;
-  let fixture: ComponentFixture<AdminComponent>;
+const icons: IconDefinition[] = [UserOutline, ApartmentOutline];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AdminComponent ],
-      imports: [
-        RouterTestingModule,
-      ]
-    })
-    .compileComponents();
+describe('AdminComponent', () => {
+  let spectator: Spectator<AdminComponent>;
+  const createComponent = createComponentFactory({
+    component: AdminComponent,
+    providers: [RouterModule],
+    imports: [
+      RouterTestingModule,
+      SharedModule,
+      CommonModule,
+      NzIconModule.forRoot(icons),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display ui', () => {
+    expect(spectator).toBeTruthy();
   });
 });
