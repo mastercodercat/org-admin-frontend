@@ -14,6 +14,7 @@ import {
   MoreOutline,
   CaretLeftOutline,
   UserAddOutline,
+  RadarChartOutline,
 } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,7 @@ const icons: IconDefinition[] = [
   MoreOutline,
   CaretLeftOutline,
   UserAddOutline,
+  RadarChartOutline,
 ];
 
 describe('PermissionsComponent', () => {
@@ -37,7 +39,7 @@ describe('PermissionsComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
     ],
   });
 

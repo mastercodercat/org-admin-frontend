@@ -17,6 +17,7 @@ import {
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GraphQLModule } from 'src/app/graphql.module';
 
 import { MemberRowComponent } from './member-row.component';
 import { Member } from '../member';
@@ -36,7 +37,8 @@ describe('MemberRowComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
+      GraphQLModule,
     ],
   });
   const member: Member = {

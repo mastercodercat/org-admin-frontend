@@ -9,9 +9,16 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GraphQLModule } from 'src/app/graphql.module';
+import { HttpClientModule } from '@angular/common/http';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { MailOutline } from '@ant-design/icons-angular/icons';
 
 import { AccountsComponent } from './accounts.component';
 import { UserService } from 'src/app/shared/services/user/user.service';
+
+const icons: IconDefinition[] = [MailOutline];
 
 describe('AccountsComponent', () => {
   let spectator: Spectator<AccountsComponent>;
@@ -22,6 +29,9 @@ describe('AccountsComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
+      GraphQLModule,
+      HttpClientModule,
+      NzIconModule.forChild(icons),
     ],
   });
 

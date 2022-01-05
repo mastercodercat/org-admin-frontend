@@ -31,7 +31,7 @@ describe('AccountCollapseComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
     ],
   });
   let accounts: Array<Account> = [

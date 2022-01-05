@@ -6,6 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline, ApartmentOutline } from '@ant-design/icons-angular/icons';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GraphQLModule } from 'src/app/graphql.module';
 
 import { AdminComponent } from './admin.component';
 
@@ -20,7 +21,8 @@ describe('AdminComponent', () => {
       RouterTestingModule,
       SharedModule,
       CommonModule,
-      NzIconModule.forRoot(icons),
+      GraphQLModule,
+      NzIconModule.forChild(icons),
     ],
   });
 

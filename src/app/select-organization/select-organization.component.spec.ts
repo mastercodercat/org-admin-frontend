@@ -4,10 +4,15 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { MailOutline, UserOutline } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { SelectOrganizationComponent } from './select-organization.component';
 import { FormBuilder } from '@angular/forms';
+
+const icons: IconDefinition[] = [MailOutline, UserOutline];
 
 describe('SelectOrganizationComponent', () => {
   let spectator: Spectator<SelectOrganizationComponent>;
@@ -19,13 +24,13 @@ describe('SelectOrganizationComponent', () => {
       SharedModule,
       CommonModule,
       StoreModule.forRoot(reducers, { metaReducers }),
+      NzIconModule.forChild(icons),
       HttpClientModule,
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    spectator.detectChanges();
   });
 
   it('should display ui', () => {

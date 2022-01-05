@@ -3,6 +3,7 @@ import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { GraphQLModule } from 'src/app/graphql.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 
@@ -20,6 +21,7 @@ describe('JoinComponent', () => {
       CommonModule,
       StoreModule.forRoot(reducers, { metaReducers }),
       HttpClientModule,
+      GraphQLModule,
     ],
   });
 

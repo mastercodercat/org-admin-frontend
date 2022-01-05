@@ -9,10 +9,15 @@ import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { RadarChartOutline } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { LoginComponent } from './login.component';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
+
+const icons: IconDefinition[] = [RadarChartOutline];
 
 describe('LoginComponent', () => {
   let spectator: Spectator<LoginComponent>;
@@ -24,6 +29,7 @@ describe('LoginComponent', () => {
       RouterTestingModule,
       SharedModule,
       StoreModule.forRoot(reducers, { metaReducers }),
+      NzIconModule.forChild(icons),
     ],
     stubsEnabled: false,
     routes: [
@@ -40,7 +46,6 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    spectator.detectChanges();
   });
 
   it('should have login ui', () => {

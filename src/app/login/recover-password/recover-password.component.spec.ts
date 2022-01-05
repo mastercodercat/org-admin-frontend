@@ -10,8 +10,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { reducers, metaReducers } from 'src/app/store/reducers';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserOutline } from '@ant-design/icons-angular/icons';
 
 import { RecoverPasswordComponent } from './recover-password.component';
+
+const icons: IconDefinition[] = [UserOutline];
 
 describe('RecoverPasswordComponent', () => {
   let spectator: Spectator<RecoverPasswordComponent>;
@@ -22,6 +27,7 @@ describe('RecoverPasswordComponent', () => {
       RouterTestingModule,
       SharedModule,
       StoreModule.forRoot(reducers, { metaReducers }),
+      NzIconModule.forChild(icons),
     ],
   });
 

@@ -1,16 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { OrganizationService } from './organization.service';
 
 describe('OrganizationService', () => {
-  let service: OrganizationService;
+  let spectator: SpectatorService<OrganizationService>;
+  const createService = createServiceFactory(OrganizationService);
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(OrganizationService);
+  beforeEach(() => (spectator = createService()));
+
+  it('should get organizations', () => {
+    expect(spectator.service.getOrganizations()).toBeTruthy();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should get users', () => {
+    expect(spectator.service.getUsers()).toBeTruthy();
   });
 });
