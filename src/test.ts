@@ -3,6 +3,10 @@
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
+  ApolloTestingModule,
+} from 'apollo-angular/testing';
+import { NzIconTestModule } from 'ng-zorro-antd/icon/testing'
+import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
@@ -16,7 +20,7 @@ declare const require: {
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
+  [BrowserDynamicTestingModule, ApolloTestingModule, NzIconTestModule],
   platformBrowserDynamicTesting(),
   { teardown: { destroyAfterEach: true }},
 );
