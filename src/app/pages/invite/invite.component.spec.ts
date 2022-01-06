@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { GraphQLModule } from 'src/app/graphql.module';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { InviteComponent } from './invite.component';
@@ -18,6 +19,7 @@ describe('InviteComponent', () => {
       CommonModule,
       StoreModule.forRoot(reducers, { metaReducers }),
       HttpClientModule,
+      GraphQLModule,
     ],
   });
 

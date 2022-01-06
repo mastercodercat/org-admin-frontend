@@ -10,7 +10,6 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
   ExportOutline,
-  UserOutline,
   MoreOutline,
   CaretLeftOutline,
   UserAddOutline,
@@ -23,7 +22,6 @@ import { SubPermissionComponent } from './sub-permission.component';
 
 const icons: IconDefinition[] = [
   ExportOutline,
-  UserOutline,
   MoreOutline,
   UserAddOutline,
   CaretLeftOutline,
@@ -37,7 +35,7 @@ describe('SubPermissionComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
     ],
   });
   const props = {

@@ -11,6 +11,7 @@
     <nz-form-label>Assign all members to the role</nz-form-label>
     <nz-form-control>
       <nz-radio-group
+        [nzName]="'role'"
         ngDefaultControl
         [(ngModel)]="defaultRole"
         (ngModelChange)="handleDefaultRoleChange($event)"

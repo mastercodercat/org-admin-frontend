@@ -4,11 +4,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { UserAddOutline } from '@ant-design/icons-angular/icons';
+import { UserOutline, UserAddOutline } from '@ant-design/icons-angular/icons';
 
 import { AssignRolesComponent } from './assign-roles.component';
 
-const icons: IconDefinition[] = [UserAddOutline];
+const icons: IconDefinition[] = [UserOutline, UserAddOutline];
 
 describe('AssignRolesComponent', () => {
   let spectator: Spectator<AssignRolesComponent>;
@@ -19,7 +19,7 @@ describe('AssignRolesComponent', () => {
       CommonModule,
       FormsModule,
       ReactiveFormsModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
     ],
   });
   const props = {

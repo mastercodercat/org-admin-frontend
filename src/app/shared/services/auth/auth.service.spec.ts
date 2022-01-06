@@ -1,21 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { AuthService } from './auth.service';
+import { reducers, metaReducers } from 'src/app/store/reducers';
+import { StoreModule } from '@ngrx/store';
 
 describe('AuthService', () => {
-  let service: AuthService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-      ]
-    });
-    service = TestBed.inject(AuthService);
+  let spectator: SpectatorService<AuthService>;
+  const createService = createServiceFactory({
+    service: AuthService,
+    imports: [StoreModule.forRoot(reducers, { metaReducers })],
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  beforeEach(() => (spectator = createService()));
+
+  it('should not be authenticated', () => {
+    expect(spectator.service.isAuthenticated()).toBeFalsy();
   });
 });

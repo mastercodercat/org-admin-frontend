@@ -10,21 +10,23 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
   ExportOutline,
-  UserOutline,
   MoreOutline,
   CaretLeftOutline,
+  RadarChartOutline,
 } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GraphQLModule } from 'src/app/graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MembersComponent } from './members.component';
 
 const icons: IconDefinition[] = [
   ExportOutline,
-  UserOutline,
   MoreOutline,
   CaretLeftOutline,
+  RadarChartOutline,
 ];
 
 describe('MembersComponent', () => {
@@ -35,7 +37,9 @@ describe('MembersComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule.forChild(icons),
+      GraphQLModule,
+      HttpClientModule,
     ],
   });
 

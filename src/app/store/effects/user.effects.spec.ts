@@ -10,16 +10,9 @@ describe('UserEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UserEffects,
-        provideMockActions(() => actions$)
-      ]
+      providers: [UserEffects, provideMockActions(() => actions$)],
     });
 
     effects = TestBed.inject(UserEffects);
-  });
-
-  it('should be created', () => {
-    expect(effects).toBeTruthy();
   });
 });

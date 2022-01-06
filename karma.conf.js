@@ -3,16 +3,24 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    basePath: "",
+    frameworks: ["jasmine", "@angular-devkit/build-angular"],
     plugins: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage'),
-      require('karma-junit-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require("karma-jasmine"),
+      require("karma-chrome-launcher"),
+      require("karma-jasmine-html-reporter"),
+      require("karma-coverage"),
+      require("karma-junit-reporter"),
+      require("@angular-devkit/build-angular/plugins/karma"),
+      require("@ant-design/icons-angular"),
     ],
+    files: [
+      "node_modules/@ant-design/icons-angular/src/inline-svg/outline/user.svg",
+    ],
+    proxies: {
+      "/assets/outline/user.svg":
+        "node_modules/@ant-design/icons-angular/src/inline-svg/outline/user.svg",
+    },
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
@@ -20,30 +28,27 @@ module.exports = function (config) {
         // for example, you can disable the random execution with `random: false`
         // or set a specific seed with `seed: 4321`
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true, // removes the duplicated traces
     },
     junitReporter: {
-      outputDir: require('path').join(__dirname, './test-results'),
-      outputFile: 'junit.xml'
+      outputDir: require("path").join(__dirname, "./test-results"),
+      outputFile: "junit.xml",
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/organizer-front'),
-      subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
+      dir: require("path").join(__dirname, "./coverage/organizer-front"),
+      subdir: ".",
+      reporters: [{ type: "html" }, { type: "text-summary" }],
     },
-    reporters: ['progress', 'kjhtml', 'junit'],
+    reporters: ["progress", "kjhtml", "junit"],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ["Chrome"],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
 };

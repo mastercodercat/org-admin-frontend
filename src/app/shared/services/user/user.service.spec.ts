@@ -1,24 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { RouterTestingModule } from '@angular/router/testing';
+
+// import { AuthService } from './auth.service';
+import { UserService } from './user.service';
+import { reducers, metaReducers } from 'src/app/store/reducers';
 import { StoreModule } from '@ngrx/store';
 
-import { UserService } from './user.service';
-
 describe('UserService', () => {
-  let service: UserService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        RouterTestingModule,
-      ]
-    });
-    service = TestBed.inject(UserService);
+  let spectator: SpectatorService<UserService>;
+  const createService = createServiceFactory({
+    service: UserService,
+    imports: [
+      RouterTestingModule,
+      StoreModule.forRoot(reducers, { metaReducers }),
+    ],
   });
 
-  it('should be created', () => {
-    localStorage.setItem('access_token', 'somerandomtoken');
-    expect(service).toBeTruthy();
-  });
+  beforeEach(() => (spectator = createService()));
 });
