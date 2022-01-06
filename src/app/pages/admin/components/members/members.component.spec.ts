@@ -1,4 +1,3 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Spectator,
   byText,
@@ -17,7 +16,6 @@ import {
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { GraphQLModule } from 'src/app/graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MembersComponent } from './members.component';
@@ -38,7 +36,6 @@ describe('MembersComponent', () => {
       CommonModule,
       SharedModule,
       NzIconModule.forChild(icons),
-      GraphQLModule,
       HttpClientModule,
     ],
   });

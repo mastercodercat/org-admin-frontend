@@ -1,9 +1,7 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Spectator,
   byText,
   createComponentFactory,
-  byPlaceholder,
 } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
 import { IconDefinition } from '@ant-design/icons-angular';
@@ -17,7 +15,6 @@ import {
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { GraphQLModule } from 'src/app/graphql.module';
 
 import { MemberRowComponent } from './member-row.component';
 import { Member } from '../member';
@@ -38,7 +35,6 @@ describe('MemberRowComponent', () => {
       CommonModule,
       SharedModule,
       NzIconModule.forChild(icons),
-      GraphQLModule,
     ],
   });
   const member: Member = {

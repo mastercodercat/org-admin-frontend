@@ -1,10 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
-import { GraphQLModule } from 'src/app/graphql.module';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MailOutline } from '@ant-design/icons-angular/icons';
@@ -26,7 +25,6 @@ describe('ProfileComponent', () => {
       CommonModule,
       StoreModule.forRoot(reducers, { metaReducers }),
       HttpClientModule,
-      GraphQLModule,
       NzIconModule.forChild(icons),
     ],
   });

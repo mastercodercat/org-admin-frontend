@@ -1,4 +1,3 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Spectator,
   byText,
@@ -29,7 +28,6 @@ describe('AccountsComponent', () => {
       StoreModule.forRoot(reducers, { metaReducers }),
       CommonModule,
       SharedModule,
-      GraphQLModule,
       HttpClientModule,
       NzIconModule.forChild(icons),
     ],
