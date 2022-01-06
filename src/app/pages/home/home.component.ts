@@ -8,7 +8,7 @@ import * as fromUserSelectors from '../../store/selectors/user.selectors';
 @Component({
   selector: 'org-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less']
+  styleUrls: ['./home.component.less'],
 })
 export class HomeComponent {
   userInfo$: Observable<UserState>;

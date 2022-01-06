@@ -1,22 +1,21 @@
 import { Organization } from '../../../../shared/models/organization.model';
+import { Role } from '../../../../shared/models/role.model';
+import { User } from '../../../../shared/models/user.model';
 
-export interface Role {
-  uuid: string;
-  name: string;
-}
-export interface OrganizationUsers {
+export interface OrganizationUsers extends User {
   organization: Organization;
   role: Role;
+  organizationUuid: string;
 }
 
-export class Member {
-  uuid: string = '';
-  name: string = '';
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '' ;
-  phone?: string | undefined ;
-  avatar?: string | undefined ;
-  position: string = '';
-  organizationUsers: OrganizationUsers[] = [];
+export interface Member {
+  uuid: string;
+  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  avatar?: string;
+  position: string;
+  organizationUsers: any[];
 }

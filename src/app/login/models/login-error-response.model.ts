@@ -1,5 +1,5 @@
 export interface LoginErrorResponse {
-  code: string;
-  description: string;
-  statusCode: number;
+  code: string | undefined;
+  description: string | undefined;
+  statusCode: number | undefined;
 }

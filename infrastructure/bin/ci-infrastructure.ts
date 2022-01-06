@@ -24,6 +24,6 @@ try {
   new ContinuousIntegrationInfrastructureStack(app, 'helm-organizer-frontend-ci-staging', getCiEnvironment('staging'));
   new ContinuousIntegrationInfrastructureStack(app, 'helm-organizer-frontend-ci-production', getCiEnvironment('production'));
 } catch(err) {
-  console.log(`Error launching stack: ${err}`)
+  console.log(`Error launching stack: ${err}`);
   exit(1);
 }

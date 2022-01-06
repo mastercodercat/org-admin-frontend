@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreateOrganizationGQL, OrganizationEnum, SubscriptionEnum } from '../../../shared/services/graphql/graphql.service';
@@ -6,9 +6,9 @@ import { CreateOrganizationGQL, OrganizationEnum, SubscriptionEnum } from '../..
 @Component({
   selector: 'org-create-organization',
   templateUrl: './create-organization.component.html',
-  styleUrls: ['./create-organization.component.less']
+  styleUrls: ['./create-organization.component.less'],
 })
-export class CreateOrganizationComponent implements OnInit {
+export class CreateOrganizationComponent {
   createOrgForm: FormGroup;
   subTypes: string[][];
   orgTypes: string[][];
@@ -18,15 +18,10 @@ export class CreateOrganizationComponent implements OnInit {
       subscriptionType: [null, [Validators.required]],
       orgName: [null, [Validators.required]],
       orgType: [null, [Validators.required]],
-      adminName: [null],
-      adminPhone: [null],
-      adminEmail: [null, [Validators.required, Validators.email]]
+      adminEmail: [null, [Validators.required, Validators.email]],
     });
     this.subTypes = Object.entries(SubscriptionEnum);
     this.orgTypes = Object.entries(OrganizationEnum);
-  }
-
-  ngOnInit(): void {
   }
 
   /**
@@ -34,18 +29,28 @@ export class CreateOrganizationComponent implements OnInit {
    *
    * @memberof CreateOrganizationComponent
    */
-  createOrg() {
-    this.createOrgService.mutate({
-      input: {
-        name: this.createOrgForm.get('orgName')?.value,
-        adminEmail: this.createOrgForm.get('adminEmail')?.value,
-        subscriptionType: this.createOrgForm.get('subscriptionType')?.value,
-        organizationType: this.createOrgForm.get('orgType')?.value,
-        organizationUuid: localStorage.getItem('selected_org'),
-      }
-    }).subscribe(res => {
-      this.router.navigate(['/home']);
-    });
+  createOrg(): void {
+
+    if (this.createOrgForm.valid) {
+      this.createOrgService.mutate({
+        input: {
+          name: this.createOrgForm.get('orgName')?.value as string,
+          adminEmail: this.createOrgForm.get('adminEmail')?.value as string,
+          subscriptionType: this.createOrgForm.get('subscriptionType')?.value,
+          organizationType: this.createOrgForm.get('orgType')?.value,
+          organizationUuid: localStorage.getItem('selected_org'),
+        },
+      }).subscribe(() => {
+        this.router.navigate(['/home']);
+      });
+    } else {
+      Object.values(this.createOrgForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
 }

@@ -21,19 +21,29 @@ Stacks
 // Sandbox stack
 
 try {
-    // Defines top level domain. This stack will ultimately get moved into another repo,
+  // Defines top level domain for preprod environments. This stack will ultimately get moved into another repo,
   // but it can stay here for now till we get it a new home.
-  const tldDnsStack = new DnsInfrastructureStack(app, 'helm-tld-shared', {
+  const preprodTldDnsStack = new DnsInfrastructureStack(app, 'helm-tld-shared', {
     env: config.production,
     domainName: 'helmahead.com',
     trustedAccounts: [
       config.production.account,
       config.staging.account,
-      config.sandbox.account
-    ]
+      config.sandbox.account,
+    ],
+  });
+
+  // Organizer.com top level domain.
+
+  const prodTldDnsStack = new DnsInfrastructureStack(app, 'helm-organizer-tld-shared', {
+    env: config.production,
+    domainName: 'organizer.com',
+    trustedAccounts: [
+      config.production.account,
+    ],
   });
 
 } catch(err) {
-  console.log(`Error launching stack: ${err}`)
+  console.log(`Error launching stack: ${err}`);
   exit(1);
 }

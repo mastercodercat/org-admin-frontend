@@ -32,7 +32,7 @@ import { UserEffects } from './store/effects/user.effects';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    
+
     // NgRx
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppEffects, UserEffects]),
@@ -42,8 +42,8 @@ import { UserEffects } from './store/effects/user.effects';
   // Set router root to /
   providers: [
     {provide: APP_BASE_HREF, useValue: '/'},
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

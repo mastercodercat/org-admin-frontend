@@ -6,8 +6,8 @@ import { Fn, CfnOutput, RemovalPolicy } from '@aws-cdk/core';
 
 export interface DnsInfrastructureStackProps extends cdk.StackProps {
   domainName: string;
-  trustedAccounts?: string[]
-  parentDomainName?: string
+  trustedAccounts?: string[];
+  parentDomainName?: string;
 }
 
 
@@ -21,29 +21,28 @@ export class DnsInfrastructureStack extends cdk.Stack {
     const hostedZoneProps = {
       zoneName: `${props.domainName}`,
       crossAccountZoneDelegationPrincipal: props.trustedAccounts !== undefined ? new AccountPrincipal(props.trustedAccounts.pop()): undefined,
-      crossAccountZoneDelegationRoleName: props.trustedAccounts !== undefined ? `helm-dns-delegation-role-${this.node.addr.substring(0,10)}`: undefined
-    }
+      crossAccountZoneDelegationRoleName: props.trustedAccounts !== undefined ? `helm-dns-delegation-role-${this.node.addr.substring(0,10)}`: undefined,
+    };
 
     this.domain = new PublicHostedZone(this, 'helm-organizer-hosted-zone', hostedZoneProps);
 
-    this.domain.crossAccountZoneDelegationRole?.assumeRolePolicy?.addStatements(
-      new PolicyStatement({
-        actions: ['sts:AssumeRole'],
-        effect: Effect.ALLOW,
-        principals: props.trustedAccounts?.map(element => {
-          return new AccountPrincipal(element)
-        })
-      })
-    )
+    props.trustedAccounts?.map(element => {
+      this.domain.crossAccountZoneDelegationRole?.assumeRolePolicy?.addStatements(
+        new PolicyStatement({
+          actions: ['sts:AssumeRole'],
+          effect: Effect.ALLOW,
+          principals: [new AccountPrincipal(element)],
+        }),
+    )});
 
     if (this.domain.crossAccountZoneDelegationRole !== undefined){
       this.delegationRole = this.domain.crossAccountZoneDelegationRole.roleName;
 
-      const cfnDelegationRole = this.domain.crossAccountZoneDelegationRole.node.defaultChild as CfnRole;
-      cfnDelegationRole.applyRemovalPolicy(RemovalPolicy.DESTROY);
+      const delegationRole = this.domain.crossAccountZoneDelegationRole.node.defaultChild as Role;
+      delegationRole.applyRemovalPolicy(RemovalPolicy.DESTROY);
       new CfnOutput(this, 'delegation-role-name', {
-        value: this.domain.crossAccountZoneDelegationRole.roleName
-      })
+        value: this.domain.crossAccountZoneDelegationRole.roleName,
+      });
     }
 
     if (delegateDns){
@@ -55,8 +54,8 @@ export class DnsInfrastructureStack extends cdk.Stack {
           service: 'iam',
           region: '',
           account: this.node.tryGetContext('sharedServices').dns.accountId,
-          resourceName: this.node.tryGetContext('sharedServices').dns.delegationRoleName
-        }, this))
+          resourceName: this.node.tryGetContext('sharedServices').dns.delegationRoleName,
+        }, this)),
       });
     }
   }

@@ -13,26 +13,22 @@ export interface LoginState {
 export const initialState: LoginState = {
   success: false,
   failure: false,
-}
+};
 
 export const loginReducer = createReducer(
   initialState,
 
-  on(fromActions.loginSuccess, (state) => { 
-    return {
-      ...state,
-      success: true,
-      failure: false
-    }
-  }),
+  on(fromActions.loginSuccess, state => ({
+    ...state,
+    success: true,
+    failure: false,
+  })),
 
-  on(fromActions.loginFailure, (state, {error}) => {
-    return {
-      ...state,
-      success: false,
-      failure: true,
-      error
-    }
-  }),
+  on(fromActions.loginFailure, (state, {error}) => ({
+    ...state,
+    success: false,
+    failure: true,
+    error,
+  })),
 );
 

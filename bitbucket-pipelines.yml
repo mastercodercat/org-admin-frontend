@@ -65,6 +65,7 @@ definitions:
         script:
         - . bin/setup-bitbucket-iam-credentials
         - ./bin/deploy -s shared -a shared-infrastructure --stack helm-tld
+        - ./bin/deploy -s shared -a shared-infrastructure --stack helm-organizer-tld
     - step: &deploy-sandbox
         <<: *deploy-base
         deployment: test

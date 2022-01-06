@@ -10,23 +10,24 @@ import { UserState } from '../../store/reducers/user.reducer';
 import { BaseComponent } from '../../core/base/base.component';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { UserService } from '../../shared/services/user/user.service';
+import { Organization } from '../../shared/models/organization.model';
 
 @Component({
   selector: 'org-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  styleUrls: ['./login.component.less'],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
   loginForm: FormGroup;
-  showPassword: boolean = false;
-  emailPassNotValid: boolean = false;
+  showPassword = false;
+  emailPassNotValid = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private auth: AuthService,
     private store: Store<UserState>,
-    private userService: UserService,) {
+    private userService: UserService) {
     super();
     this.loginForm = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
@@ -34,7 +35,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Select login and org success value from store and if successful, navigate to home page
     this.store.pipe(select(fromAppSelectors.selectLoginOrgSuccess), takeUntil(this.ngUnsubscribe$))
       .subscribe(success => {
@@ -58,18 +59,18 @@ export class LoginComponent extends BaseComponent implements OnInit {
    *
    * @memberof LoginComponent
    */
-  login() {
+  login(): void {
     // Update form to show correct validation
     for (const i in this.loginForm.controls) {
-      if (this.loginForm.controls.hasOwnProperty(i)) {
+      if (Object.prototype.hasOwnProperty.call(this.loginForm.controls, i)) {
         this.loginForm.controls[i].markAsDirty();
         this.loginForm.controls[i].updateValueAndValidity();
       }
     }
     // If form is filled out correctly, try to log in
     if (this.loginForm.status === 'VALID') {
-      // Use auth service to send credentials to Auth0 
-      this.auth.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value);
+      // Use auth service to send credentials to Auth0
+      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
     }
   }
 
@@ -78,7 +79,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
    *
    * @memberof LoginComponent
    */
-  togglePassword() {
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
@@ -88,17 +89,22 @@ export class LoginComponent extends BaseComponent implements OnInit {
    * @private
    * @memberof LoginComponent
    */
-  private navigateHome() {
+  private navigateHome(): void {
     this.emailPassNotValid = false;
-    this.store.pipe(select(fromUserSelectors.selectOrganizationsCount), takeUntil(this.ngUnsubscribe$))
-      .subscribe((count: number) => {
-        if (count > 1) {
+    this.store.pipe(select(fromUserSelectors.selectAllOrganizations), takeUntil(this.ngUnsubscribe$))
+      .subscribe((org: Organization[]) => {
+        // If user has access to more than one organization we show them the select organizatiions screen
+        if (org?.length > 1) {
           this.router.navigate(['/select-organization']);
-        } else {
+        } else if (org?.length === 1) {
+          const orgUuid = org[0].uuid;
+          // If user has access to only one organization we set the selected org uuid and show them the dashboard screen
+          localStorage.setItem('selected_org', orgUuid);
+          this.userService.addSelectedOrganizationUuid(orgUuid);
           this.router.navigate(['/home']);
         }
       });
-    }
+  }
 
   /**
    * Show error explaining that login info may be incorrect
@@ -106,7 +112,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
    * @private
    * @memberof LoginComponent
    */
-  private showLoginError() {
+  private showLoginError(): void {
     this.emailPassNotValid = true;
   }
 }

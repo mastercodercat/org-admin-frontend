@@ -12,7 +12,7 @@ import { Organization } from '../shared/models/organization.model';
 @Component({
   selector: 'org-select-organization',
   templateUrl: './select-organization.component.html',
-  styleUrls: ['./select-organization.component.less']
+  styleUrls: ['./select-organization.component.less'],
 })
 export class SelectOrganizationComponent {
   userInfo$: Observable<UserState>;
@@ -22,9 +22,9 @@ export class SelectOrganizationComponent {
     private store: Store<AppState>,
     private auth: AuthService,
     private userService: UserService,
-    private router: Router) { 
-      this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
-      this.orgList$ = this.store.pipe(select(fromUserSelectors.selectAllOrganizations));
+    private router: Router) {
+    this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
+    this.orgList$ = this.store.pipe(select(fromUserSelectors.selectAllOrganizations));
   }
 
   /**
@@ -33,7 +33,7 @@ export class SelectOrganizationComponent {
    * @param {string} orgUuid
    * @memberof SelectOrganizationComponent
    */
-  selectOrg(orgUuid: string) {
+  selectOrg(orgUuid: string): void {
     localStorage.setItem('selected_org', orgUuid);
     this.userService.addSelectedOrganizationUuid(orgUuid);
     this.router.navigate(['/home']);

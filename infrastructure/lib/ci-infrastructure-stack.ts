@@ -15,25 +15,25 @@ export class ContinuousIntegrationInfrastructureStack extends cdk.Stack {
     super(scope, id, props);
 
     // Resources
-    const oidcProvider = new OpenIdConnectProvider(this, "helm-organizer-frontend-oidc-provider", {
+    const oidcProvider = new OpenIdConnectProvider(this, 'helm-organizer-frontend-oidc-provider', {
       url: props.oidcProviderUrl,
-      clientIds: props.bitbucketWorkspaceIDs
+      clientIds: props.bitbucketWorkspaceIDs,
     });
 
-    const providerArnParameter = new StringParameter(this, "helm-organizer-frontend-oidc-provider-parameter", {
+    const providerArnParameter = new StringParameter(this, 'helm-organizer-frontend-oidc-provider-parameter', {
       stringValue: oidcProvider.openIdConnectProviderArn,
-      parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`
+      parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
     });
 
-    const bitbucketPipelinesRole = new Role(this, "helm-organizer-frontend-bitbucket-pipelines-role", {
+    const bitbucketPipelinesRole = new Role(this, 'helm-organizer-frontend-bitbucket-pipelines-role', {
       assumedBy: new OpenIdConnectPrincipal(oidcProvider),
-      managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess")],
-      roleName: `helm-bitbucket-${props.stage.toLowerCase()}`
+      managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
+      roleName: `helm-bitbucket-${props.stage.toLowerCase()}`,
     });
 
-    new CfnOutput(this, "pipeline-role", {
+    new CfnOutput(this, 'pipeline-role', {
       value: bitbucketPipelinesRole.roleArn,
-      description: "ARN for the bitbucket pipelines role"
+      description: 'ARN for the bitbucket pipelines role',
     });
   }
 }

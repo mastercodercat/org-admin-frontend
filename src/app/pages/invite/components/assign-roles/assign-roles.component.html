@@ -1,24 +1,14 @@
 <div class="assign-roles">
   <i nz-icon nzType="user-add" nzTheme="outline" class="fs-1"></i>
   <h4 class="mt-3" nz-typography>Assign members to roles</h4>
-  <p>
-    <strong>{{ invites.length }} </strong>contacts were recognized in this file
-    and will be added to Murmuration’s members list. Review and assign these
-    members to roles.
-  </p>
+  <p><strong>{{ invites.length }} </strong>contacts were recognized in this file and will be added to Murmuration’s
+    members list. Review and assign these members to roles.</p>
 
   <nz-form-item class="mt-4">
     <nz-form-label>Assign all members to the role</nz-form-label>
     <nz-form-control>
-      <nz-radio-group
-        [nzName]="'role'"
-        ngDefaultControl
-        [(ngModel)]="defaultRole"
-        (ngModelChange)="handleDefaultRoleChange($event)"
-      >
-        <label nz-radio [nzValue]="role" *ngFor="let role of roles">{{
-          role.name
-        }}</label>
+      <nz-radio-group [(ngModel)]="defaultRole" (ngModelChange)="handleDefaultRoleChange($event)">
+        <label nz-radio [nzValue]="role" *ngFor="let role of roles">{{ role.name }}</label>
       </nz-radio-group>
     </nz-form-control>
   </nz-form-item>
@@ -35,21 +25,12 @@
       <tr *ngFor="let data of basicTable.data; index as key">
         <td>{{ key + 1 }}</td>
         <td>
-          <input
-            nz-input
-            [(ngModel)]="data.email"
-            placeholder="borderless"
-            nzBorderless
-          />
+          <input nz-input [(ngModel)]="data.email" placeholder="borderless" nzBorderless />
         </td>
         <td>
           <div class="assign-roles__roles">
             <nz-select [(ngModel)]="data.role" nzPlaceHolder="Select a role">
-              <nz-option
-                [nzValue]="role"
-                *ngFor="let role of roles"
-                [nzLabel]="role.name"
-              ></nz-option>
+              <nz-option [nzValue]="role" *ngFor="let role of roles" [nzLabel]="role.name"></nz-option>
             </nz-select>
           </div>
         </td>
@@ -57,11 +38,10 @@
     </tbody>
   </nz-table>
   <div nz-row nzAlign="middle" class="mt-4">
-    <div nz-col nzFlex="auto"></div>
+    <div nz-col nzFlex="auto">
+    </div>
     <div nz-col>
-      <button nz-button nzType="primary" (click)="handleSendInvite()">
-        Send invite
-      </button>
+      <button nz-button nzType="primary" (click)="handleSendInvite()">Send invite</button>
     </div>
   </div>
 </div>

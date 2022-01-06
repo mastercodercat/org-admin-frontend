@@ -21,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
 
     SelectOrganizationRoutingModule,
-  ]
+  ],
 })
 
 export class SelectOrganizationModule {

@@ -8,10 +8,10 @@
   </div>
 </td>
 <td class="align-baseline">
-  <a [routerLink]="['/profile', member.uuid]">{{ member.email }}</a>
+  {{ member.email }}
 </td>
 <td class="align-baseline">
-  <a [routerLink]="['/profile', member.uuid]">{{ member.phone }}</a>
+  {{ member.phone }}
 </td>
 <td class="align-baseline">
   <div *ngFor="let organizationUser of member.organizationUsers; let i = index">

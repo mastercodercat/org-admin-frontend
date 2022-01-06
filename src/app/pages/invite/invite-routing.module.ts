@@ -5,13 +5,13 @@ import { InviteComponent } from './invite.component';
 const routes: Routes = [
   {
     path: '**',
-    component: InviteComponent
-  }
+    component: InviteComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 
 export class InviteRoutingModule {

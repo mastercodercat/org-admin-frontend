@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { OrganizationService } from '../../../../select-organization/services/organization.service';
 import { Member } from './member';
-
-// TODO: Move to service component
-import { FindMembersGQL } from 'src/app/shared/services/graphql/graphql.service';
-import { take } from 'rxjs/operators';
-import { OrganizationService } from 'src/app/select-organization/services/organization.service';
-
+import { User } from '../../../../shared/models/user.model';
 
 @Component({
   selector: 'org-admin-members',
@@ -14,17 +10,15 @@ import { OrganizationService } from 'src/app/select-organization/services/organi
 })
 export class MembersComponent implements OnInit {
   members: Member[] = [];
-  isLoading: boolean = true;
+  isLoading = true;
 
-  constructor(private findMembersService: FindMembersGQL, 
-              private organizationService: OrganizationService) {}
+  constructor(private organizationService: OrganizationService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.organizationService.getUsers().subscribe(result => {
-        this.members = this.organizationService.mapUsersToMembers((result?.data.users || []))
-        this.isLoading = false;
-      }
-    )
+      this.members = this.organizationService.mapUsersToMembers((result?.data.users as User[]));
+      this.isLoading = false;
+    });
   }
 
 }

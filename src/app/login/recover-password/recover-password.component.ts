@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RequestUserPasswordResetGQL } from 'src/app/shared/services/graphql/graphql.service';
+import { RequestUserPasswordResetGQL } from '../../shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-recover-password',
   templateUrl: './recover-password.component.html',
-  styleUrls: ['./recover-password.component.less']
+  styleUrls: ['./recover-password.component.less'],
 })
 export class RecoverPasswordComponent implements OnInit {
   recoverPasswordForm!: FormGroup;
@@ -24,10 +24,10 @@ export class RecoverPasswordComponent implements OnInit {
    *
    * @memberof RecoverPasswordComponent
    */
-  resetPassword() {
-    const email = this.recoverPasswordForm.get('email')?.value;
+  resetPassword(): void {
+    const email = this.recoverPasswordForm.get('email')?.value as string;
     this.requestPasswordChange.mutate({ email })
-      .subscribe(res => {
+      .subscribe(() => {
         this.router.navigate(['/login/request-sent']);
       });
   }

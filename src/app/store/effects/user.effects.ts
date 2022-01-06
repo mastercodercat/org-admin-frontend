@@ -14,10 +14,10 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(fromActions.requestUserInfo),
       tap(() => {
-        this.userService.getUserInfo()
-      })
+        this.userService.getUserInfo();
+      }),
     ),
-    { dispatch: false }
+  { dispatch: false },
   );
 
   requestUserOrganizations$ = createEffect(() =>
@@ -25,10 +25,10 @@ export class UserEffects {
       ofType(fromActions.requestOrganizations),
       switchMap(() => this.orgService.getOrganizations()
         .pipe(
-          map(result => fromActions.requestOrganizationsSuccess({ organizations: result.data.myOrganizations as Organization[] }))
-        )
-      )
-    )
+          map(result => fromActions.requestOrganizationsSuccess({ organizations: result.data.myOrganizations as Organization[] })),
+        ),
+      ),
+    ),
   );
 
   constructor(private actions$: Actions, private userService: UserService, private orgService: OrganizationService) {}

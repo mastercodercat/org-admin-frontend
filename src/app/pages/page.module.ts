@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FormsModule } from '@angular/forms';
 
 import { environment } from 'src/environments/environment';
 
@@ -15,7 +16,6 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [

@@ -8,12 +8,12 @@ export const requestUserInfo = createAction(
 
 export const addUserInfo = createAction(
   '[User] Add user info',
-  props<{ user: User }>()
+  props<{ user: User }>(),
 );
 
 export const addSelectedOrgUuid = createAction(
   '[User] Add selected organization uuid',
-  props<{ selectedOrganizationUuid: string }>()
+  props<{ selectedOrganizationUuid: string }>(),
 );
 
 export const requestOrganizations = createAction(
@@ -22,7 +22,7 @@ export const requestOrganizations = createAction(
 
 export const requestOrganizationsSuccess = createAction(
   '[Organization] Request user organizations success',
-  props<{ organizations: Organization[] }>()
+  props<{ organizations: Organization[] }>(),
 );
 
 export const requestOrganizationsFailure = createAction(

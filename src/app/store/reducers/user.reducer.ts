@@ -6,11 +6,11 @@ import * as fromActions from '../actions/user.actions';
 export const userFeatureKey = 'user';
 
 export interface UserState extends EntityState<Organization> {
-  email: string | undefined;
+  email: string;
   name: string;
   nickname: string;
   picture: string;
-  selectedOrganizationUuid?: string;
+  selectedOrganizationUuid: string;
   addOrgsSuccess: boolean;
   addOrgsFailure: boolean;
 }
@@ -23,6 +23,7 @@ export const initialState: UserState = adapter.getInitialState({
   name: '',
   nickname: '',
   picture: '',
+  selectedOrganizationUuid: '',
   addOrgsSuccess: false,
   addOrgsFailure: false,
 });
@@ -30,39 +31,31 @@ export const initialState: UserState = adapter.getInitialState({
 
 export const userReducer = createReducer(
   initialState,
-  
-  on(fromActions.addUserInfo, (state, { user }) => {
-    return {
-      ...state,
-      email: user.email,
-      name: user.name,
-      nickname: user.nickname,
-      picture: user.picture,
-    }
-  }),
 
-  on(fromActions.addSelectedOrgUuid, (state, { selectedOrganizationUuid }) => {
-    return {
-      ...state,
-      selectedOrganizationUuid,
-    }
-  }),
+  on(fromActions.addUserInfo, (state, { user }) => ({
+    ...state,
+    email: user.email,
+    name: user.name,
+    nickname: user.nickname,
+    picture: user.picture,
+  })),
 
-  on(fromActions.requestOrganizationsSuccess, (state, { organizations }) => {
-    return adapter.addMany(organizations, {
-      ...state,
-      addOrgsSuccess: true,
-      addOrgsFailure: false,
-    });
-  }),
+  on(fromActions.addSelectedOrgUuid, (state, { selectedOrganizationUuid }) => ({
+    ...state,
+    selectedOrganizationUuid,
+  })),
 
-  on(fromActions.requestOrganizationsFailure, (state) => {
-    return {
-      ...state,
-      addOrgsFailure: true,
-      addOrgsSuccess: false,
-    }
-  }),
+  on(fromActions.requestOrganizationsSuccess, (state, { organizations }) => adapter.addMany(organizations, {
+    ...state,
+    addOrgsSuccess: true,
+    addOrgsFailure: false,
+  })),
+
+  on(fromActions.requestOrganizationsFailure, state => ({
+    ...state,
+    addOrgsFailure: true,
+    addOrgsSuccess: false,
+  })),
 );
 
 export const {

@@ -24,8 +24,13 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
 
 @NgModule({
-  declarations: [PasswordValidatorComponent],
-  imports: [NzTypographyModule, NzIconModule],
+  declarations: [
+    PasswordValidatorComponent,
+  ],
+  imports: [
+    NzTypographyModule,
+    NzIconModule,
+  ],
   exports: [
     CommonModule,
     ReactiveFormsModule,

@@ -24,10 +24,6 @@ query findUser($uuid: ID!) {
   }
 }
 
-mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
-  acceptOrganizationUserInvite(input: $input)
-}
-
 query findMembers($search: String) {
   users(search: $search) {
     uuid
@@ -57,6 +53,10 @@ query validateAssociationToken($token: String!) {
   }
 }
 
+query validatePasswordResetToken($token: String!) {
+  validatePasswordResetToken(token: $token)
+}
+
 mutation requestUserPasswordReset($email: String!) {
   requestUserPasswordReset(email: $email)
 }
@@ -69,4 +69,8 @@ mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
       uuid
   }
+}
+
+mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
+  acceptOrganizationUserInvite(input: $input)
 }

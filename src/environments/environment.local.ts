@@ -16,5 +16,5 @@ export const environment = {
   httpInterceptor: {
     allowedList: [api + '/*'],
   },
-  hmr: false
+  hmr: false,
 };

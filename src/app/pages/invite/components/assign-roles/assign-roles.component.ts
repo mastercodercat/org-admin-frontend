@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Invite, Role } from '../../invite.component';
+import { Role } from '../../../../shared/models/role.model';
+import { Invite } from '../../invite.component';
 
 @Component({
   selector: 'org-assign-roles',
   templateUrl: './assign-roles.component.html',
-  styleUrls: ['./assign-roles.component.less']
+  styleUrls: ['./assign-roles.component.less'],
 })
 export class AssignRolesComponent implements OnInit {
   @Input() emails: string[] = [];
@@ -12,7 +13,7 @@ export class AssignRolesComponent implements OnInit {
   @Output() sendInvite = new EventEmitter();
 
   invites: Invite[] = [];
-  defaultRole: Role | undefined;
+  defaultRole!: Role;
 
   constructor() {}
 
@@ -24,14 +25,14 @@ export class AssignRolesComponent implements OnInit {
     }));
   }
 
-  handleDefaultRoleChange(role: Role) {
+  handleDefaultRoleChange(role: Role): void {
     this.invites = this.invites.map(invite => ({
       email: invite.email,
       role,
     }));
   }
 
-  handleSendInvite() {
+  handleSendInvite(): void {
     this.sendInvite.emit(this.invites);
   }
 }

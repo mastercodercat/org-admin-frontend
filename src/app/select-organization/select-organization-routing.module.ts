@@ -5,13 +5,13 @@ import { SelectOrganizationComponent } from './select-organization.component';
 const routes: Routes = [
   {
     path: '**',
-    component: SelectOrganizationComponent
-  }
+    component: SelectOrganizationComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 
 export class SelectOrganizationRoutingModule {

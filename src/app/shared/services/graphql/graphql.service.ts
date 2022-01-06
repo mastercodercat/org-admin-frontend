@@ -28,6 +28,16 @@ export type AcceptOrganizationUserInputUser = {
   password?: Maybe<Scalars['String']>;
 };
 
+export enum ActivityLogEnum {
+  Create = 'CREATE',
+  Update = 'UPDATE',
+  Delete = 'DELETE',
+  Remove = 'REMOVE',
+  Suspend = 'SUSPEND',
+  Activate = 'ACTIVATE',
+  Block = 'BLOCK'
+}
+
 export type AssignRolePermissionInput = {
   roleUuid: Scalars['String'];
   permissionUuid: Scalars['String'];
@@ -297,6 +307,20 @@ export type QueryValidatePasswordResetTokenArgs = {
 export type ResetUserPasswordInput = {
   token: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type SchemaActivityLog = {
+  __typename?: 'SchemaActivityLog';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<SchemaUser>;
+  userUuid?: Maybe<Scalars['ID']>;
+  organization?: Maybe<SchemaOrganization>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  action?: Maybe<ActivityLogEnum>;
+  modelName?: Maybe<Scalars['String']>;
+  modelUuid?: Maybe<Scalars['ID']>;
 };
 
 export type SchemaOrganization = {
@@ -738,16 +762,6 @@ export type FindUserQuery = (
   )> }
 );
 
-export type AcceptOrganizationUserInviteMutationVariables = Exact<{
-  input: AcceptOrganizationUserInput;
-}>;
-
-
-export type AcceptOrganizationUserInviteMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'acceptOrganizationUserInvite'>
-);
-
 export type FindMembersQueryVariables = Exact<{
   search?: Maybe<Scalars['String']>;
 }>;
@@ -785,6 +799,16 @@ export type ValidateAssociationTokenQuery = (
   )> }
 );
 
+export type ValidatePasswordResetTokenQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type ValidatePasswordResetTokenQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'validatePasswordResetToken'>
+);
+
 export type RequestUserPasswordResetMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -816,6 +840,16 @@ export type UpdateUserMutation = (
     { __typename?: 'SchemaUser' }
     & Pick<SchemaUser, 'uuid'>
   )> }
+);
+
+export type AcceptOrganizationUserInviteMutationVariables = Exact<{
+  input: AcceptOrganizationUserInput;
+}>;
+
+
+export type AcceptOrganizationUserInviteMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'acceptOrganizationUserInvite'>
 );
 
 export const FindOrganizationsDocument = gql`
@@ -1116,22 +1150,6 @@ export const FindUserDocument = gql`
       super(apollo);
     }
   }
-export const AcceptOrganizationUserInviteDocument = gql`
-    mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
-  acceptOrganizationUserInvite(input: $input)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcceptOrganizationUserInviteGQL extends Apollo.Mutation<AcceptOrganizationUserInviteMutation, AcceptOrganizationUserInviteMutationVariables> {
-    document = AcceptOrganizationUserInviteDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const FindMembersDocument = gql`
     query findMembers($search: String) {
   users(search: $search) {
@@ -1185,6 +1203,22 @@ export const ValidateAssociationTokenDocument = gql`
       super(apollo);
     }
   }
+export const ValidatePasswordResetTokenDocument = gql`
+    query validatePasswordResetToken($token: String!) {
+  validatePasswordResetToken(token: $token)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidatePasswordResetTokenGQL extends Apollo.Query<ValidatePasswordResetTokenQuery, ValidatePasswordResetTokenQueryVariables> {
+    document = ValidatePasswordResetTokenDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const RequestUserPasswordResetDocument = gql`
     mutation requestUserPasswordReset($email: String!) {
   requestUserPasswordReset(email: $email)
@@ -1230,6 +1264,22 @@ export const UpdateUserDocument = gql`
   })
   export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
     document = UpdateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AcceptOrganizationUserInviteDocument = gql`
+    mutation acceptOrganizationUserInvite($input: AcceptOrganizationUserInput!) {
+  acceptOrganizationUserInvite(input: $input)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptOrganizationUserInviteGQL extends Apollo.Mutation<AcceptOrganizationUserInviteMutation, AcceptOrganizationUserInviteMutationVariables> {
+    document = AcceptOrganizationUserInviteDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

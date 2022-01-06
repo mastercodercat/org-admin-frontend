@@ -1,28 +1,28 @@
 <h1>Create an Organization</h1>
 <form nz-form [formGroup]="createOrgForm" (ngSubmit)="createOrg()">
   <nz-form-item>
-    <nz-form-control>
-      <nz-select formControlName="subscriptionType" nzPlaceHolder="Select Subscription">
+    <nz-form-control nzErrorTip="Please select a Subscription.">
+      <nz-select nzRequired formControlName="subscriptionType" nzPlaceHolder="Select Subscription">
         <nz-option *ngFor="let sub of subTypes" [nzValue]="sub[1]" [nzLabel]="sub[0]"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control>
-      <input nz-input formControlName="orgName" type="text" placeholder="Organization Name"/>
+    <nz-form-control nzErrorTip="Please enter an Organization Name.">
+      <input nz-input nzRequired formControlName="orgName" type="text" placeholder="Organization Name" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control>
-      <nz-select formControlName="orgType" nzPlaceHolder="Select Organization Type">
+    <nz-form-control nzErrorTip="Please select an Organization Type.">
+      <nz-select nzRequired formControlName="orgType" nzPlaceHolder="Select Organization Type">
         <nz-option *ngFor="let org of orgTypes" [nzValue]="org[1]" [nzLabel]="org[0]"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="emailNotValid">
-      <input nz-input nzRequired formControlName="adminEmail" type="email" placeholder="Email"/>
-      <ng-template #emailNotValid><div class="px-3 py-2 mb-3 mt-1 validation-error">Please enter a valid email</div></ng-template>
+    <nz-form-control [nzSm]="0" [nzXs]="0" nzErrorTip="Please enter a valid E-mail address.">
+      <input nz-input nzRequired formControlName="adminEmail" id="email" type="email"
+        placeholder="Administrator's Email" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

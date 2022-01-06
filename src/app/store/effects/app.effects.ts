@@ -11,11 +11,11 @@ export class AppEffects {
       ofType(ROOT_EFFECTS_INIT),
       switchMap(() => [
         fromUserActions.requestUserInfo(),
-        fromUserActions.addSelectedOrgUuid({ selectedOrganizationUuid: localStorage.getItem('selected_org') as string }),
         fromUserActions.requestOrganizations(),
-      ])
-    )
-  )
+        fromUserActions.addSelectedOrgUuid({ selectedOrganizationUuid: localStorage.getItem('selected_org') || '' }),
+      ]),
+    ),
+  );
 
   constructor(private actions$: Actions) {}
 

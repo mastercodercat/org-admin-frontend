@@ -1,22 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromUserSelectors from '../../store/selectors/user.selectors';
-import { AppState } from 'src/app/store/reducers';
-import { UserState } from 'src/app/store/reducers/user.reducer';
 import { take } from 'rxjs/operators';
-import { FindOrganizationsWithRolesGQL, FindRolesGQL, FindUserGQL, SendInvitationGQL, StatusEnum, UpdateOrganizationUserGQL, UpdateUserGQL, SchemaUser, DeleteOrganizationUserGQL } from 'src/app/shared/services/graphql/graphql.service';
-import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import * as fromUserSelectors from '../../store/selectors/user.selectors';
+import {
+  FindOrganizationsWithRolesGQL,
+  FindRolesGQL,
+  FindUserGQL,
+  SendInvitationGQL,
+  StatusEnum,
+  UpdateOrganizationUserGQL,
+  UpdateUserGQL,
+  DeleteOrganizationUserGQL,
+} from '../../shared/services/graphql/graphql.service';
+import { UserState } from '../../store/reducers/user.reducer';
+import { AppState } from '../../store/reducers';
+import { User } from '../../shared/models/user.model';
+import { Organization } from '../../shared/models/organization.model';
+import { Role } from '../../shared/models/role.model';
+import { OrganizationUsers } from '../admin/components/members/member';
 
 @Component({
   selector: 'org-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.less']
+  styleUrls: ['./profile.component.less'],
 })
 export class ProfileComponent implements OnInit {
   userInfo$!: Observable<UserState>;
-  user: SchemaUser | undefined;
+  user: User | undefined;
   userRole: any = {};
   organizationRoles: any = {};
 
@@ -44,9 +57,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
-    const uuid: string = this.route.snapshot.paramMap.get('id') as string;
-    this.findUserService.fetch({ uuid: uuid }).pipe(take(1)).subscribe(result => {
-      this.user = <SchemaUser>result.data.user;
+    const uuid: string = this.route.snapshot.paramMap.get('id') || '';
+    this.findUserService.fetch({ uuid }).pipe(take(1)).subscribe(result => {
+      this.user = result.data.user as User;
 
       (this.user.organizationUsers || []).map(organizationUser => {
         this.userRole[organizationUser?.organizationUuid || ''] = organizationUser?.role;
@@ -55,18 +68,18 @@ export class ProfileComponent implements OnInit {
           this.title = organizationUser.title || '';
         }
 
-        this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid as string}).pipe(take(1)).subscribe(result => {
+        this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid }).pipe(take(1)).subscribe(result => {
           this.organizationRoles[organizationUser?.organizationUuid || ''] = result.data.roles || [];
         });
       });
 
       this.findOrganizationsService.fetch().pipe(take(1)).subscribe(result => {
-        this.mapOrganizations(result.data.organizations || []);
+        this.mapOrganizations(result.data.organizations as Organization[] || []);
       });
     });
   }
 
-  mapOrganizations(organizations: any[]) {
+  mapOrganizations(organizations: Organization[]): void {
     (organizations || []).map(organization => {
       if (this.user?.organizationUsers?.findIndex(organizationUser => organizationUser?.organizationUuid === organization.uuid) === -1) {
         this.organizations.push({
@@ -83,54 +96,54 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  openRoleUpdate(organization: any, role: any) {
-    this.changeOrganization = organization
+  openRoleUpdate(organization: Organization | OrganizationUsers, role: Role): void {
+    this.changeOrganization = organization;
     this.changeUserRole = role;
   }
 
-  handleChangeRoleCancel() {
+  handleChangeRoleCancel(): void {
     this.changeOrganization = undefined;
   }
 
-  openRemoveModal(organization: any) {
+  openRemoveModal(organization: Organization | OrganizationUsers): void {
     this.removeOrganization = organization;
   }
 
-  handleRemoveCancel() {
+  handleRemoveCancel(): void {
     this.removeOrganization = undefined;
   }
 
-  handleOpenAddModal(organization: any) {
+  handleOpenAddModal(organization: Organization): void {
     this.addOrganization = organization;
   }
 
-  handleAddCancel() {
+  handleAddCancel(): void {
     this.addOrganization = '';
   }
 
-  handleChangeRole() {
+  handleChangeRole(): void {
     this.updateOrganizationUserService.mutate({
       input: {
         uuid: this.changeOrganization.uuid,
         roleUuid: this.changeUserRole.uuid,
-      }
-    }).subscribe((result) => {
+      },
+    }).subscribe(result => {
       this.userRole[result.data?.updateOrganizationUser?.organizationUuid || ''] = this.changeUserRole;
     });
 
     this.changeOrganization = '';
   }
 
-  handleRemove() {
+  handleRemove(): void {
     this.deleteOrganizationUser.mutate({
       uuid: this.removeOrganization.uuid,
-    }).subscribe((result) => {
+    }).subscribe(result => {
       if (this.user?.organizationUsers) {
         const newOrganizationUsers = (this.user.organizationUsers || []).map(organizationUser => {
           if (organizationUser) {
-            let newOrganizationUser = { ...organizationUser };
+            const newOrganizationUser = { ...organizationUser };
             if (organizationUser && organizationUser?.organizationUuid === result.data?.deleteOrganizationUser?.organizationUuid) {
-              newOrganizationUser['status'] = StatusEnum.Deleted;
+              newOrganizationUser.status = StatusEnum.Deleted;
             }
             return newOrganizationUser;
           }
@@ -139,41 +152,41 @@ export class ProfileComponent implements OnInit {
 
         this.user = {
           ...this.user,
-          organizationUsers: newOrganizationUsers
-        }
+          organizationUsers: newOrganizationUsers,
+        };
       }
     });
 
     this.handleRemoveCancel();
   }
 
-  handlePhoneNumberChange(ev: any) {
+  handlePhoneNumberChange(ev: Event): void {
     this.updateUserService.mutate({
       input: {
         uuid: this.user?.uuid || '',
-        phone: ev.target.value,
-      }
+        phone: (ev.target as HTMLInputElement).value,
+      },
     }).subscribe();
   }
 
-  handleAdd() {
+  handleAdd(): void {
     this.sendInvitationService.mutate({
       input: {
         organizationUuid: this.addOrganization.uuid || '',
         users: [{
           email: this.user?.email || '',
-          roleUuid: this.addOrganization.roles[0].uuid
+          roleUuid: this.addOrganization.roles[0].uuid,
         }],
-      }
+      },
     }).subscribe(result => {
       if ((result.data?.inviteOrganizationUsers?.invitedUsers?.length || 0) > 0) {
         const orgUuid = result.data?.inviteOrganizationUsers?.organizationUuid || '';
-        this.organizations = this.organizations.filter(organization => organization.uuid !== orgUuid)
+        this.organizations = this.organizations.filter(organization => organization.uuid !== orgUuid);
 
         this.notification.blank(
           'Invitation Sent',
           'We have sent user invitation for the organization',
-          { nzPlacement: 'bottomLeft' }
+          { nzPlacement: 'bottomLeft' },
         );
       }
     });

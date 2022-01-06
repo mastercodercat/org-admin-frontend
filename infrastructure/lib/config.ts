@@ -17,102 +17,102 @@ export const tld = 'helmahead.com';
 const version = process.env.BITBUCKET_COMMIT || 'latest';
 
 export function getCiEnvironment(stage: string): ContinuousIntegrationInfrastructureStackProps {
-    // CI specific stack properties
+  // CI specific stack properties
 
-    // BitBucket workspaces allowed to assume the role
-    const bitbucketWorkspaceIDs = [
-        'ari:cloud:bitbucket::workspace/f6b518b1-465f-4baa-94e6-f864a8f5b6a3'
-    ];
+  // BitBucket workspaces allowed to assume the role
+  const bitbucketWorkspaceIDs = [
+    'ari:cloud:bitbucket::workspace/f6b518b1-465f-4baa-94e6-f864a8f5b6a3',
+  ];
 
-    // OIDC Provider URL
-    const bitbucketProviderUrl = 'https://api.bitbucket.org/2.0/workspaces/elite50/pipelines-config/identity/oidc';
+  // OIDC Provider URL
+  const bitbucketProviderUrl = 'https://api.bitbucket.org/2.0/workspaces/elite50/pipelines-config/identity/oidc';
 
 
-    const environmentForStage: {[key:string]: ContinuousIntegrationInfrastructureStackProps} = {
-        sandbox: {
-            env: sandbox,
-            oidcProviderUrl: bitbucketProviderUrl,
-            bitbucketWorkspaceIDs: bitbucketWorkspaceIDs,
-            stage: 'sandbox'
-        },
-        staging: {
-            env: staging,
-            oidcProviderUrl: bitbucketProviderUrl,
-            bitbucketWorkspaceIDs: bitbucketWorkspaceIDs,
-            stage: 'staging'
-        },
-        production: {
-            env: production,
-            oidcProviderUrl: bitbucketProviderUrl,
-            bitbucketWorkspaceIDs: bitbucketWorkspaceIDs,
-            stage: 'production'
-        },
-    };
+  const environmentForStage: {[key: string]: ContinuousIntegrationInfrastructureStackProps} = {
+    sandbox: {
+      env: sandbox,
+      oidcProviderUrl: bitbucketProviderUrl,
+      bitbucketWorkspaceIDs,
+      stage: 'sandbox',
+    },
+    staging: {
+      env: staging,
+      oidcProviderUrl: bitbucketProviderUrl,
+      bitbucketWorkspaceIDs,
+      stage: 'staging',
+    },
+    production: {
+      env: production,
+      oidcProviderUrl: bitbucketProviderUrl,
+      bitbucketWorkspaceIDs,
+      stage: 'production',
+    },
+  };
 
-    if (environmentForStage[stage] === undefined) {
-        throw `No configuration found for ${stage}!`;
-    }
+  if (environmentForStage[stage] === undefined) {
+    throw `No configuration found for ${stage}!`;
+  }
 
-    return environmentForStage[stage];
+  return environmentForStage[stage];
 }
 
 
 export function getAppEnvironment(stage: string): AppInfrastructureStackProps {
-    // Infrastructure stack properties
-    const environmentForStage: {[key:string]: AppInfrastructureStackProps} = {
-        sandbox: {
-            env: sandbox,
-            bucketName: 'sandbox-beta.organizer.com',
-            version: version
-        },
-        staging: {
-            env: staging,
-            bucketName: 'staging-beta.organizer.com',
-            version: version
-        },
-        production: {
-            env: production,
-            bucketName: 'beta.organizer.com',
-            version: version
-        },
-    };
+  // Infrastructure stack properties
+  const environmentForStage: {[key: string]: AppInfrastructureStackProps} = {
+    sandbox: {
+      env: sandbox,
+      bucketName: 'sandbox-beta.organizer.com',
+      version,
+    },
+    staging: {
+      env: staging,
+      bucketName: 'staging-beta.organizer.com',
+      version,
+    },
+    production: {
+      env: production,
+      bucketName: 'beta.organizer.com',
+      version,
+    },
+  };
 
 
-    if (environmentForStage[stage] === undefined) {
-        throw `No configuration found for ${stage}!`;
-    }
+  if (environmentForStage[stage] === undefined) {
+    throw `No configuration found for ${stage}!`;
+  }
 
-    return environmentForStage[stage];
+  return environmentForStage[stage];
 
 }
 
 export function getDnsEnvironment(stage: string): DnsInfrastructureStackProps {
-    // Infrastructure stack properties
-    const environmentForStage: {[key:string]: DnsInfrastructureStackProps} = {
-        shared: {
-            domainName: `organizer.${tld}`
-        },
-        sandbox: {
-            env: sandbox,
-            domainName: `sandbox.app.organizer.${tld}`,
-            parentDomainName: tld
-        },
-        staging: {
-            env: staging,
-            domainName: `staging.app.organizer.${tld}`,
-            parentDomainName: tld
-        },
-        production: {
-            env: production,
-            domainName: `app.organizer.${tld}`,
-            parentDomainName: tld
-        },
-    };
+  // Infrastructure stack properties
+  const environmentForStage: {[key: string]: DnsInfrastructureStackProps} = {
+    shared: {
+      domainName: `organizer.${tld}`,
+    },
+    sandbox: {
+      env: sandbox,
+      domainName: `sandbox.app.organizer.${tld}`,
+      parentDomainName: tld,
+    },
+    staging: {
+      env: staging,
+      domainName: `staging.app.organizer.${tld}`,
+      parentDomainName: tld,
+    },
+    production: {
+      env: production,
+      domainName: 'beta.app.organizer.com',
+      parentDomainName: 'organizer.com'
+    },
+  };
 
-    if (environmentForStage[stage] === undefined) {
-        throw `No configuration found for ${stage}!`;
-    }
+  if (environmentForStage[stage] === undefined) {
+    throw `No configuration found for ${stage}!`;
+  }
 
-    return environmentForStage[stage];
+  return environmentForStage[stage];
 
 }
