@@ -19,7 +19,6 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzIconTestModule } from 'ng-zorro-antd/icon/testing';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
@@ -53,7 +52,6 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzNotificationModule,
     NzPopoverModule,
     PasswordValidatorComponent,
-    NzIconTestModule,
   ],
   providers: [],
 })
