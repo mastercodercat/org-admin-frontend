@@ -17,4 +17,8 @@ describe('UserService', () => {
   });
 
   beforeEach(() => (spectator = createService()));
+
+  it('should create', () => {
+    expect(spectator.service).toBeTruthy();
+  });
 });
