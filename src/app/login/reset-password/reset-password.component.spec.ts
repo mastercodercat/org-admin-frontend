@@ -18,6 +18,7 @@ import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { ResetPasswordComponent } from './reset-password.component';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
+import { Observable } from 'rxjs';
 
 const icons: IconDefinition[] = [WarningOutline, UserOutline];
 
@@ -47,7 +48,13 @@ describe('ResetPasswordComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        isTokenValid$: new Observable<boolean>((observer) => {
+          observer.next(true);
+        }),
+      },
+    });
     spectator.detectChanges();
   });
 
@@ -56,7 +63,6 @@ describe('ResetPasswordComponent', () => {
     expect(spectator.query('.reset-password-form')).toExist();
     expect(spectator.query(byPlaceholder('Password'))).toExist();
     expect(spectator.query('a')).toHaveExactText('View Password');
-    expect(spectator.query(byText('Forgot password?'))).toExist();
     expect(spectator.query(byPlaceholder('Password Confirmation'))).toExist();
     expect(spectator.query('.change-password-btn')).toHaveText('Continue');
     expect(spectator.query('.change-password-btn')).toBeDisabled();
@@ -76,16 +82,6 @@ describe('ResetPasswordComponent', () => {
       'type',
       'text'
     );
-  });
-
-  it('should go to ForgotPassword page after clicking forgot password link', async () => {
-    await spectator.fixture.whenStable();
-
-    spectator.click(spectator.query(byText('Forgot password?')) as HTMLElement);
-
-    await spectator.fixture.whenStable();
-
-    expect(spectator.inject(Location).path()).toBe('/login/recover-password');
   });
 
   it('should render validation error when password and confirmation do not match', () => {

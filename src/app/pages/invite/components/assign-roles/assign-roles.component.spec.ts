@@ -37,20 +37,15 @@ describe('AssignRolesComponent', () => {
   };
 
   beforeEach(() => {
-    spectator = createComponent({
-      props,
-    });
+    spectator = createComponent({ props });
     spectator.detectChanges();
   });
 
   it('should display ui', () => {
     expect(spectator.query(byText('Assign members to roles'))).toExist();
     expect(spectator.query(byText('Assign all members to the role'))).toExist();
-    for (const role of props.roles) {
-      expect(spectator.query(byText(role.name))).toExist();
-    }
     expect(spectator.query(byText('Email'))).toExist();
     expect(spectator.query(byText('Role'))).toExist();
-    expect(spectator.query('button')).toHaveText('Send invite');
+    expect(spectator.query(byText('Send invite'))).toExist();
   });
 });
