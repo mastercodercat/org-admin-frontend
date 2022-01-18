@@ -40,7 +40,14 @@
       ></i>
     </ng-template>
     <ng-template #moreIcon>
-      <a nz-button nzType="link" nz-dropdown [nzDropdownMenu]="menu">
+      <a
+        nz-button
+        nzType="link"
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        (mouseover)="setCurrent(account)"
+        (click)="$event.stopPropagation()"
+      >
         <i nz-icon nzType="more"></i>
       </a>
     </ng-template>
@@ -49,6 +56,14 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
+    <li nz-menu-item (click)="enable()">
+      <span>Enable Organization</span>
+      <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
+    </li>
+    <li nz-menu-item (click)="disable()">
+      <span>Disable Organization</span>
+      <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
+    </li>
     <li nz-menu-item>
       <span>Manage permissions</span>
       <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
