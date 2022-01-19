@@ -587,22 +587,22 @@ export type FindOrganizationTreesQuery = (
   { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
     { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
     & { organizations?: Maybe<Array<Maybe<(
       { __typename?: 'SchemaOrganizationNested1' }
-      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
       & { organizations?: Maybe<Array<Maybe<(
         { __typename?: 'SchemaOrganizationNested2' }
-        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
         & { organizations?: Maybe<Array<Maybe<(
           { __typename?: 'SchemaOrganizationNested3' }
-          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
           & { organizations?: Maybe<Array<Maybe<(
             { __typename?: 'SchemaOrganizationNested4' }
-            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
             & { organizations?: Maybe<Array<Maybe<(
               { __typename?: 'SchemaOrganizationNested5' }
-              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
             )>>> }
           )>>> }
         )>>> }
@@ -922,30 +922,36 @@ export const FindOrganizationTreesDocument = gql`
     organizationUuid
     name
     countUsers
+    status
     organizations {
       uuid
       organizationUuid
       name
+      status
       countUsers
       organizations {
         uuid
         organizationUuid
         name
+        status
         countUsers
         organizations {
           uuid
           organizationUuid
           name
+          status
           countUsers
           organizations {
             uuid
             organizationUuid
             name
+            status
             countUsers
             organizations {
               uuid
               organizationUuid
               name
+              status
               countUsers
             }
           }
