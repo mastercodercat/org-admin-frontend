@@ -44,6 +44,7 @@
         nz-button
         nzType="link"
         nz-dropdown
+        nzTrigger="click"
         [nzDropdownMenu]="menu"
         (mouseover)="setCurrent(account)"
         (click)="$event.stopPropagation()"
@@ -56,11 +57,15 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
-    <li nz-menu-item (click)="enable()">
+    <li
+      nz-menu-item
+      (click)="enable()"
+      *ngIf="currentAccount.status === 'SUSPENDED'"
+    >
       <span>Enable Organization</span>
       <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
     </li>
-    <li nz-menu-item (click)="disable()">
+    <li nz-menu-item (click)="disable()" #elseBlock>
       <span>Disable Organization</span>
       <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
     </li>

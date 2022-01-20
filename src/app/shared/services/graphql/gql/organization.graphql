@@ -143,3 +143,15 @@ mutation deleteOrganizationUser($uuid: ID!) {
     }
   }
 }
+
+mutation disableOrganization($uuid: ID!) {
+  disableOrganization(uuid: $uuid) {
+    uuid
+  }
+}
+
+mutation enableOrganization($uuid: ID!) {
+  enableOrganization(uuid: $uuid) {
+    uuid
+  }
+}

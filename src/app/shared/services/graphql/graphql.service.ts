@@ -725,6 +725,32 @@ export type DeleteOrganizationUserMutation = (
   )> }
 );
 
+export type DisableOrganizationMutationVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type DisableOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { disableOrganization?: Maybe<(
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid'>
+  )> }
+);
+
+export type EnableOrganizationMutationVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type EnableOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { enableOrganization?: Maybe<(
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid'>
+  )> }
+);
+
 export type FindRolesQueryVariables = Exact<{
   organizationUuid: Scalars['ID'];
 }>;
@@ -852,30 +878,6 @@ export type AcceptOrganizationUserInviteMutation = (
   & Pick<Mutation, 'acceptOrganizationUserInvite'>
 );
 
-export type EnableOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { enableOrganization?: Maybe<(
-    { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid'>
-  )> }
-)
-
-export type EnableOrganizationMutationVariables = Exact<{
-  uuid: Scalars['ID'];
-}>;
-
-export type DisableOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { disableOrganization?: Maybe<(
-    { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid'>
-  )> }
-)
-
-export type DisableOrganizationMutationVariables = Exact<{
-  uuid: Scalars['ID'];
-}>;
-
 export const FindOrganizationsDocument = gql`
     query findOrganizations {
   organizations {
@@ -891,7 +893,7 @@ export const FindOrganizationsDocument = gql`
   })
   export class FindOrganizationsGQL extends Apollo.Query<FindOrganizationsQuery, FindOrganizationsQueryVariables> {
     document = FindOrganizationsDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -910,7 +912,7 @@ export const FindMyOrganizationsDocument = gql`
   })
   export class FindMyOrganizationsGQL extends Apollo.Query<FindMyOrganizationsQuery, FindMyOrganizationsQueryVariables> {
     document = FindMyOrganizationsDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -961,7 +963,7 @@ export const FindOrganizationTreesDocument = gql`
   })
   export class FindOrganizationTreesGQL extends Apollo.Query<FindOrganizationTreesQuery, FindOrganizationTreesQueryVariables> {
     document = FindOrganizationTreesDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1024,7 +1026,7 @@ export const FindOrganizationsWithRolesDocument = gql`
   })
   export class FindOrganizationsWithRolesGQL extends Apollo.Query<FindOrganizationsWithRolesQuery, FindOrganizationsWithRolesQueryVariables> {
     document = FindOrganizationsWithRolesDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1047,7 +1049,7 @@ export const SendInvitationDocument = gql`
   })
   export class SendInvitationGQL extends Apollo.Mutation<SendInvitationMutation, SendInvitationMutationVariables> {
     document = SendInvitationDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1066,7 +1068,7 @@ export const CreateOrganizationDocument = gql`
   })
   export class CreateOrganizationGQL extends Apollo.Mutation<CreateOrganizationMutation, CreateOrganizationMutationVariables> {
     document = CreateOrganizationDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1089,7 +1091,7 @@ export const UpdateOrganizationUserDocument = gql`
   })
   export class UpdateOrganizationUserGQL extends Apollo.Mutation<UpdateOrganizationUserMutation, UpdateOrganizationUserMutationVariables> {
     document = UpdateOrganizationUserDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1112,7 +1114,43 @@ export const DeleteOrganizationUserDocument = gql`
   })
   export class DeleteOrganizationUserGQL extends Apollo.Mutation<DeleteOrganizationUserMutation, DeleteOrganizationUserMutationVariables> {
     document = DeleteOrganizationUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DisableOrganizationDocument = gql`
+    mutation disableOrganization($uuid: ID!) {
+  disableOrganization(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
 
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DisableOrganizationGQL extends Apollo.Mutation<DisableOrganizationMutation, DisableOrganizationMutationVariables> {
+    document = DisableOrganizationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EnableOrganizationDocument = gql`
+    mutation enableOrganization($uuid: ID!) {
+  enableOrganization(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EnableOrganizationGQL extends Apollo.Mutation<EnableOrganizationMutation, EnableOrganizationMutationVariables> {
+    document = EnableOrganizationDocument;
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1131,7 +1169,7 @@ export const FindRolesDocument = gql`
   })
   export class FindRolesGQL extends Apollo.Query<FindRolesQuery, FindRolesQueryVariables> {
     document = FindRolesDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1169,7 +1207,7 @@ export const FindUserDocument = gql`
   })
   export class FindUserGQL extends Apollo.Query<FindUserQuery, FindUserQueryVariables> {
     document = FindUserDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1202,7 +1240,7 @@ export const FindMembersDocument = gql`
   })
   export class FindMembersGQL extends Apollo.Query<FindMembersQuery, FindMembersQueryVariables> {
     document = FindMembersDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1222,7 +1260,7 @@ export const ValidateAssociationTokenDocument = gql`
   })
   export class ValidateAssociationTokenGQL extends Apollo.Query<ValidateAssociationTokenQuery, ValidateAssociationTokenQueryVariables> {
     document = ValidateAssociationTokenDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1238,7 +1276,7 @@ export const ValidatePasswordResetTokenDocument = gql`
   })
   export class ValidatePasswordResetTokenGQL extends Apollo.Query<ValidatePasswordResetTokenQuery, ValidatePasswordResetTokenQueryVariables> {
     document = ValidatePasswordResetTokenDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1254,7 +1292,7 @@ export const RequestUserPasswordResetDocument = gql`
   })
   export class RequestUserPasswordResetGQL extends Apollo.Mutation<RequestUserPasswordResetMutation, RequestUserPasswordResetMutationVariables> {
     document = RequestUserPasswordResetDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1270,7 +1308,7 @@ export const ResetUserPasswordDocument = gql`
   })
   export class ResetUserPasswordGQL extends Apollo.Mutation<ResetUserPasswordMutation, ResetUserPasswordMutationVariables> {
     document = ResetUserPasswordDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1288,7 +1326,7 @@ export const UpdateUserDocument = gql`
   })
   export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
     document = UpdateUserDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -1304,43 +1342,7 @@ export const AcceptOrganizationUserInviteDocument = gql`
   })
   export class AcceptOrganizationUserInviteGQL extends Apollo.Mutation<AcceptOrganizationUserInviteMutation, AcceptOrganizationUserInviteMutationVariables> {
     document = AcceptOrganizationUserInviteDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EnableOrganizationDocument = gql`
-    mutation enableOrganization($uuid: ID!) {
-  enableOrganization(uuid: $uuid) {
-    uuid
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EnableOrganizationGQL extends Apollo.Mutation<EnableOrganizationMutation, EnableOrganizationMutationVariables> {
-    document = EnableOrganizationDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DisableOrganizationDocument = gql`
-    mutation disableOrganization($uuid: ID!) {
-  disableOrganization(uuid: $uuid) {
-    uuid
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DisableOrganizationGQL extends Apollo.Mutation<DisableOrganizationMutation, DisableOrganizationMutationVariables> {
-    document = DisableOrganizationDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

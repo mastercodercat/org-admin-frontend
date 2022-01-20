@@ -3,4 +3,5 @@ export class Account {
   members?: number = 0;
   uuid?: string = '';
   subaccounts?: Account[] = [];
+  status?: string = '';
 }
