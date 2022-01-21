@@ -135,6 +135,16 @@
               "includePaths": ["node_modules/"]
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.js",
+            "lintFilePatterns": [
+              "**/*.ts",
+              "**/*.spec.ts"
+            ]
+          }
         }
       }
     }
