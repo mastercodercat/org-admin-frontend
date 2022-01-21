@@ -60,15 +60,17 @@
     <li
       nz-menu-item
       (click)="enable()"
-      *ngIf="currentAccount.status === 'SUSPENDED'"
+      *ngIf="currentAccount.status === 'SUSPENDED'; else elseBlock"
     >
       <span>Enable Organization</span>
       <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
     </li>
-    <li nz-menu-item (click)="disable()" #elseBlock>
-      <span>Disable Organization</span>
-      <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
-    </li>
+    <ng-template #elseBlock>
+      <li nz-menu-item (click)="disable()">
+        <span>Disable Organization</span>
+        <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>
+      </li>
+    </ng-template>
     <li nz-menu-item>
       <span>Manage permissions</span>
       <i class="ms-2" nz-icon nzType="export" nzTheme="outline"></i>

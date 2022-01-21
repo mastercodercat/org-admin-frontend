@@ -18,31 +18,37 @@ query findOrganizationTrees {
     organizationUuid
     name
     countUsers
+    status
     organizations {
       uuid
       organizationUuid
       name
       countUsers
+      status
       organizations {
         uuid
         organizationUuid
         name
         countUsers
+        status
         organizations {
           uuid
           organizationUuid
           name
           countUsers
+          status
           organizations {
             uuid
             organizationUuid
             name
             countUsers
+            status
             organizations {
               uuid
               organizationUuid
               name
               countUsers
+              status
             }
           }
         }
@@ -103,8 +109,7 @@ query findOrganizationsWithRoles {
 }
 
 mutation sendInvitation($input: InviteOrganizationUsersInput!) {
-  inviteOrganizationUsers(input: $input)
-  {
+  inviteOrganizationUsers(input: $input) {
     organizationUuid
     invitationErrors {
       email
@@ -115,8 +120,7 @@ mutation sendInvitation($input: InviteOrganizationUsersInput!) {
 }
 
 mutation createOrganization($input: CreateOrganizationInput!) {
-  createOrganization(input: $input)
-  {
+  createOrganization(input: $input) {
     uuid
     name
   }
@@ -127,7 +131,7 @@ mutation updateOrganizationUser($input: UpdateOrganizationUserInput!) {
     uuid
     organizationUuid
     role {
-      uuid,
+      uuid
       name
     }
   }
@@ -138,7 +142,7 @@ mutation deleteOrganizationUser($uuid: ID!) {
     uuid
     organizationUuid
     role {
-      uuid,
+      uuid
       name
     }
   }
