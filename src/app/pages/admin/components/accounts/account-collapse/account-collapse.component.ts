@@ -33,7 +33,9 @@ export class AccountCollapseComponent implements OnInit {
         .mutate({
           uuid: this.currentAccount.uuid,
         })
-        .subscribe();
+        .subscribe(() => {
+          this.currentAccount.status = 'PENDING';
+        });
     }
   }
 
@@ -43,7 +45,9 @@ export class AccountCollapseComponent implements OnInit {
         .mutate({
           uuid: this.currentAccount.uuid,
         })
-        .subscribe();
+        .subscribe(() => {
+          this.currentAccount.status = 'SUSPENDED';
+        });
     }
   }
 

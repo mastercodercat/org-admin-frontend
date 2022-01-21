@@ -51,6 +51,14 @@ export type AssignUserPermissionInputType = {
   ability: Scalars['String'];
 };
 
+export type CreateOrganizationHostnameInput = {
+  hostname: Scalars['String'];
+  organizationUuid: Scalars['ID'];
+  domainType: DomainTypeEnum;
+  fromEmail?: Maybe<Scalars['String']>;
+  fromName?: Maybe<Scalars['String']>;
+};
+
 export type CreateOrganizationInput = {
   name: Scalars['String'];
   organizationUuid?: Maybe<Scalars['ID']>;
@@ -65,10 +73,19 @@ export type CreateRoleInput = {
   roleDescription?: Maybe<Scalars['String']>;
 };
 
+export type DeleteOrganizationHostnameInput = {
+  uuid: Scalars['String'];
+};
+
 export type DeleteRoleInput = {
   uuid: Scalars['String'];
   roleUuid: Scalars['String'];
 };
+
+export enum DomainTypeEnum {
+  Email = 'EMAIL',
+  LandingPage = 'LANDING_PAGE'
+}
 
 export type InviteOrganizationUserInput = {
   token?: Maybe<Scalars['String']>;
@@ -105,6 +122,11 @@ export type InviteOrganizationUsersInput = {
   users: Array<Maybe<InviteOrganizationUsersEmailRoleInput>>;
 };
 
+export type MigratePayload = {
+  __typename?: 'MigratePayload';
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptOrganizationUserInvite?: Maybe<Scalars['String']>;
@@ -127,6 +149,8 @@ export type Mutation = {
   deleteOrganizationUser?: Maybe<SchemaOrganizationUser>;
   updateOrganizationUser?: Maybe<SchemaOrganizationUser>;
   updateUser?: Maybe<SchemaUser>;
+  createOrganizationHostname?: Maybe<SchemaOrganizationHostname>;
+  deleteOrganizationHostname?: Maybe<SchemaOrganizationHostname>;
 };
 
 
@@ -229,6 +253,16 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+
+export type MutationCreateOrganizationHostnameArgs = {
+  input: CreateOrganizationHostnameInput;
+};
+
+
+export type MutationDeleteOrganizationHostnameArgs = {
+  input: DeleteOrganizationHostnameInput;
+};
+
 export enum OrganizationEnum {
   Advocacy = 'ADVOCACY',
   Agency = 'AGENCY',
@@ -257,6 +291,9 @@ export type Query = {
   users?: Maybe<Array<Maybe<SchemaUser>>>;
   validateAssociationToken?: Maybe<ValidateAssociationTokenPayload>;
   validatePasswordResetToken?: Maybe<Scalars['Boolean']>;
+  organizationHostname?: Maybe<SchemaOrganizationHostname>;
+  organizationHostnames?: Maybe<Array<Maybe<SchemaOrganizationHostname>>>;
+  migrate?: Maybe<MigratePayload>;
 };
 
 
@@ -304,6 +341,23 @@ export type QueryValidatePasswordResetTokenArgs = {
   token: Scalars['String'];
 };
 
+
+export type QueryOrganizationHostnameArgs = {
+  uuid: Scalars['ID'];
+};
+
+
+export type QueryOrganizationHostnamesArgs = {
+  organizationUuid: Scalars['ID'];
+  domainType?: Maybe<DomainTypeEnum>;
+};
+
+
+export type QueryMigrateArgs = {
+  reset: Scalars['Boolean'];
+  seed: Scalars['Boolean'];
+};
+
 export type ResetUserPasswordInput = {
   token: Scalars['String'];
   password: Scalars['String'];
@@ -338,6 +392,22 @@ export type SchemaOrganization = {
   roles?: Maybe<Array<Maybe<SchemaRole>>>;
   organizationPermissions?: Maybe<Array<Maybe<SchemaOrganizationPermission>>>;
   countUsers?: Maybe<Scalars['Int']>;
+};
+
+export type SchemaOrganizationHostname = {
+  __typename?: 'SchemaOrganizationHostname';
+  uuid: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<SchemaUser>;
+  createdBy?: Maybe<Scalars['ID']>;
+  organization?: Maybe<SchemaOrganization>;
+  organizationUuid?: Maybe<Scalars['ID']>;
+  status?: Maybe<StatusEnum>;
+  hostname?: Maybe<Scalars['String']>;
+  verifiedAt?: Maybe<Scalars['String']>;
+  txtValue?: Maybe<Scalars['String']>;
+  domainType?: Maybe<DomainTypeEnum>;
 };
 
 export type SchemaOrganizationNested1 = {
@@ -587,22 +657,22 @@ export type FindOrganizationTreesQuery = (
   { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
     { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
     & { organizations?: Maybe<Array<Maybe<(
       { __typename?: 'SchemaOrganizationNested1' }
-      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
       & { organizations?: Maybe<Array<Maybe<(
         { __typename?: 'SchemaOrganizationNested2' }
-        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
         & { organizations?: Maybe<Array<Maybe<(
           { __typename?: 'SchemaOrganizationNested3' }
-          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
           & { organizations?: Maybe<Array<Maybe<(
             { __typename?: 'SchemaOrganizationNested4' }
-            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
             & { organizations?: Maybe<Array<Maybe<(
               { __typename?: 'SchemaOrganizationNested5' }
-              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
+              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
             )>>> }
           )>>> }
         )>>> }
@@ -924,31 +994,37 @@ export const FindOrganizationTreesDocument = gql`
     organizationUuid
     name
     countUsers
+    status
     organizations {
       uuid
       organizationUuid
       name
       countUsers
+      status
       organizations {
         uuid
         organizationUuid
         name
         countUsers
+        status
         organizations {
           uuid
           organizationUuid
           name
           countUsers
+          status
           organizations {
             uuid
             organizationUuid
             name
             countUsers
+            status
             organizations {
               uuid
               organizationUuid
               name
               countUsers
+              status
             }
           }
         }
