@@ -587,22 +587,22 @@ export type FindOrganizationTreesQuery = (
   { __typename?: 'Query' }
   & { organizations?: Maybe<Array<Maybe<(
     { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+    & Pick<SchemaOrganization, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
     & { organizations?: Maybe<Array<Maybe<(
       { __typename?: 'SchemaOrganizationNested1' }
-      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+      & Pick<SchemaOrganizationNested1, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
       & { organizations?: Maybe<Array<Maybe<(
         { __typename?: 'SchemaOrganizationNested2' }
-        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+        & Pick<SchemaOrganizationNested2, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
         & { organizations?: Maybe<Array<Maybe<(
           { __typename?: 'SchemaOrganizationNested3' }
-          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+          & Pick<SchemaOrganizationNested3, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
           & { organizations?: Maybe<Array<Maybe<(
             { __typename?: 'SchemaOrganizationNested4' }
-            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+            & Pick<SchemaOrganizationNested4, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
             & { organizations?: Maybe<Array<Maybe<(
               { __typename?: 'SchemaOrganizationNested5' }
-              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers' | 'status'>
+              & Pick<SchemaOrganizationNested5, 'uuid' | 'organizationUuid' | 'name' | 'countUsers'>
             )>>> }
           )>>> }
         )>>> }
@@ -722,6 +722,32 @@ export type DeleteOrganizationUserMutation = (
       { __typename?: 'SchemaRole' }
       & Pick<SchemaRole, 'uuid' | 'name'>
     )> }
+  )> }
+);
+
+export type DisableOrganizationMutationVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type DisableOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { disableOrganization?: Maybe<(
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid'>
+  )> }
+);
+
+export type EnableOrganizationMutationVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type EnableOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { enableOrganization?: Maybe<(
+    { __typename?: 'SchemaOrganization' }
+    & Pick<SchemaOrganization, 'uuid'>
   )> }
 );
 
@@ -852,30 +878,6 @@ export type AcceptOrganizationUserInviteMutation = (
   & Pick<Mutation, 'acceptOrganizationUserInvite'>
 );
 
-export type EnableOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { enableOrganization?: Maybe<(
-    { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid'>
-  )> }
-)
-
-export type EnableOrganizationMutationVariables = Exact<{
-  uuid: Scalars['ID'];
-}>;
-
-export type DisableOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { disableOrganization?: Maybe<(
-    { __typename?: 'SchemaOrganization' }
-    & Pick<SchemaOrganization, 'uuid'>
-  )> }
-)
-
-export type DisableOrganizationMutationVariables = Exact<{
-  uuid: Scalars['ID'];
-}>;
-
 export const FindOrganizationsDocument = gql`
     query findOrganizations {
   organizations {
@@ -922,36 +924,30 @@ export const FindOrganizationTreesDocument = gql`
     organizationUuid
     name
     countUsers
-    status
     organizations {
       uuid
       organizationUuid
       name
-      status
       countUsers
       organizations {
         uuid
         organizationUuid
         name
-        status
         countUsers
         organizations {
           uuid
           organizationUuid
           name
-          status
           countUsers
           organizations {
             uuid
             organizationUuid
             name
-            status
             countUsers
             organizations {
               uuid
               organizationUuid
               name
-              status
               countUsers
             }
           }
@@ -1118,6 +1114,42 @@ export const DeleteOrganizationUserDocument = gql`
   })
   export class DeleteOrganizationUserGQL extends Apollo.Mutation<DeleteOrganizationUserMutation, DeleteOrganizationUserMutationVariables> {
     document = DeleteOrganizationUserDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DisableOrganizationDocument = gql`
+    mutation disableOrganization($uuid: ID!) {
+  disableOrganization(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DisableOrganizationGQL extends Apollo.Mutation<DisableOrganizationMutation, DisableOrganizationMutationVariables> {
+    document = DisableOrganizationDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EnableOrganizationDocument = gql`
+    mutation enableOrganization($uuid: ID!) {
+  enableOrganization(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EnableOrganizationGQL extends Apollo.Mutation<EnableOrganizationMutation, EnableOrganizationMutationVariables> {
+    document = EnableOrganizationDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1310,42 +1342,6 @@ export const AcceptOrganizationUserInviteDocument = gql`
   })
   export class AcceptOrganizationUserInviteGQL extends Apollo.Mutation<AcceptOrganizationUserInviteMutation, AcceptOrganizationUserInviteMutationVariables> {
     document = AcceptOrganizationUserInviteDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EnableOrganizationDocument = gql`
-    mutation enableOrganization($uuid: ID!) {
-  enableOrganization(uuid: $uuid) {
-    uuid
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EnableOrganizationGQL extends Apollo.Mutation<EnableOrganizationMutation, EnableOrganizationMutationVariables> {
-    document = EnableOrganizationDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DisableOrganizationDocument = gql`
-    mutation disableOrganization($uuid: ID!) {
-  disableOrganization(uuid: $uuid) {
-    uuid
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DisableOrganizationGQL extends Apollo.Mutation<DisableOrganizationMutation, DisableOrganizationMutationVariables> {
-    document = DisableOrganizationDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
