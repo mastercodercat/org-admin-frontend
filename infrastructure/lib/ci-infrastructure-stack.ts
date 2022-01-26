@@ -1,17 +1,20 @@
-import * as cdk from '@aws-cdk/core';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Stack, StackProps, Construct } from '@aws-cdk/core';
 import { OpenIdConnectProvider, OpenIdConnectPrincipal, Role, ManagedPolicy} from '@aws-cdk/aws-iam';
 import { StringParameter } from '@aws-cdk/aws-ssm';
-import { CfnOutput, Duration } from '@aws-cdk/core';
+import { CfnOutput } from '@aws-cdk/core';
 
 
-export interface ContinuousIntegrationInfrastructureStackProps extends cdk.StackProps {
+export interface ContinuousIntegrationInfrastructureStackProps extends StackProps {
   oidcProviderUrl: string;
   bitbucketWorkspaceIDs: string[];
   stage: string;
 }
 
-export class ContinuousIntegrationInfrastructureStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: ContinuousIntegrationInfrastructureStackProps) {
+export class ContinuousIntegrationInfrastructureStack extends Stack {
+  constructor(scope: Construct, id: string, props: ContinuousIntegrationInfrastructureStackProps) {
     super(scope, id, props);
 
     // Resources
@@ -24,6 +27,7 @@ export class ContinuousIntegrationInfrastructureStack extends cdk.Stack {
       stringValue: oidcProvider.openIdConnectProviderArn,
       parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
     });
+    console.log(providerArnParameter);
 
     const bitbucketPipelinesRole = new Role(this, 'helm-organizer-frontend-bitbucket-pipelines-role', {
       assumedBy: new OpenIdConnectPrincipal(oidcProvider),

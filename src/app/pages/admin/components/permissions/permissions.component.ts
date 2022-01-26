@@ -17,7 +17,7 @@ export class PermissionsComponent {
       role: 'Admin',
     },
     {
-      question: "Manages the account's billing",
+      question: 'Manages the account\'s billing',
       role: 'Admin',
     },
     {

@@ -1,4 +1,3 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
 import { IconDefinition } from '@ant-design/icons-angular';
@@ -34,7 +33,7 @@ describe('AccountCollapseComponent', () => {
       NzIconModule.forChild(icons),
     ],
   });
-  let accounts: Array<Account> = [
+  const accounts: Array<Account> = [
     {
       name: 'Account 1',
       members: 15,
@@ -81,7 +80,7 @@ describe('AccountCollapseComponent', () => {
       }
       if (account.subaccounts && account.subaccounts.length > 0) {
         expect(
-          spectator.query(byText(`| ${account.subaccounts.length} Subaccounts`))
+          spectator.query(byText(`| ${account.subaccounts.length} Subaccounts`)),
         ).toExist();
       }
     }

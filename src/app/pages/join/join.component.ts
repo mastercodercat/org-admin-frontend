@@ -106,7 +106,9 @@ export class JoinComponent extends BaseComponent implements OnInit {
     this.auth.login(email, password)
       .then(() => {
         this.user.getUserInfo();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home'])
+          .then(() => {})
+          .catch(() => {});
         this.isFormLoading = false;
       })
       .catch(err => {

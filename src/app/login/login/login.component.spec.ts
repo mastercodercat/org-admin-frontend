@@ -1,6 +1,5 @@
 import {
   Spectator,
-  createComponentFactory,
   byPlaceholder,
   createRoutingFactory,
 } from '@ngneat/spectator';
@@ -51,36 +50,24 @@ describe('LoginComponent', () => {
   it('should have login ui', () => {
     expect(spectator.query('.organizer-info')).toExist();
     expect(spectator.query('.login')).toExist();
-    expect(spectator.query('.login-to-org')).toHaveExactText(
-      'Log in to Organizer'
-    );
+    expect(spectator.query('.login-to-org')).toHaveExactText('Log in to Organizer');
     expect(spectator.query(byPlaceholder('Email address'))).toExist();
     expect(spectator.query(byPlaceholder('Password'))).toExist();
     expect(spectator.query('.view-password')).toHaveExactText('View Password');
-    expect(spectator.query('.forgot-password')).toHaveExactText(
-      'Forgot Password?'
-    );
+    expect(spectator.query('.forgot-password')).toHaveExactText('Forgot Password?');
     expect(spectator.query('.login-btn')).toHaveExactText('Log In');
     expect(spectator.query('.login-btn')).toBeDisabled();
   });
 
   it('should return validation error with invalid email', () => {
-    spectator.typeInElement(
-      'a',
-      spectator.query(byPlaceholder('Email address')) as HTMLElement
-    );
-    expect(spectator.query('.validation-error')).toHaveExactText(
-      'Please enter a valid email'
-    );
+    spectator.typeInElement('a', spectator.query(byPlaceholder('Email address')));
+    expect(spectator.query('.validation-error')).toHaveExactText('Please enter a valid email');
   });
 
   it('should not display validation error', () => {
-    spectator.typeInElement(
-      'angel@angel.co',
-      spectator.query(byPlaceholder('Email addresss')) as HTMLElement
-    );
+    spectator.typeInElement('angel@angel.co', spectator.query(byPlaceholder('Email addresss')));
     expect(spectator.query('.validation-error')).not.toHaveExactText(
-      'Please enter a valid email'
+      'Please enter a valid email',
     );
   });
 
@@ -95,14 +82,11 @@ describe('LoginComponent', () => {
   });
 
   it('should toggle password view style after clicking view password btn', () => {
-    spectator.typeInElement(
-      'asdf',
-      spectator.query(byPlaceholder('Password')) as HTMLElement
-    );
+    spectator.typeInElement('asdf', spectator.query(byPlaceholder('Password')));
     spectator.click('.view-password');
     expect(spectator.query(byPlaceholder('Password'))).toHaveAttribute(
       'type',
-      'text'
+      'text',
     );
   });
 });

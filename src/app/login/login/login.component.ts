@@ -70,7 +70,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
     // If form is filled out correctly, try to log in
     if (this.loginForm.status === 'VALID') {
       // Use auth service to send credentials to Auth0
-      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
+      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string)
+        .then(() => {})
+        .catch(() => {});
     }
   }
 
@@ -93,15 +95,19 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.emailPassNotValid = false;
     this.store.pipe(select(fromUserSelectors.selectAllOrganizations), takeUntil(this.ngUnsubscribe$))
       .subscribe((org: Organization[]) => {
-        // If user has access to more than one organization we show them the select organizatiions screen
+        // If user has access to more than one organization we show them the select organizations screen
         if (org?.length > 1) {
-          this.router.navigate(['/select-organization']);
+          this.router.navigate(['/select-organization'])
+            .then(() => {})
+            .catch(() => {});
         } else if (org?.length === 1) {
           const orgUuid = org[0].uuid;
           // If user has access to only one organization we set the selected org uuid and show them the dashboard screen
           localStorage.setItem('selected_org', orgUuid);
           this.userService.addSelectedOrganizationUuid(orgUuid);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home'])
+            .then(() => {})
+            .catch(() => {});
         }
       });
   }

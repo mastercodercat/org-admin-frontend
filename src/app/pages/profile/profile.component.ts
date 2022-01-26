@@ -30,16 +30,16 @@ import { OrganizationUsers } from '../admin/components/members/member';
 export class ProfileComponent implements OnInit {
   userInfo$!: Observable<UserState>;
   user: User | undefined;
-  userRole: any = {};
-  organizationRoles: any = {};
+  userRole: { [key: string]: Role } = {};
+  organizationRoles: { [key: string]: Role[] } = {};
 
-  removeOrganization: any;
+  removeOrganization: Organization | OrganizationUsers;
 
-  changeOrganization: any;
-  changeUserRole: any;
-  organizations: any[] = [];
+  changeOrganization: Organization | OrganizationUsers;
+  changeUserRole: Role;
+  organizations: Organization[] = [];
 
-  addOrganization: any;
+  addOrganization: Organization;
 
   title = '';
 
@@ -62,14 +62,18 @@ export class ProfileComponent implements OnInit {
       this.user = result.data.user as User;
 
       (this.user.organizationUsers || []).map(organizationUser => {
-        this.userRole[organizationUser?.organizationUuid || ''] = organizationUser?.role;
+        if (organizationUser) {
+          this.userRole[organizationUser?.organizationUuid] = organizationUser?.role;
+        }
 
         if (organizationUser?.organizationUuid === localStorage.getItem('selected_org')) {
           this.title = organizationUser.title || '';
         }
 
         this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid }).pipe(take(1)).subscribe(result => {
-          this.organizationRoles[organizationUser?.organizationUuid || ''] = result.data.roles || [];
+          if (organizationUser?.organizationUuid) {
+            this.organizationRoles[organizationUser?.organizationUuid || ''] = result.data.roles || [];
+          }
         });
       });
 
@@ -118,7 +122,7 @@ export class ProfileComponent implements OnInit {
   }
 
   handleAddCancel(): void {
-    this.addOrganization = '';
+    this.addOrganization = undefined;
   }
 
   handleChangeRole(): void {
@@ -131,7 +135,7 @@ export class ProfileComponent implements OnInit {
       this.userRole[result.data?.updateOrganizationUser?.organizationUuid || ''] = this.changeUserRole;
     });
 
-    this.changeOrganization = '';
+    this.changeOrganization = undefined;
   }
 
   handleRemove(): void {

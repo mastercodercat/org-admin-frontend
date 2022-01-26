@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
-import { AppInfrastructureStack } from '../lib/app-infrastructure-stack';
+import { App } from '@aws-cdk/core';
+import { AppInfrastructureStackProps } from '../lib/app-infrastructure-stack';
 import { exit } from 'process';
 import { getAppEnvironment, getDnsEnvironment } from '../lib/config';
 import { DnsInfrastructureStack } from '../lib/dns-infrastructure-stack';
 
-const app = new cdk.App();
+const app = new App();
 
 /*
 Environment configurations
@@ -25,21 +25,23 @@ try {
   const stagingDns = new DnsInfrastructureStack(app, 'helm-organizer-frontend-dns-staging', getDnsEnvironment('staging'));
   const productionDns = new DnsInfrastructureStack(app, 'helm-organizer-frontend-dns-production', getDnsEnvironment('production'));
 
-  const sandboxApp = getAppEnvironment('sandbox');
-  sandboxApp.publicHostedZone = sandboxDns.domain;
-  const stagingApp = getAppEnvironment('staging');
-  stagingApp.publicHostedZone = stagingDns.domain;
-  const productionApp = getAppEnvironment('production');
-  productionApp.publicHostedZone = productionDns.domain;
+  const sandboxApp: AppInfrastructureStackProps = getAppEnvironment('sandbox');
+  sandboxApp.publicHostedZone = sandboxDns.domain ;
+  const stagingApp: AppInfrastructureStackProps = getAppEnvironment('staging');
+  stagingApp.publicHostedZone = stagingDns.domain ;
+  const productionApp: AppInfrastructureStackProps = getAppEnvironment('production');
+  productionApp.publicHostedZone = productionDns.domain ;
 
-  const sandboxAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-sandbox', sandboxApp);
-  const stagingAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-staging', stagingApp);
-  const productionAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-production', productionApp);
+  // const sandboxAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-sandbox', sandboxApp);
+  // const stagingAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-staging', stagingApp);
+  // const productionAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-production', productionApp);
 
 
 
 } catch(err) {
-  console.log(`Error launching stack: ${err}`);
+  if (err instanceof Error) {
+    console.log(`Error launching stack: ${err.message}`);
+  }
   throw err;
   exit(1);
 }

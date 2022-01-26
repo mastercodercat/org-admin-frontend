@@ -1,5 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,7 +10,6 @@ import { MailOutline, UserOutline } from '@ant-design/icons-angular/icons';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { AppComponent } from './app.component';
-import { FormBuilder } from '@angular/forms';
 
 const icons: IconDefinition[] = [MailOutline, UserOutline];
 

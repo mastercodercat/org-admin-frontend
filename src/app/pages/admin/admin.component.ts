@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
+interface Tab {
+  route: string;
+  name: string;
+  icon: string;
+}
+
 @Component({
   selector: 'org-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.less'],
 })
 export class AdminComponent {
-  tabs = [
+  tabs: Tab[] = [
     {
       route: '/dashboard/members',
       name: 'Members',
@@ -41,14 +47,14 @@ export class AdminComponent {
 
   constructor(private router: Router) {
     // override the route reuse strategy
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(): boolean {
       return false;
     };
 
-    this.router.events.subscribe((evt) => {
+    this.router.events.subscribe(evt => {
       if (evt instanceof NavigationEnd) {
         const url = evt.url;
-        this.activeTab = this.tabs.findIndex((tab) => tab.route === url);
+        this.activeTab = this.tabs.findIndex((tab: Tab) => tab.route === url);
 
         // trick the Router into believing it's last link wasn't previously loaded
         this.router.navigated = false;

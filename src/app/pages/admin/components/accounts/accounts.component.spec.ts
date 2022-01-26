@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { GraphQLModule } from 'src/app/graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -41,7 +40,7 @@ describe('AccountsComponent', () => {
   it('should display ui', () => {
     setTimeout(() => {
       expect(
-        spectator.query(byPlaceholder('Search members, accounts...'))
+        spectator.query(byPlaceholder('Search members, accounts...')),
       ).toExist();
       expect(spectator.query(byText('Create Organization'))).toExist();
     }, 3000);

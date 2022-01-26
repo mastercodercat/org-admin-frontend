@@ -2,10 +2,8 @@ import {
   Spectator,
   createComponentFactory,
   byPlaceholder,
-  createRoutingFactory,
 } from '@ngneat/spectator';
 import { FormBuilder } from '@angular/forms';
-import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -35,15 +33,15 @@ describe('RecoverPasswordComponent', () => {
 
   it('should display recover password ui', () => {
     expect(spectator.query('.forgot-password-header')).toHaveExactText(
-      'Forgot Password?'
+      'Forgot Password?',
     );
     expect(spectator.query('.forgot-password-msg')).toHaveExactText(
-      "Enter the email address you used when you joined and we'll send you instructions to reset your password."
+      'Enter the email address you used when you joined and we\'ll send you instructions to reset your password.',
     );
     expect(spectator.query('.password-form')).toExist();
     expect(spectator.query(byPlaceholder('Email address'))).toExist();
     expect(spectator.query('.reset-password-btn')).toHaveExactText(
-      'Change Password'
+      'Change Password',
     );
     expect(spectator.query('.reset-password-btn')).toBeDisabled();
   });
@@ -51,10 +49,10 @@ describe('RecoverPasswordComponent', () => {
   it('should display validation error with invalid email', () => {
     spectator.typeInElement(
       'a',
-      spectator.query(byPlaceholder('Email address')) as HTMLElement
+      spectator.query(byPlaceholder('Email address')),
     );
     expect(spectator.query('.validation-error')).toHaveExactText(
-      'Please enter a valid email'
+      'Please enter a valid email',
     );
   });
 });

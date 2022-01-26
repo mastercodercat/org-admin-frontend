@@ -11,6 +11,8 @@ import {
   styleUrls: ['./account-collapse.component.less'],
 })
 export class AccountCollapseComponent implements OnInit {
+  @Input() accounts: Account[] = [];
+
   customStyle = {
     background: '#f7f7f7',
     'margin-bottom': '24px',
@@ -18,14 +20,14 @@ export class AccountCollapseComponent implements OnInit {
   };
   currentAccount: Account = {} as Account;
 
-  @Input() accounts: Account[] = [];
-
   constructor(
     private enableOrganization: EnableOrganizationGQL,
-    private disableOrganization: DisableOrganizationGQL
+    private disableOrganization: DisableOrganizationGQL,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    console.log('init account collapse');
+  }
 
   enable(): void {
     if (this.currentAccount.uuid) {

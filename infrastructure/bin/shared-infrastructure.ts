@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import { App } from '@aws-cdk/core';
 import { DnsInfrastructureStack } from '../lib/dns-infrastructure-stack';
 import { exit } from 'process';
 import * as config from '../lib/config';
 
-const app = new cdk.App();
+const app = new App();
 
 /*
 Environment configurations
@@ -43,7 +43,11 @@ try {
     ],
   });
 
+  console.log(preprodTldDnsStack, prodTldDnsStack);
+
 } catch(err) {
-  console.log(`Error launching stack: ${err}`);
+  if (err instanceof Error) {
+    console.log(`Error launching stack: ${err.message}`);
+  }
   exit(1);
 }

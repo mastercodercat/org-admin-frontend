@@ -50,7 +50,7 @@ export function getCiEnvironment(stage: string): ContinuousIntegrationInfrastruc
   };
 
   if (environmentForStage[stage] === undefined) {
-    throw `No configuration found for ${stage}!`;
+    throw new Error(`No configuration found for ${stage}!`);
   }
 
   return environmentForStage[stage];
@@ -79,7 +79,7 @@ export function getAppEnvironment(stage: string): AppInfrastructureStackProps {
 
 
   if (environmentForStage[stage] === undefined) {
-    throw `No configuration found for ${stage}!`;
+    throw new Error(`No configuration found for ${stage}!`);
   }
 
   return environmentForStage[stage];
@@ -105,12 +105,12 @@ export function getDnsEnvironment(stage: string): DnsInfrastructureStackProps {
     production: {
       env: production,
       domainName: 'beta.app.organizer.com',
-      parentDomainName: 'organizer.com'
+      parentDomainName: 'organizer.com',
     },
   };
 
   if (environmentForStage[stage] === undefined) {
-    throw `No configuration found for ${stage}!`;
+    throw new Error(`No configuration found for ${stage}!`);
   }
 
   return environmentForStage[stage];

@@ -6,10 +6,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./sub-permission.component.less'],
 })
 export class SubPermissionComponent implements OnInit {
-  @Input() title: string = '';
+  @Input() title = '';
   @Input() description?: string = '';
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    console.log('init subpermission');
+  }
 }

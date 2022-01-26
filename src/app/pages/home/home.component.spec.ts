@@ -1,9 +1,6 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Spectator,
-  byText,
   createComponentFactory,
-  byPlaceholder,
 } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';

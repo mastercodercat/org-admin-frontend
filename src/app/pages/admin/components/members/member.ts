@@ -17,5 +17,5 @@ export interface Member {
   phone?: string;
   avatar?: string;
   position: string;
-  organizationUsers: any[];
+  organizationUsers: Partial<OrganizationUsers>[];
 }
