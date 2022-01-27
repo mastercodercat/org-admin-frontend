@@ -1,11 +1,8 @@
 import {
   Spectator,
   createComponentFactory,
-  byPlaceholder,
-  createRoutingFactory,
 } from '@ngneat/spectator';
 import { FormBuilder } from '@angular/forms';
-import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -35,10 +32,10 @@ describe('RequestSentComponent', () => {
 
   it('should display ui', () => {
     expect(spectator.query('h1')).toHaveExactText(
-      'Reset password instructions sent'
+      'Reset password instructions sent',
     );
     expect(spectator.query('p')).toHaveExactText(
-      'An email has been sent over with instructions to reset your password. Please check your email.'
+      'An email has been sent over with instructions to reset your password. Please check your email.',
     );
   });
 });

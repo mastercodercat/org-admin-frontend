@@ -56,7 +56,9 @@ export class ResetPasswordComponent {
         },
       })
       .subscribe(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'])
+          .then(() => {})
+          .catch(() => {});
       });
   }
 

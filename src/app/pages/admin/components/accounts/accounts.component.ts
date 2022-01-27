@@ -21,7 +21,7 @@ export class AccountsComponent implements OnInit {
   constructor(
     private findOrganizationsService: FindOrganizationTreesGQL,
     private userService: UserService,
-    private store: Store<UserState>
+    private store: Store<UserState>,
   ) {
     this.isHelmAdmin$ = this.userService.isHelmAdmin$();
   }
@@ -34,14 +34,14 @@ export class AccountsComponent implements OnInit {
       this.findOrganizationsService.fetch().pipe(take(1)),
     ]).subscribe(([uuid, result]) => {
       this.accounts = this.mapOrganizationData(
-        (result.data.organizations as Organization[]) || []
-      ).filter((org) => org.uuid === uuid);
+        (result.data.organizations as Organization[]) || [],
+      ).filter((org: Organization) => org.uuid === uuid);
       this.isLoading = false;
     });
   }
 
   mapOrganizationData(organizations: Organization[]): Account[] {
-    return (organizations || []).map((organization) => ({
+    return (organizations || []).map((organization: Organization) => ({
       name: organization?.name || '',
       uuid: organization?.uuid || '',
       members: organization?.countUsers || 0,

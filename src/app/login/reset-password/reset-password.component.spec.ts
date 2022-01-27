@@ -1,6 +1,4 @@
 import {
-  Spectator,
-  createComponentFactory,
   byPlaceholder,
   byText,
   createRoutingFactory,
@@ -9,7 +7,6 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { Location } from '@angular/common';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { WarningOutline, UserOutline } from '@ant-design/icons-angular/icons';
@@ -18,7 +15,7 @@ import { reducers, metaReducers } from 'src/app/store/reducers';
 
 import { ResetPasswordComponent } from './reset-password.component';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 const icons: IconDefinition[] = [WarningOutline, UserOutline];
 
@@ -50,7 +47,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(() => {
     spectator = createComponent({
       props: {
-        isTokenValid$: new Observable<boolean>((observer) => {
+        isTokenValid$: new Observable<boolean>((observer: Subscriber<boolean>) => {
           observer.next(true);
         }),
       },
@@ -71,42 +68,42 @@ describe('ResetPasswordComponent', () => {
   it('should show password after clicking view password btn', () => {
     spectator.typeInElement(
       'asdf',
-      spectator.query(byPlaceholder('Password')) as HTMLElement
+      spectator.query(byPlaceholder('Password')),
     );
     expect(spectator.query(byPlaceholder('Password'))).toHaveAttribute(
       'type',
-      'password'
+      'password',
     );
-    spectator.click(spectator.query(byText('View Password')) as HTMLElement);
+    spectator.click(spectator.query(byText('View Password')));
     expect(spectator.query(byPlaceholder('Password'))).toHaveAttribute(
       'type',
-      'text'
+      'text',
     );
   });
 
   it('should render validation error when password and confirmation do not match', () => {
     spectator.typeInElement(
       'angel@angel.co',
-      spectator.query(byPlaceholder('Password')) as HTMLElement
+      spectator.query(byPlaceholder('Password')),
     );
     spectator.typeInElement(
       'ang@ang.co',
-      spectator.query(byPlaceholder('Password Confirmation')) as HTMLElement
+      spectator.query(byPlaceholder('Password Confirmation')),
     );
 
     expect(spectator.query('.validation-error')).toHaveText(
-      'Passwords do not match'
+      'Passwords do not match',
     );
   });
 
   it('should set active continue button with valid password', () => {
     spectator.typeInElement(
       'angel@angel.co',
-      spectator.query(byPlaceholder('Password')) as HTMLElement
+      spectator.query(byPlaceholder('Password')),
     );
     spectator.typeInElement(
       'ang@ang.co',
-      spectator.query(byPlaceholder('Password Confirmation')) as HTMLElement
+      spectator.query(byPlaceholder('Password Confirmation')),
     );
 
     expect(spectator.query('.change-password-btn')).toHaveText('Continue');

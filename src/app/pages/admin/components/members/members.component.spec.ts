@@ -47,7 +47,7 @@ describe('MembersComponent', () => {
 
   it('should display ui', () => {
     expect(
-      spectator.query(byPlaceholder('Search members, accounts...'))
+      spectator.query(byPlaceholder('Search members, accounts...')),
     ).toExist();
     expect(spectator.query(byText('Invite Members'))).toExist();
     expect(spectator.query(byText('Name'))).toExist();

@@ -36,7 +36,9 @@ export class SelectOrganizationComponent {
   selectOrg(orgUuid: string): void {
     localStorage.setItem('selected_org', orgUuid);
     this.userService.addSelectedOrganizationUuid(orgUuid);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home'])
+      .then(() => {})
+      .catch(() => {});
   }
 
   /**

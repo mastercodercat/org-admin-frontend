@@ -151,6 +151,7 @@
   },
   "defaultProject": "organizer-front",
   "cli": {
+    "analytics": false,
     "defaultCollection": "@ngrx/schematics"
   }
 }

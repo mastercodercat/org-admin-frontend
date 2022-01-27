@@ -1,9 +1,7 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Spectator,
   byText,
   createComponentFactory,
-  byPlaceholder,
 } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
 import { IconDefinition } from '@ant-design/icons-angular';

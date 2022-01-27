@@ -50,6 +50,7 @@ describe('MemberRowComponent', () => {
         organization: {
           uuid: '1',
           name: 'Organization 1',
+          roles: [],
         },
         role: {
           uuid: '1',
@@ -60,6 +61,7 @@ describe('MemberRowComponent', () => {
         organization: {
           uuid: '2',
           name: 'Organization 2',
+          roles: [],
         },
         role: {
           uuid: '2',
@@ -72,7 +74,7 @@ describe('MemberRowComponent', () => {
   beforeEach(() => {
     spectator = createComponent({
       props: {
-        member: member,
+        member,
       },
     });
     spectator.detectChanges();
@@ -86,7 +88,9 @@ describe('MemberRowComponent', () => {
       expect(spectator.query(byText(member.phone))).toExist();
     }
     for (const organization of member.organizationUsers) {
-      expect(spectator.query(byText(organization.organization.name))).toExist();
+      if (organization.organization?.name) {
+        expect(spectator.query(byText(organization.organization.name))).toExist();
+      }
       expect(spectator.query(byText(organization.role.name))).toExist();
     }
   });

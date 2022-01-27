@@ -7,10 +7,12 @@ import { Permission } from '../permission';
   styleUrls: ['./permission-card.component.less'],
 })
 export class PermissionCardComponent implements OnInit {
-  @Input() title: string = '';
+  @Input() title = '';
   @Input() permissions: Permission[] = [];
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    console.log('init permission card');
+  }
 }

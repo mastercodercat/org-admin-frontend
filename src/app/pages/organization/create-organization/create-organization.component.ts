@@ -36,12 +36,14 @@ export class CreateOrganizationComponent {
         input: {
           name: this.createOrgForm.get('orgName')?.value as string,
           adminEmail: this.createOrgForm.get('adminEmail')?.value as string,
-          subscriptionType: this.createOrgForm.get('subscriptionType')?.value,
-          organizationType: this.createOrgForm.get('orgType')?.value,
+          subscriptionType: this.createOrgForm.get('subscriptionType')?.value as SubscriptionEnum,
+          organizationType: this.createOrgForm.get('orgType')?.value as OrganizationEnum,
           organizationUuid: localStorage.getItem('selected_org'),
         },
       }).subscribe(() => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home'])
+          .then(() => {})
+          .catch(() => {});
       });
     } else {
       Object.values(this.createOrgForm.controls).forEach(control => {

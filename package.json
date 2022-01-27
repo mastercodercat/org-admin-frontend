@@ -9,6 +9,7 @@
     "build-staging": "npm run build -- --configuration=staging",
     "build-production": "npm run build -- --production",
     "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "npm run test -- --watch=false --browsers=ChromeHeadless",

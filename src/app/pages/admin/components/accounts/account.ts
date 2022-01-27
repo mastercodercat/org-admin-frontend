@@ -1,5 +1,5 @@
 export class Account {
-  name: string = '';
+  name = '';
   members?: number = 0;
   uuid?: string = '';
   subaccounts?: Account[] = [];

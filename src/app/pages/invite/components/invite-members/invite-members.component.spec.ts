@@ -36,8 +36,8 @@ describe('InviteMembersComponent', () => {
     expect(spectator.query(byText('a. Enter email addresses'))).toExist();
     expect(
       spectator.query(
-        byText('Enter one or more email addresses; comma separated.')
-      )
+        byText('Enter one or more email addresses; comma separated.'),
+      ),
     ).toExist();
     expect(spectator.query('button')).toHaveText('Invite via email');
     expect(spectator.query(byText('b. Import .csv files'))).toExist();
