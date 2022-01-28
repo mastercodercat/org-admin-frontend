@@ -70,9 +70,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     // If form is filled out correctly, try to log in
     if (this.loginForm.status === 'VALID') {
       // Use auth service to send credentials to Auth0
-      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string)
-        .then(() => {})
-        .catch(() => {});
+      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
     }
   }
 
@@ -93,21 +91,17 @@ export class LoginComponent extends BaseComponent implements OnInit {
    */
   private navigateHome(): void {
     this.emailPassNotValid = false;
-    this.store.pipe(select(fromUserSelectors.selectAllOrganizations), takeUntil(this.ngUnsubscribe$))
+    this.store.pipe(select(fromUserSelectors.selectActivePendingOrganizations), takeUntil(this.ngUnsubscribe$))
       .subscribe((org: Organization[]) => {
-        // If user has access to more than one organization we show them the select organizations screen
-        if (org?.length > 1) {
-          this.router.navigate(['/select-organization'])
-            .then(() => {})
-            .catch(() => {});
+        // If user has access to more than one organization or none, we show them the select organizatiions screen
+        if (org?.length > 1 || org?.length === 0) {
+          this.router.navigate(['/select-organization']);
         } else if (org?.length === 1) {
           const orgUuid = org[0].uuid;
           // If user has access to only one organization we set the selected org uuid and show them the dashboard screen
           localStorage.setItem('selected_org', orgUuid);
           this.userService.addSelectedOrganizationUuid(orgUuid);
-          this.router.navigate(['/home'])
-            .then(() => {})
-            .catch(() => {});
+          this.router.navigate(['/home']);
         }
       });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Permission } from '../permission';
 
 @Component({
@@ -6,13 +6,9 @@ import { Permission } from '../permission';
   templateUrl: './permission-card.component.html',
   styleUrls: ['./permission-card.component.less'],
 })
-export class PermissionCardComponent implements OnInit {
+export class PermissionCardComponent {
   @Input() title = '';
   @Input() permissions: Permission[] = [];
 
   constructor() {}
-
-  ngOnInit(): void {
-    console.log('init permission card');
-  }
 }

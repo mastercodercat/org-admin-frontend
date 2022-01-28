@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Stack, StackProps, Construct } from '@aws-cdk/core';
 import { OpenIdConnectProvider, OpenIdConnectPrincipal, Role, ManagedPolicy} from '@aws-cdk/aws-iam';
-import { StringParameter } from '@aws-cdk/aws-ssm';
+// import { StringParameter } from '@aws-cdk/aws-ssm';
 import { CfnOutput } from '@aws-cdk/core';
 
 
@@ -23,11 +23,10 @@ export class ContinuousIntegrationInfrastructureStack extends Stack {
       clientIds: props.bitbucketWorkspaceIDs,
     });
 
-    const providerArnParameter = new StringParameter(this, 'helm-organizer-frontend-oidc-provider-parameter', {
-      stringValue: oidcProvider.openIdConnectProviderArn,
-      parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
-    });
-    console.log(providerArnParameter);
+    // const providerArnParameter = new StringParameter(this, 'helm-organizer-frontend-oidc-provider-parameter', {
+    //   stringValue: oidcProvider.openIdConnectProviderArn,
+    //   parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
+    // });
 
     const bitbucketPipelinesRole = new Role(this, 'helm-organizer-frontend-bitbucket-pipelines-role', {
       assumedBy: new OpenIdConnectPrincipal(oidcProvider),

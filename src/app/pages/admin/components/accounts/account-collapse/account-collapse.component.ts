@@ -1,16 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Account } from '../account';
 import {
   EnableOrganizationGQL,
   DisableOrganizationGQL,
-} from 'src/app/shared/services/graphql/graphql.service';
+  StatusEnum,
+} from '../../../../../shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-admin-account-collapse',
   templateUrl: './account-collapse.component.html',
   styleUrls: ['./account-collapse.component.less'],
 })
-export class AccountCollapseComponent implements OnInit {
+export class AccountCollapseComponent {
   @Input() accounts: Account[] = [];
 
   customStyle = {
@@ -25,10 +26,6 @@ export class AccountCollapseComponent implements OnInit {
     private disableOrganization: DisableOrganizationGQL,
   ) {}
 
-  ngOnInit(): void {
-    console.log('init account collapse');
-  }
-
   enable(): void {
     if (this.currentAccount.uuid) {
       this.enableOrganization
@@ -36,7 +33,7 @@ export class AccountCollapseComponent implements OnInit {
           uuid: this.currentAccount.uuid,
         })
         .subscribe(() => {
-          this.currentAccount.status = 'PENDING';
+          this.currentAccount.status = StatusEnum.Pending;
         });
     }
   }
@@ -48,7 +45,7 @@ export class AccountCollapseComponent implements OnInit {
           uuid: this.currentAccount.uuid,
         })
         .subscribe(() => {
-          this.currentAccount.status = 'SUSPENDED';
+          this.currentAccount.status = StatusEnum.Suspended;
         });
     }
   }

@@ -114,6 +114,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('selected_org');
 
     this.auth0.logout({ clientID: AUTH_CONFIG.clientId, returnTo: `${this.doc.location.origin}/login` });
   }

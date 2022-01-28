@@ -1,7 +1,4 @@
-import {
-  OrganizationEnum,
-  SubscriptionEnum,
-} from '../services/graphql/graphql.service';
+import { OrganizationEnum, StatusEnum, SubscriptionEnum } from '../services/graphql/graphql.service';
 import { Role } from './role.model';
 export interface Organization {
   name: string;
@@ -11,6 +8,6 @@ export interface Organization {
   organizationUuid?: string; // Parent organization uuid
   roles: Role[];
   countUsers?: number;
-  status?: string;
   organizations?: Organization[];
+  status: StatusEnum;
 }

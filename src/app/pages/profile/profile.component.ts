@@ -91,6 +91,7 @@ export class ProfileComponent implements OnInit {
           uuid: organization?.uuid || '',
           organizationUuid: organization?.organizationUuid || '',
           roles: organization?.roles,
+          status: organization?.status,
         });
       }
 

@@ -41,9 +41,7 @@ export class CreateOrganizationComponent {
           organizationUuid: localStorage.getItem('selected_org'),
         },
       }).subscribe(() => {
-        this.router.navigate(['/home'])
-          .then(() => {})
-          .catch(() => {});
+        this.router.navigate(['/home']);
       });
     } else {
       Object.values(this.createOrgForm.controls).forEach(control => {

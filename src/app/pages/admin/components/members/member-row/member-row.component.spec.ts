@@ -18,6 +18,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { MemberRowComponent } from './member-row.component';
 import { Member } from '../member';
+import { StatusEnum } from 'src/app/shared/services/graphql/graphql.service';
 
 const icons: IconDefinition[] = [
   ExportOutline,
@@ -51,6 +52,7 @@ describe('MemberRowComponent', () => {
           uuid: '1',
           name: 'Organization 1',
           roles: [],
+          status: StatusEnum.Active,
         },
         role: {
           uuid: '1',
@@ -62,6 +64,7 @@ describe('MemberRowComponent', () => {
           uuid: '2',
           name: 'Organization 2',
           roles: [],
+          status: StatusEnum.Active,
         },
         role: {
           uuid: '2',

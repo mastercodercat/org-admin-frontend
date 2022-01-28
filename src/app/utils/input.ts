@@ -11,7 +11,7 @@ export const passwordValidator = (control: FormControl): { [s: string]: boolean 
   if (value.length < 8) {
     validator.length = true;
   }
-  if (!/[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(value)) {
+  if (!/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(value)) {
     validator.special = true;
   }
   if (!/\d/.test(value)) {

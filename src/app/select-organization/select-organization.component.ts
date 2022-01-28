@@ -24,7 +24,7 @@ export class SelectOrganizationComponent {
     private userService: UserService,
     private router: Router) {
     this.userInfo$ = this.store.pipe(select(fromUserSelectors.selectUser));
-    this.orgList$ = this.store.pipe(select(fromUserSelectors.selectAllOrganizations));
+    this.orgList$ = this.store.pipe(select(fromUserSelectors.selectActivePendingOrganizations));
   }
 
   /**
@@ -36,9 +36,7 @@ export class SelectOrganizationComponent {
   selectOrg(orgUuid: string): void {
     localStorage.setItem('selected_org', orgUuid);
     this.userService.addSelectedOrganizationUuid(orgUuid);
-    this.router.navigate(['/home'])
-      .then(() => {})
-      .catch(() => {});
+    this.router.navigate(['/home']);
   }
 
   /**

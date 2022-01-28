@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -35,6 +36,7 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     CommonModule,
     ReactiveFormsModule,
     // Ant Design
+    NzAlertModule,
     NzLayoutModule,
     NzTypographyModule,
     NzButtonModule,

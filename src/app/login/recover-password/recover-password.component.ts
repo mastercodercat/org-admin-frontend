@@ -28,9 +28,7 @@ export class RecoverPasswordComponent implements OnInit {
     const email = this.recoverPasswordForm.get('email')?.value as string;
     this.requestPasswordChange.mutate({ email })
       .subscribe(() => {
-        this.router.navigate(['/login/request-sent'])
-          .then(() => {})
-          .catch(() => {});
+        this.router.navigate(['/login/request-sent']);
       });
   }
 

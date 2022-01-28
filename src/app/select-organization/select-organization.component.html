@@ -4,10 +4,15 @@
   <p nz-typography>{{(userInfo$ | async)?.name}}</p>
 </div>
 <nz-card class="organization-list mb-2" nzTitle="Select an account">
-  <ul class='org-list'>
-    <li nz-typography *ngFor="let org of orgList$ | async" class="org-list-item" (click)="selectOrg(org.uuid)">
-      {{org.name}}
-    </li>
-  </ul>
+  <ng-container *ngIf="(orgList$ | async)?.length === 0; else orgList">
+    <div nz-typography>You are not associated with any Organizations. Please reach out to your Administrator if this is an error.</div>
+  </ng-container>
+  <ng-template #orgList>
+    <ul class='org-list'>
+      <li nz-typography *ngFor="let org of orgList$ | async" class="org-list-item" (click)="selectOrg(org.uuid)">
+        {{org.name}}
+      </li>
+    </ul>
+  </ng-template>
 </nz-card>
 <button class="logout-btn" nz-button nzType="default" (click)="logout()">Log out of all accounts</button>

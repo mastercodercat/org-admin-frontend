@@ -22,6 +22,7 @@ export class ResetPasswordComponent {
   token = '';
   passwordFocus = false;
   passwordVisible = false;
+  passwordChangeSuccess = false;
   isTokenValid$: Observable<Maybe<boolean> | undefined>;
 
   constructor(
@@ -56,9 +57,11 @@ export class ResetPasswordComponent {
         },
       })
       .subscribe(() => {
-        this.router.navigate(['/login'])
-          .then(() => {})
-          .catch(() => {});
+        this.passwordChangeSuccess = true;
+        // password has been reset , redirecting to login... (3 seconds)?
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000);
       });
   }
 
