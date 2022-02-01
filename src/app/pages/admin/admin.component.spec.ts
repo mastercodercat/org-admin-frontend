@@ -5,7 +5,7 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline, ApartmentOutline } from '@ant-design/icons-angular/icons';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 import { AdminComponent } from './admin.component';
 

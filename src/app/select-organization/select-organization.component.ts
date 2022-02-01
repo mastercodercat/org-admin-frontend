@@ -33,10 +33,10 @@ export class SelectOrganizationComponent {
    * @param {string} orgUuid
    * @memberof SelectOrganizationComponent
    */
-  selectOrg(orgUuid: string): void {
+  async selectOrg(orgUuid: string): Promise<void> {
     localStorage.setItem('selected_org', orgUuid);
     this.userService.addSelectedOrganizationUuid(orgUuid);
-    this.router.navigate(['/home']);
+    await this.router.navigate(['/home']);
   }
 
   /**

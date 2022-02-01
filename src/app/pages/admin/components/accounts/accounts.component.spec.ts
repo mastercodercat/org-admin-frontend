@@ -5,16 +5,16 @@ import {
   byPlaceholder,
 } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from 'src/app/store/reducers';
+import { reducers, metaReducers } from '../../../../store/reducers';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MailOutline } from '@ant-design/icons-angular/icons';
 
 import { AccountsComponent } from './accounts.component';
-import { UserService } from 'src/app/shared/services/user/user.service';
+import { UserService } from '../../../../shared/services/user/user.service';
 
 const icons: IconDefinition[] = [MailOutline];
 

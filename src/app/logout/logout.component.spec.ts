@@ -4,7 +4,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline } from '@ant-design/icons-angular/icons';
 import { Spectator, byText, createRoutingFactory } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from 'src/app/store/reducers';
+import { reducers, metaReducers } from '../store/reducers';
 import { LogoutComponent } from './logout.component';
 
 const icons: IconDefinition[] = [UserOutline];

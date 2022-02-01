@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 
 import { UserEffects } from './user.effects';
-import { reducers, metaReducers } from 'src/app/store/reducers';
+import { reducers, metaReducers } from '../reducers';
 import { StoreModule } from '@ngrx/store';
 
 describe('UserEffects', () => {

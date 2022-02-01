@@ -59,7 +59,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
    *
    * @memberof LoginComponent
    */
-  login(): void {
+  async login(): Promise<void> {
     // Update form to show correct validation
     for (const i in this.loginForm.controls) {
       if (Object.prototype.hasOwnProperty.call(this.loginForm.controls, i)) {
@@ -70,7 +70,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     // If form is filled out correctly, try to log in
     if (this.loginForm.status === 'VALID') {
       // Use auth service to send credentials to Auth0
-      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
+      await this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
     }
   }
 
@@ -92,16 +92,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
   private navigateHome(): void {
     this.emailPassNotValid = false;
     this.store.pipe(select(fromUserSelectors.selectActivePendingOrganizations), takeUntil(this.ngUnsubscribe$))
-      .subscribe((org: Organization[]) => {
+      .subscribe((org: Organization[]): void => {
         // If user has access to more than one organization or none, we show them the select organizatiions screen
         if (org?.length > 1 || org?.length === 0) {
-          this.router.navigate(['/select-organization']);
+          this.router.navigate(['/select-organization']).then(() => {}).catch(() => {});
         } else if (org?.length === 1) {
           const orgUuid = org[0].uuid;
           // If user has access to only one organization we set the selected org uuid and show them the dashboard screen
           localStorage.setItem('selected_org', orgUuid);
           this.userService.addSelectedOrganizationUuid(orgUuid);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then(() => {}).catch(() => {});
         }
       });
   }

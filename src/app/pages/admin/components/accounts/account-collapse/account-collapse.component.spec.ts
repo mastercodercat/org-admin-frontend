@@ -8,9 +8,9 @@ import {
   MoreOutline,
   CaretLeftOutline,
 } from '@ant-design/icons-angular/icons';
-import { reducers, metaReducers } from 'src/app/store/reducers';
+import { reducers, metaReducers } from '../../../../../store/reducers';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../../shared/shared.module';
 
 import { Account } from '../account';
 import { AccountCollapseComponent } from './account-collapse.component';

@@ -24,9 +24,7 @@ import { GraphQLModule } from './graphql.module';
 import { UserEffects } from './store/effects/user.effects';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,14 +34,16 @@ import { UserEffects } from './store/effects/user.effects';
     // NgRx
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppEffects, UserEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument({maxAge: 25}) : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({ maxAge: 25 })
+      : [],
     GraphQLModule,
   ],
   // Set router root to /
   providers: [
-    {provide: APP_BASE_HREF, useValue: '/'},
+    { provide: APP_BASE_HREF, useValue: '/' },
     { provide: NZ_I18N, useValue: en_US },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
