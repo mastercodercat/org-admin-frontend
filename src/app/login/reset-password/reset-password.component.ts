@@ -60,7 +60,9 @@ export class ResetPasswordComponent {
         this.passwordChangeSuccess = true;
         // password has been reset , redirecting to login... (3 seconds)?
         setTimeout(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'])
+            .then(() => {})
+            .catch(() => {});
         }, 3000);
       });
   }

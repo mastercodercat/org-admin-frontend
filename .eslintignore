@@ -1,2 +1,5 @@
 /.eslintrc.js
 graphql.service.ts
+infrastructure/bin/*.ts
+infrastructure/lib/*.ts
+infrastructure/test/*.ts

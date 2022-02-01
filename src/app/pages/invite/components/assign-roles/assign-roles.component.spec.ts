@@ -1,6 +1,6 @@
 import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';

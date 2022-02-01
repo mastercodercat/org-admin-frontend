@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Member, OrganizationUsers } from 'src/app/pages/admin/components/members/member';
-import { User } from 'src/app/shared/models/user.model';
+import { Member, OrganizationUsers } from '../../pages/admin/components/members/member';
+import { User } from '../../shared/models/user.model';
 import { FindMembersGQL,
   FindMembersQuery,
   FindMyOrganizationsGQL,
   FindMyOrganizationsQuery,
-} from 'src/app/shared/services/graphql/graphql.service';
+} from '../../shared/services/graphql/graphql.service';
 
 @Injectable({
   providedIn: 'root',
