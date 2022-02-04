@@ -1,0 +1,7 @@
+@mixin make-container($minWidth, $breakpoint) {
+  @media (min-width: $minWidth) {
+    .container {
+      max-width: $breakpoint;
+    }
+  }
+}

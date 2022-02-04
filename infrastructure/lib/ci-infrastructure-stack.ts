@@ -1,42 +1,30 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Stack, StackProps, Construct } from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
 import { OpenIdConnectProvider, OpenIdConnectPrincipal, Role, ManagedPolicy} from '@aws-cdk/aws-iam';
-// import { StringParameter } from '@aws-cdk/aws-ssm';
-import { CfnOutput } from '@aws-cdk/core';
+import { join } from 'path';
+import { CfnOutput, Duration } from '@aws-cdk/core';
+import { CONSTANTS } from './config';
+import {StringParameter} from '@aws-cdk/aws-ssm'
 
 
-export interface ContinuousIntegrationInfrastructureStackProps extends StackProps {
-  oidcProviderUrl: string;
-  bitbucketWorkspaceIDs: string[];
+export interface ContinuousIntegrationInfrastructureStackProps extends cdk.StackProps {
   stage: string;
 }
 
-export class ContinuousIntegrationInfrastructureStack extends Stack {
-  constructor(scope: Construct, id: string, props: ContinuousIntegrationInfrastructureStackProps) {
+export class ContinuousIntegrationInfrastructureStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: ContinuousIntegrationInfrastructureStackProps) {
     super(scope, id, props);
 
-    // Resources
-    const oidcProvider = new OpenIdConnectProvider(this, 'helm-organizer-frontend-oidc-provider', {
-      url: props.oidcProviderUrl,
-      clientIds: props.bitbucketWorkspaceIDs,
-    });
-
-    // const providerArnParameter = new StringParameter(this, 'helm-organizer-frontend-oidc-provider-parameter', {
-    //   stringValue: oidcProvider.openIdConnectProviderArn,
-    //   parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
-    // });
-
-    const bitbucketPipelinesRole = new Role(this, 'helm-organizer-frontend-bitbucket-pipelines-role', {
+    const oidcProviderArn = StringParameter.fromStringParameterAttributes(this, `${CONSTANTS.stackPrefix}-oidc-provider-arn`, {
+      parameterName: `/${props.stage}/shared/config/OIDC_PROVIDER_ARN`,
+      // 'version' can be specified but is optional.
+    }).stringValue;
+    const oidcProvider = OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, `${CONSTANTS.stackPrefix}-oidc-provider`,
+        oidcProviderArn);
+    const bitbucketPipelinesRole = new Role(this, `${CONSTANTS.stackPrefix}-bitbucket-pipelines-role`, {
       assumedBy: new OpenIdConnectPrincipal(oidcProvider),
-      managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
-      roleName: `helm-bitbucket-${props.stage.toLowerCase()}`,
+      managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess")],
+      roleName: `${CONSTANTS.stackPrefix}-bitbucket-${props.stage.toLowerCase()}`
     });
 
-    new CfnOutput(this, 'pipeline-role', {
-      value: bitbucketPipelinesRole.roleArn,
-      description: 'ARN for the bitbucket pipelines role',
-    });
   }
 }

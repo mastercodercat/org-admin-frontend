@@ -1,0 +1,12 @@
+overwrite: true
+schema: "https://api.sandbox.forms-service.organizer.helmahead.com/graphql"
+documents: "projects/forms/src/**/*.graphql"
+generates:
+  projects/forms/src/graphql/graphql.service.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+  src/app/shared/services/graphql/codegen/graphql.schema.json:
+    plugins:
+      - "introspection"

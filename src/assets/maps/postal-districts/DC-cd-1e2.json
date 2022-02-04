@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "tl_2021_us_cd116",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4269" } },
+"features": [
+{ "type": "Feature", "properties": { "STATEFP": "11", "CD116FP": "98", "GEOID": "1198", "NAMELSAD": "Delegate District (at Large)", "LSAD": "C4", "CDSESSN": "116", "MTFCC": "G5200", "FUNCSTAT": "N", "ALAND": 158316124, "AWATER": 18709762, "INTPTLAT": "+38.9042474", "INTPTLON": "-077.0165167" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -77.119751, 38.93435 ], [ -77.040882, 38.995845 ], [ -76.909393, 38.892852 ], [ -77.039006, 38.791645 ], [ -77.039464, 38.869732 ], [ -77.119751, 38.93435 ] ] ] } }
+]
+}

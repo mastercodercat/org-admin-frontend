@@ -1,4 +1,4 @@
-const api = 'https://sandbox-api.civicexplorer.com';
+const api = 'https://api.sandbox.federation-service.organizer.helmahead.com';
 const track = 'cd5f22344c2ba0be1dd3964f898988c8';
 
 export const environment = {
@@ -8,13 +8,13 @@ export const environment = {
   production: false,
   mixpanel: true,
   auth: {
-    domain: 'https://helm-sandbox.us.auth0.com',
-    clientId: 'rU8r90TON0aOtpIj00GSQ0dUuT2fe5IP',
+    domain: 'helm-sandbox.us.auth0.com',
+    clientId: 'D8ejI5YjzaVGaxlkSOvS4NR4P91kLpyi',
     audience: 'http://helmteam.us',
     redirectUri: window.location.origin,
   },
   httpInterceptor: {
     allowedList: [api + '/*'],
   },
-  hmr: false,
+  hmr: false
 };

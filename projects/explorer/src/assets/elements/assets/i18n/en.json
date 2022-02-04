@@ -1,0 +1,266 @@
+{
+    "views":{
+       "components":{
+         "criteriaBuilder": {
+            "and": "And",
+            "andNot": "And Not",
+            "cancel": "Cancel",
+            "everyone": "Everyone",
+            "buildCommunity": "Build Community",
+            "is": "is",
+            "between": "between",
+            "isBetween": "Is between",
+            "matchingCriteria": "matching criteria",
+            "narrowProfiles": "Narrow profiles by the following criteria",
+            "or": "or",
+            "peopleAndCriteriaApplied": "{{numPpl}} People - {{count}} Criteria Applied",
+            "peopleFilters": "People Filters",
+            "searchCriteria": "Search Criteria",
+            "selectCategory": "Select Category",
+            "selectCriteria": "Select Criteria",
+            "selectionApplied": "selection applied",
+            "selectionsApplied": "selections applied",
+            "selectSubcriteria": "Select Subcriteria",
+            "switchToPowerEditor": "Switch to Power Editor",
+            "update": "Update",
+            "where": "Where",
+               "saveModal": {
+                  "criteriaSummary": "Criteria Summary",
+                  "segment": "segment",
+                  "list": "list",
+                  "existingList": "existing list",
+                  "type&Info": "{{type}} Information",
+                  "type&Name": "{{type}} name",
+                  "docNameProTip": "Pro Tip! A descriptive name that will help you remember how the new {{type}} should be used!",
+                  "addToList": "Select list to add criteria.",
+                  "textWarning": "{{type}} name required to save.",
+                  "folderProTip": "Pro Tip! Folders help you organize your {{type}}.",
+                  "chooseFolder": "Choose {{type}} Folder",
+                  "optional": " (Optional)",
+                  "saveList": "Save List",
+                  "newList": "New List",
+                  "saveSegment": "Save Segment",
+                  "createNew": "create new ",
+                  "addTo": "Add to Existing List",
+                  "dynamicCollection": "Dynamic collection of profiles based on a set of criteria.",
+                  "staticCollection": "Static collection of profiles.",
+                  "addSelected": "Add selected profiles to a list."
+               }
+         },
+          "demo":{
+             "emailLabelDomain":"@crowdskout.com"
+          },
+          "legal": {
+             "privacyPolicy": "Privacy Policy",
+             "termsOfService": "Terms of Service"
+          },
+          "loader": {
+             "justOneMoment": "Just one moment..."
+          },
+          "numberRange": {
+             "max": "Max",
+             "min": "Min"
+          },
+          "reporting": {
+            "addMoreBalance": "Chat with us to add more",
+            "helpText": "Is your balance running low? Contact us at xxx@techco2020.com, and one of our Account Managers will help you add more to your SMS, E-mail, and/or Call balance.",
+            "ok": "OK",
+            "usageBar": {
+              "availableBalance": "<span class='used-amount'>{{used}}</span> of {{max}} {{balanceType}} available",
+              "call": "Call",
+              "email": "Email",
+              "expiration": "Exp {{expDate}}",
+              "lowBalance": "Your {{balanceType}} balance is running low",
+              "sms": "SMS"
+            },
+            "usageDesc": "View your available outreach balance and add more whenever you're running low.",
+            "balanceLimit": {
+               "title": "Not enough in your balance",
+               "description": "You don’t have enough email outreach in your balance. Go and update your audience segment so that you are within your balance, or add more to your outreach balance.",
+               "viewOutreach": "View outreach balance"
+            }
+          }
+       },
+       "down":{
+          "down":{
+             "siteIsDown":"{{company.name}} is currently down for maintenance."
+          }
+       },
+       "login":{
+          "loginClients":{
+             "noClients":"Your user is not associated with any {{company.name}} accounts.",
+             "troubleshootContact":"hello@crowdskout.com"
+          },
+          "login":{
+             "email": "Email",
+             "forgotPassword": "Forgot your password?",
+             "login": "Login",
+             "logoText":"{{company.name}} Login",
+             "password": "Password",
+             "urlPrivacy": "{{company.privacy.url}}",
+             "userLevel": "User Level"
+          },
+          "passwordReset": {
+             "enterEmail": "Please enter your email address below to request a password reset.",
+             "reset": "Reset"
+          },
+          "messages": {
+             "enterEmail": "Please enter an email",
+             "provideEmail": "Please provide your email address.",
+             "provideValidEmail": "Please provide a valid email address.",
+             "providePassword": "Please provide your password.",
+             "requestProcessed": "Request processed. Please check your email for instructions to reset your password.",
+             "thinkMistake": "If you think this is a mistake, please contact"
+          }
+       },
+       "mobile":{
+          "mobile":{
+             "welcomeText":"Welcome to {{company.name}}"
+          }
+       },
+       "profile":{
+          "scores":{
+             "description":"Scores reflect a modeled gauge of an individual\\'s inclinations, calculated based on a range of criteria, including but not limited to available voter data, consumer data, and audience activity across the platform. They are meant to serve as an additional layer of insight into your target audience, not an absolute prediction.",
+             "label":"{{company.name}} Score"
+          }
+       },
+       "settings":{
+          "hostedBy": "Hosted By {{company.name}}",
+          "poweredBy": "Powered By {{company.name}}",
+          "termsOfUse": "{{company.termsOfUse.url}}",
+          "general":{
+             "tabs":{
+                "tracking":{
+                   "description1":"To add {{company.name}} tracking to your website, put the below code on every page of your web site.",
+                   "description2":"{{company.name}} tracking code lets you know when your audience is engaged with your online content–from visits to form-fills to video views and more. Using it will give you a more holistic view of your audience. You can access this code any time in Settings. If you aren\\'t equipped to install tracking code on your website yourself, please click below to email tracking code to your website administrator–installing this will take your team no time at all!",
+                   "thirdPartyForm":"Do you want {{company.name}} tracking code to collect non-{{company.name}} forms on your website (third-party submissions) when possible?"
+                }
+             }
+          },
+          "integrations":{
+             "tracking":{
+                "description1":"To add {{company.name} tracking to your website, put the below code on every page of your web site.",
+                "description2":"This code will automatically create {{company.name}} profiles for every site visitor you have and start collecting page views, capturing data from forms filled out on your web site, identify embedded videos and track visitor interactions with these videos, track engagement with social buttons, and allow the use of {{company.name}} forms."
+             }
+          },
+          "userSettings":{
+             "userManagement":{
+                "usersComfirm":{
+                   "setupAccount":"Enter your information below to create your {{company.name}} user.",
+                   "forcedReset":"Help us make {{company.name}} even more secure! Please reset your password now to continue."
+                },
+                "usersNew":{
+                   "checkAccountCreation":"Enter the user\\'s email below to check if they already have a {{company.name}} account or create a new user for them."
+                }
+             }
+          }
+       },
+       "tools":{
+          "email":{
+             "emailNew":{
+                "exportConnect":"to your {{company.name}} account."
+             }
+          },
+          "export":{
+             "exportNew":{
+                "rawData":"{{company.name}} aggregates data from many sources and as a result often displays multiple results. When you select recommended data only, {{company.name}} evaluates that data and returns the best or recommended set of data based on data source."
+             }
+          },
+          "form":{
+             "steps":{
+                "publish":{
+                   "presentation":"Here\\'s the {{company.name}} hosted version of your newly created form."
+                }
+             }
+          },
+          "import":{
+             "importErrorFix":{
+                "hasErrors":"{{company.name}} has detected multiple duplicate errors in this column. This is typically when your file data values must be matched with a {{company.name}} data value. Please match your values with the {{company.name}} values to continue. You only need to do this once for each distinct value."
+             },
+             "importFieldGroup":{
+                "hasRequiredFields":"{{company.name}} has detected that you are missing required fields related to columns you\\'ve included in the import. Please choose values for these required fields, or opt not to import those columns.",
+                "columnIssue":"{{company.name}} is unable to determine how to group your columns together.  {{company.name}} organizes fields into larger field groupings representing a single item (like a full address, a full name, etc.). Please assign the ungrouped columns in the right to their appropriate field grouping in the left table.",
+                "platformIssue":"{{company.name}} Field"
+             },
+             "importFieldMap":{
+                "uniqueId":"Your import has multiple columns mapped to {{company.name}} ID. Only the first column will be used.",
+                "parentColumn":"{{company.name}}"
+             },
+             "importInspect":{
+                "processing":"Your file is done being inspected and is now being processed into {{company.name}}. You may leave this page and your import will continue to be processed."
+             },
+             "importUpload":{
+                "autoMatch":"Automatically match columns to {{company.name}} fields where possible"
+             }
+          },
+          "quiz":{
+             "steps":{
+                "publish":{
+                   "presentation":"Here's the {{company.name}} hosted version of your newly created quiz."
+                }
+             }
+          },
+          "social":{
+             "steps":{
+                "publish":{
+                   "presentation":"Here's the {{company.name}} hosted version of your newly created form."
+                }
+             }
+          },
+          "survey":{
+             "steps":{
+                "publish":{
+                   "presentation":"Here's the {{company.name}} hosted version of your newly created survey."
+                }
+             }
+          }
+       },
+       "volunteer":{
+          "dashboard":{
+             "welcomeMessage":{
+                "welcomeText":"Welcome to {{company.name}}"
+             }
+          },
+          "volunteerModal":{
+             "description":"Since this is your first time here let\\'s get you acquainted with the way things work. {{org.name}} is using {{company.name}} to work with Volunteers (like you) to organize and complete activities that support our initiatives."
+          }
+       }
+    },
+    "core":{
+       "company": {
+         "name": "{{company.name}}"
+       },
+       "nav":{
+          "urlHelpCenter":"{{app.nav.helpCenter.url}}",
+          "back": "Back"
+       },
+       "emailDomain":{
+          "urlKnowledgeBase":"{{app.emailDomain.urlKnowledgeBase}}"
+       },
+       "landingPageDomain":{
+          "urlKnowledgeBase":"{{app.landingPageDomain.urlKnowledgeBase}}"
+       },
+       "crowdskout":{
+          "controllers":{
+             "mainCtrl":{
+                "browserOutdated":"Your current browser is outdated and may prohibit you from accessing certain features on {{company.name}}."
+             }
+          }
+       },
+       "csComponents":{
+         "services":{
+            "fields":{
+               "crowdskoutIdDisplay":"{{company.name}} ID"
+            }
+         }
+      },
+      "csProfile":{
+         "services":{
+            "profileFields":{
+               "singleScores":"TestingWithScores",
+               "multipleLayoutConnections":"{{company.name}}Scores"
+            }
+         }
+      }
+    }
+ }

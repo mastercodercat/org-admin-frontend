@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+DIR=$(cd $(dirname ${0}) && pwd)
+
+
+cd infrastructure/
+npm install
+CDK_APP="npx ts-node --prefer-ts-exts bin/dev-infrastructure.ts"
+docker-compose up -d
+sam-beta-cdk build --cdk-app "${CDK_APP}"
+
+COMPOSE_PROJECT=$(basename $(cd ${DIR}/../ && pwd))
+sam-beta-cdk local start-api --cdk-app "${CDK_APP}" --env-vars ${DIR}/../.env.json --host 0.0.0.0 --docker-network "${COMPOSE_PROJECT}_default"

@@ -1,0 +1,46 @@
+<exp-community-save-drawer
+  [(isVisible)]="isSaveCommunityDrawerVisible"
+  [existingCommunity]="currentCommunity"
+  ></exp-community-save-drawer>
+<button
+  nz-button
+  nzType="primary"
+  (click)="open()"
+  class="my-communities-button"
+>My Communities</button>
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visible"
+  [nzPlacement]="'left'"
+  nzTitle="My Communities"
+  [nzWidth]="350"
+  (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <div *ngIf="isLoading">
+      <div colspan="3" class="loading">
+        <nz-spin nzSimple [nzSize]="'small'"></nz-spin>
+      </div>
+    </div>
+    <div class="community"
+      [ngClass]="{'active': community.active}"
+      *ngFor="let community of communities"
+    >
+      <div class="community-name"
+        (click)="selectCommunity(community)"
+      >{{ community.name }}</div>
+      <div class="community-updated">Updated: October 11, 2021</div>
+      <div class="community-description">{{ community.description }}</div>
+      <div class="community-actions">
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+          <i class="icon-actions"></i>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="openSaveDrawer(community)">Edit</li>
+            <li nz-menu-item (click)="deleteCommunity(community)">Delete</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+  </ng-container>
+</nz-drawer>

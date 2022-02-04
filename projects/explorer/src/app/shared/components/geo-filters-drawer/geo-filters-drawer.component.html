@@ -1,0 +1,95 @@
+<!--<button class="customize-community-button" (click)="toggleSidepanel()">-->
+<!--  <i nz-icon nzType="right" nzTheme="outline"></i>-->
+<!--  Customize Community-->
+<!--</button>-->
+<div [ngClass]="{'expanded': displaySidepanel }" class="geo-filters-drawer">
+  <a class="closebtn" (click)="toggleSidepanel()">&times;</a>
+  <div class="geo-filters-drawer-title">
+    <h3>Geography</h3>
+  </div>
+  <div class="layer-selection">
+    <nz-select [(ngModel)]="layer" (ngModelChange)="changeLayer($event)" class="layer-selection-dropdown">
+      <nz-option nzValue="county" nzLabel="Counties"></nz-option>
+      <nz-option nzValue="congress" nzLabel="Congressional Districts"></nz-option>
+      <nz-option nzValue="postcode" nzLabel="Zip Codes"></nz-option>
+    </nz-select>
+  </div>
+  <nz-table #expandTable [nzData]="nodes" nzTableLayout="fixed" [nzFrontPagination]="false" class="regions-table">
+    <thead>
+      <tr>
+        <th [nzSortFn]="nameCompare" [nzWidth]="'50%'">
+          States and Counties
+        </th>
+        <th [nzSortFn]="numberCompare('people')" [nzWidth]="'25%'">
+          Population
+        </th>
+        <th [nzSortFn]="numberCompare('households')" [nzWidth]="'25%'">
+          Households
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of expandTable.data">
+        <tr class="parent-rows">
+          <td>
+            <span class="select-column">
+              <i class="tree-icon" [ngClass]="{'selected': row.isSelected, 'disabled': row.isDisabled}"
+                nz-icon
+                [nzType]="row.isSelected ? 'close' : 'plus'"
+                (click)="selectNode(row)"
+              > </i>
+            </span>
+            <span>{{ row.name | titlecase }}</span>
+            <span class="expand-column">
+              <i (click)="collapse(row, !row.expanded)" nz-icon [nzType]="row.expanded ? 'up' : 'down'" nzTheme="outline"></i>
+            </span>
+          </td>
+          <td>{{ row.people | number }}</td>
+          <td>{{ row.households | number }}</td>
+        </tr>
+        <tr *ngIf="row.loading">
+          <td colspan="3" class="loading">
+            <nz-spin nzSimple [nzSize]="'small'"></nz-spin>
+          </td>
+        </tr>
+        <ng-container *ngFor="let subRow of row.children">
+          <tr class="child-rows" *ngIf="row.expanded">
+            <td>
+              <span class="select-column">
+                <i
+                  class="tree-icon"
+                  [ngClass]="{'selected': subRow.isSelected, 'disabled': subRow.isDisabled}"
+                  nz-icon
+                  [nzType]="subRow.isSelected ? 'close' : 'plus'"
+                  (click)="selectNode(subRow)"
+                > </i>
+              </span>
+              <span>{{ subRow.name }}</span>
+            </td>
+            <td>{{ subRow.people | number }}</td>
+            <td>{{ subRow.households | number }}</td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </nz-table>
+  <div class="my-community">
+    <div class="geo-filters-drawer-title">
+      <h5>Selected Filters</h5>
+    </div>
+    <exp-selection-tool-tagbox
+      [regions]="selectedNodes"
+      [closeable]="true"
+      (remove)="deselectNode($event)"
+    > </exp-selection-tool-tagbox>
+  </div>
+  <div nz-row nzJustify="space-between" class="panel-buttons">
+    <div nz-col nzSpan="6">
+      <button nz-button nzType="default" (click)="toggleSidepanel()" nzAlign="bottom">Cancel</button>
+    </div>
+    <div nz-col nzSpan="18" class="build-community-buttons">
+      <button nz-button nzType="text" (click)="clearSelections()">Clear Selections</button>
+      <button nz-button nzType="primary" (click)="buildCommunity()" nzAlign="bottom" [disabled]="selectedNodes.length === 0">Build Map</button>
+    </div>
+  </div>
+</div>

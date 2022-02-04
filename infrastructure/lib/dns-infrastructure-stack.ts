@@ -1,67 +1,63 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Stack, StackProps, Construct, Arn } from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
 import { CrossAccountZoneDelegationRecord, PublicHostedZone } from '@aws-cdk/aws-route53';
-import { Role, AccountPrincipal, Effect, PolicyStatement} from '@aws-cdk/aws-iam';
-import { CfnOutput, RemovalPolicy } from '@aws-cdk/core';
+import { Role, CfnRole, AccountPrincipal, Effect, PolicyStatement} from '@aws-cdk/aws-iam';
+import { Fn, CfnOutput, RemovalPolicy } from '@aws-cdk/core';
+import { CONSTANTS } from './config';
 
 
-export interface DnsInfrastructureStackProps extends StackProps {
+export interface DnsInfrastructureStackProps extends cdk.StackProps {
   domainName: string;
-  trustedAccounts?: string[];
-  parentDomainName?: string;
+  trustedAccounts?: string[]
+  parentDomainName?: string
 }
 
 
-export class DnsInfrastructureStack extends Stack {
+export class DnsInfrastructureStack extends cdk.Stack {
   public domain: PublicHostedZone;
   public delegationRole: string;
-  constructor(scope: Construct, id: string, props: DnsInfrastructureStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: DnsInfrastructureStackProps) {
     super(scope, id, props);
 
     const delegateDns = props.parentDomainName !== undefined;
     const hostedZoneProps = {
       zoneName: `${props.domainName}`,
-      crossAccountZoneDelegationPrincipal: props.trustedAccounts !== undefined
-        ? new AccountPrincipal(props.trustedAccounts.pop()): undefined,
-      crossAccountZoneDelegationRoleName: props.trustedAccounts !== undefined
-        ? `helm-dns-delegation-role-${this.node.addr.substring(0,10) }`: undefined,
-    };
+      crossAccountZoneDelegationPrincipal: props.trustedAccounts !== undefined ? new AccountPrincipal(props.trustedAccounts.pop()): undefined,
+      crossAccountZoneDelegationRoleName: props.trustedAccounts !== undefined ? `helm-dns-delegation-role-${this.node.addr.substring(0,10)}`: undefined
+    }
 
-    this.domain = new PublicHostedZone(this, 'helm-organizer-hosted-zone', hostedZoneProps);
+    this.domain = new PublicHostedZone(this, `${CONSTANTS.stackPrefix}-hosted-zone`, hostedZoneProps);
 
-    props.trustedAccounts?.map(element => {
-      this.domain.crossAccountZoneDelegationRole?.assumeRolePolicy?.addStatements(
-        new PolicyStatement({
-          actions: ['sts:AssumeRole'],
-          effect: Effect.ALLOW,
-          principals: [new AccountPrincipal(element)],
-        }),
-      );
-    });
+    this.domain.crossAccountZoneDelegationRole?.assumeRolePolicy?.addStatements(
+      new PolicyStatement({
+        actions: ['sts:AssumeRole'],
+        effect: Effect.ALLOW,
+        principals: props.trustedAccounts?.map(element => {
+          return new AccountPrincipal(element)
+        })
+      })
+    )
 
     if (this.domain.crossAccountZoneDelegationRole !== undefined){
       this.delegationRole = this.domain.crossAccountZoneDelegationRole.roleName;
 
-      const delegationRole = this.domain.crossAccountZoneDelegationRole;
-      delegationRole.applyRemovalPolicy(RemovalPolicy.DESTROY);
+      const cfnDelegationRole = this.domain.crossAccountZoneDelegationRole.node.defaultChild as CfnRole;
+      cfnDelegationRole.applyRemovalPolicy(RemovalPolicy.DESTROY);
       new CfnOutput(this, 'delegation-role-name', {
-        value: this.domain.crossAccountZoneDelegationRole.roleName,
-      });
+        value: this.domain.crossAccountZoneDelegationRole.roleName
+      })
     }
 
     if (delegateDns){
-      new CrossAccountZoneDelegationRecord(this, 'helm-organizer-domain-delegation', {
+      new CrossAccountZoneDelegationRecord(this, `${CONSTANTS.stackPrefix}-domain-delegation`, {
         delegatedZone: this.domain,
         parentHostedZoneName: props.parentDomainName,
-        delegationRole: Role.fromRoleArn(this, 'delegationrole', Arn.format({
+        delegationRole: Role.fromRoleArn(this, 'delegationrole', cdk.Arn.format({
           resource: 'role',
           service: 'iam',
           region: '',
           account: this.node.tryGetContext('sharedServices').dns.accountId,
-          resourceName: this.node.tryGetContext('sharedServices').dns.delegationRoleName,
-        }, this)),
+          resourceName: this.node.tryGetContext('sharedServices').dns.delegationRoleName
+        }, this))
       });
     }
   }

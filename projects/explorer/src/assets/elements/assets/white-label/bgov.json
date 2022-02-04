@@ -1,0 +1,18 @@
+{
+    "company": {
+        "name": "BGOV Advocacy"
+    },
+    "app": {
+        "nav": { 
+            "helpCenter": {
+                "url":  "http://support.bgovadvocacy.com/"
+            }
+        },
+        "emailDomain": {
+            "urlKnowledgeBase": "http://support.bgovadvocacy.com/toolkit/email/email-domain-verification"
+        },
+        "landingPageDomain": {
+            "urlKnowledgeBase": "http://support.bgovadvocacy.com/advocacy/advocacy-landing-pages/setting-up-landing-page-domains"
+        }
+    }
+}

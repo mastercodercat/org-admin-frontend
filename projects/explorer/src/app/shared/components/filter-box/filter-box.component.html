@@ -1,0 +1,49 @@
+<exp-community-save-drawer
+  [(isVisible)]="isSaveCommunityDrawerVisible"
+  [existingCommunity]="currentCommunity"
+  [selections]="mapSelections"
+  [criteriaFilters]="selectFilters.filters"
+  [geoFilters]="activeGeoFilter"
+></exp-community-save-drawer>
+<div class="filter-box">
+  <button class="geo-filter-btn" (click)="toggleFilterPanel()" [ngClass]="{'activeBlue': activeGeoFilter?.length > 0 }"><i nz-icon nzType="account-book" nzTheme="outline"></i> &nbsp; Geographies</button>
+  <span *ngIf="activeGeoFilter?.length > 0" class="activeBlue" style="font-weight: 600;">({{activeGeoFilter?.length}})</span>
+  <span class="filter-btn"> | &nbsp; <i nz-icon nzType="filter" nzTheme="outline"></i> &nbsp; Filter By &nbsp;</span>
+  <div class="filter"
+    *ngFor="let filter of filters"
+    [ngClass]="{'active': filter.opened}"
+  >
+    <a nz-dropdown
+      nzTrigger="click"
+      [nzDropdownMenu]="options"
+      [nzOverlayClassName]="'filter-overlay'"
+      [(nzVisible)]="filter.opened"
+      [ngClass]="{'active-filter': activeFilterOptions(filter).length}"
+    >
+      {{ filter.title }} {{ activeFilterOptions(filter).length ? '(' + activeFilterOptions(filter).length + ')' : '' }}
+      <i nz-icon [nzType]="filter.opened ? 'caret-up' : 'caret-down'"></i>
+    </a>
+    <nz-dropdown-menu #options="nzDropdownMenu">
+      <div nz-menu class="filter-dropdown">
+        <div class="filter-title">{{ filter.title }}</div>
+        <div class="filter-options">
+          <nz-checkbox-group [(ngModel)]="filter.options" (ngModelChange)="filtersChanged(true)"></nz-checkbox-group>
+          <p *ngIf="activeFilters.length > 0"><a (click)="deselectAll(filter.title)">Deselect All</a></p>
+          <p *ngIf="activeFilters.length === 0"><a (click)="selectAll(filter.title)">Select All</a></p>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+  </div>
+  <div class="filter-button-wrapper">
+    <button nz-button nzType="default" class="filter-button-clear" [ngClass]="{'filter-button-clear-disabled':filtersApplied}" (click)="clearFilters()" [disabled]="filtersApplied">Clear</button>
+    <button nz-button nzType="primary" class="filter-button-apply" (click)="filtersChanged()" [disabled]="applyBtnActive">Apply</button>
+    <button nz-button nzType="primary" class="filter-button-apply" [disabled]="saveBtnActive" (click)="openSaveDrawer({})">Save</button>
+<!--    <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzType="primary" class="filter-button-apply" [disabled]="saveBtnActive">Save <i nz-icon nzType="caret-down"></i></button>-->
+<!--    <nz-dropdown-menu #menu="nzDropdownMenu">-->
+<!--      <ul nz-menu>-->
+<!--        <li nz-menu-item>Save Changes</li>-->
+<!--        <li nz-menu-item (click)="openSaveDrawer({})">Save as New</li>-->
+<!--      </ul>-->
+<!--    </nz-dropdown-menu>-->
+  </div>
+</div>

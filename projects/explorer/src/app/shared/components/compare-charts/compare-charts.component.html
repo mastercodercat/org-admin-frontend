@@ -1,0 +1,9 @@
+<div class="horizontal-chart-wrapper">
+    <highcharts-chart
+            *ngIf="chartOptions"
+            [Highcharts]="highcharts"
+            [options]="chartOptions"
+            [(update)]="updateChart"
+    >
+    </highcharts-chart>
+</div>

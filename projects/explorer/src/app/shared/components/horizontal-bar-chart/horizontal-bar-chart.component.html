@@ -1,0 +1,24 @@
+<div class="horizontal-chart-wrapper">
+    <highcharts-chart
+            *ngIf="chartOptions && !showPercentage"
+            [Highcharts]="highcharts"
+            [options]="chartOptions"
+            [(update)]="updateChart"
+    >
+    </highcharts-chart>
+    <highcharts-chart
+            *ngIf="chartOptionsTwo && showPercentage"
+            [Highcharts]="highcharts"
+            [options]="chartOptionsTwo"
+            [(update)]="updateChart"
+    >
+    </highcharts-chart>
+    <p style="text-align: center"><span *ngIf="showPercentage">%</span></p>
+    <p> <span class="view-by">View by:</span>
+    <nz-radio-group [(ngModel)]="chartViewSelection" class="switch-field" (ngModelChange)="chartViewChange(chartViewSelection)">
+        <label nz-radio-button nzValue="actual">Count</label>
+        <label nz-radio-button nzValue="percentage">Percentage</label>
+    </nz-radio-group>
+    </p>
+    <div style="clear: both"></div>
+</div>

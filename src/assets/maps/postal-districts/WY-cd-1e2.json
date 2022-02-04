@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "tl_2021_us_cd116",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4269" } },
+"features": [
+{ "type": "Feature", "properties": { "STATEFP": "56", "CD116FP": "00", "GEOID": "5600", "NAMELSAD": "Congressional District (at Large)", "LSAD": "C1", "CDSESSN": "116", "MTFCC": "G5200", "FUNCSTAT": "N", "ALAND": 251458712294, "AWATER": 1867503716, "INTPTLAT": "+42.9896591", "INTPTLON": "-107.5443922" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.054556, 44.999735 ], [ -104.057879, 44.997605 ], [ -104.053249, 41.001406 ], [ -111.046815, 40.997875 ], [ -111.054556, 44.999735 ] ] ] } }
+]
+}

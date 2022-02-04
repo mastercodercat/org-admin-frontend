@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "tl_2021_us_zcta520",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4269" } },
+"features": [
+
+]
+}

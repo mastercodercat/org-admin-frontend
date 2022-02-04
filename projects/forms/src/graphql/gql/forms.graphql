@@ -1,0 +1,17 @@
+query {
+  forms(first: 2) {
+    edges {
+      node {
+        name
+        uuid
+        organizationUuid
+        status
+        createdBy
+        createdAt
+        updatedAt
+        description
+        content
+      }
+    }
+  }
+}

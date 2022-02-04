@@ -1,0 +1,53 @@
+<!--<div class="search-box" nz-row>-->
+<!--  <div nz-col nzSpan="16">-->
+<!--    <h2 class="search-box-title">Explore communities by Civic Score <span nzTooltipTitle="The Helm Civic Score measures each individual’s level of civic engagement." nzTooltipPlacement="right" nz-tooltip class="get-faq" routerLink="/faq"><i get-faq-icon nz-icon nzType="info-circle" nzTheme="outline"></i></span></h2>-->
+<!--    <h3 class="search-box-subtitle">Select a community to see more detail.</h3>-->
+<!--  </div>-->
+<!--  <div nz-col nzSpan="8">-->
+<!--    <nz-input-group [nzPrefix]="prefixTemplateUser" class="search-box-input">-->
+<!--      <input type="text"-->
+<!--        nz-input placeholder="Locate county or state"-->
+<!--        [formControl]="searchControl"-->
+<!--        [nzAutocomplete]="auto"-->
+<!--      />-->
+<!--      </nz-input-group>-->
+<!--      <ng-template #prefixTemplateUser><i nz-icon nzType="search" nzTheme="outline"></i></ng-template>-->
+<!--      <nz-autocomplete-->
+<!--        [nzOverlayClassName]="'search-box-overlay'"-->
+<!--        #auto-->
+<!--      >-->
+<!--      <nz-auto-option-->
+<!--        class="global-search-item"-->
+<!--        *ngFor="let option of options"-->
+<!--        [nzValue]="option.name"-->
+<!--        (selectionChange)="searchItemSelected($event, option)"-->
+<!--      >-->
+<!--        <span class="result">{{option.name | titlecase}}</span>-->
+<!--        <span class="state">{{option.state | titlecase}}</span>-->
+<!--      </nz-auto-option>-->
+<!--    </nz-autocomplete>-->
+<!--  </div>-->
+<!--</div>-->
+
+<nz-input-group [nzPrefix]="prefixTemplateUser" class="search-box-input">
+  <input type="text"
+         nz-input placeholder="Where are you exploring?"
+         [formControl]="searchControl"
+         [nzAutocomplete]="auto"
+  />
+</nz-input-group>
+<ng-template #prefixTemplateUser><i *ngIf="!loader" nz-icon nzType="search" nzTheme="outline"></i><i *ngIf="loader" nz-icon nzType="loading"></i></ng-template>
+<nz-autocomplete
+        [nzOverlayClassName]="'search-box-overlay'"
+        #auto
+>
+  <nz-auto-option
+          class="global-search-item"
+          *ngFor="let option of options"
+          [nzValue]="option.name"
+          (selectionChange)="searchItemSelected($event, option)"
+  >
+    <span class="result">{{option.name | titlecase}}</span>
+    <span class="state">{{option.state | titlecase}}</span>
+  </nz-auto-option>
+</nz-autocomplete>

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import { App } from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
 import { ContinuousIntegrationInfrastructureStack } from '../lib/ci-infrastructure-stack';
-import { getCiEnvironment } from '../lib/config';
+import { getCiEnvironment, CONSTANTS } from '../lib/config';
 import { exit } from 'process';
 
 
-const app = new App();
+const app = new cdk.App();
 
 /*
 Environment configurations
@@ -19,13 +19,6 @@ To add a new stack, create an environment configuration similar to the one below
 /*
 Stacks
 */
-try {
-  new ContinuousIntegrationInfrastructureStack(app, 'helm-organizer-frontend-ci-sandbox', getCiEnvironment('sandbox'));
-  new ContinuousIntegrationInfrastructureStack(app, 'helm-organizer-frontend-ci-staging', getCiEnvironment('staging'));
-  new ContinuousIntegrationInfrastructureStack(app, 'helm-organizer-frontend-ci-production', getCiEnvironment('production'));
-} catch(err) {
-  if (err instanceof Error) {
-    console.log(`Error launching stack: ${err.message}`);
-  }
-  exit(1);
-}
+new ContinuousIntegrationInfrastructureStack(app, `${CONSTANTS.stackPrefix}-ci-sandbox`, getCiEnvironment('sandbox'));
+new ContinuousIntegrationInfrastructureStack(app, `${CONSTANTS.stackPrefix}-ci-staging`, getCiEnvironment('staging'));
+new ContinuousIntegrationInfrastructureStack(app, `${CONSTANTS.stackPrefix}-ci-production`, getCiEnvironment('production'));

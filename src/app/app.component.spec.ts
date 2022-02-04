@@ -1,37 +1,35 @@
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Spectator, createComponentFactory } from '@ngneat/spectator';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { IconDefinition } from '@ant-design/icons-angular';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { MailOutline, UserOutline } from '@ant-design/icons-angular/icons';
-import { reducers, metaReducers } from './store/reducers';
-
 import { AppComponent } from './app.component';
 
-const icons: IconDefinition[] = [MailOutline, UserOutline];
-
 describe('AppComponent', () => {
-  let spectator: Spectator<AppComponent>;
-  const createComponent = createComponentFactory({
-    component: AppComponent,
-    imports: [
-      RouterTestingModule,
-      SharedModule,
-      CommonModule,
-      StoreModule.forRoot(reducers, { metaReducers }),
-      NzIconModule.forChild(icons),
-      HttpClientModule,
-    ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
   });
 
-  beforeEach(() => {
-    spectator = createComponent();
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
 
-  it('should display ui', () => {
-    expect(spectator.component).toBeTruthy();
+  it(`should have as title 'organizer-frontends'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('organizer-frontends');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('organizer-frontends app is running!');
   });
 });

@@ -1,0 +1,17 @@
+.tracking-warning-wrapper {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #ccc;
+  color: #313131;
+  z-index: 100;
+
+  .tracking-warning {
+    padding: 15px;
+    text-align: center;
+
+    .dismiss-button {
+      margin-left: 15px;
+    }
+  }
+}

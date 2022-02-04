@@ -1,39 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginModule } from './login/login.module';
-import { JoinModule } from './pages/join/join.module';
-import { PageModule } from './pages/page.module';
-import { SelectOrganizationModule } from './select-organization/select-organization.module';
-import { AuthGuardService } from './shared/services/auth/auth-guard.service';
+import {AdminModule} from "../../projects/admin/src/app/app.module";
+import {ExplorerModule} from "../../projects/explorer/src/app/app.module";
+import {AppComponent} from "./app.component";
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: (): Promise<PageModule> => import('./pages/page.module').then(m => m.PageModule),
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'login',
-    loadChildren: (): Promise<LoginModule> => import('./login/login.module').then(m => m.LoginModule),
-  },
-  {
-    path: 'join',
-    loadChildren: (): Promise<JoinModule> => import('./pages/join/join.module').then(m => m.JoinModule),
-  },
-  {
-    path: 'select-organization',
-    loadChildren: (): Promise<SelectOrganizationModule> =>
-      import('./select-organization/select-organization.module').then(m => m.SelectOrganizationModule),
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: '**',
-    redirectTo: 'login',
-  },
+    loadChildren: () => import(`../../projects/admin/src/app/app.module`) .then(m => m.AdminModule)
+  }, {
+    path: '',
+    loadChildren: () => import(`../../projects/explorer/src/app/app.module`) .then(m => m.ExplorerModule)
+  }, {
+    path: '',
+    loadChildren: () => import(`../../projects/forms/src/app/app.module`) .then(m => m.FormsModule)
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forRoot(routes, { enableTracing: false }),
+  ],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,4 +1,4 @@
-const api = 'https://api.civicexplorer.com';
+const api = 'https://explorer.organizer.helmahead.com';
 const track = '84898ca8909d420056544b2d33ffdb0c';
 
 export const environment = {
@@ -16,5 +16,5 @@ export const environment = {
   httpInterceptor: {
     allowedList: [api + '/*'],
   },
-  hmr: false,
+  hmr: false
 };

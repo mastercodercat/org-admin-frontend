@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DEBUG=""
+
+usage() {
+    echo -n """
+$0
+Install project dependencies.
+"""
+}
+
+while [ $# -gt 0 ]; do
+    case ${1} in
+        -d|--debug) DEBUG=true;;
+        -h|--help) usage; exit 0;;
+        *)
+            echo "Argument $1 not supported"
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+
+if [ -n "${DEBUG}" ];
+then
+    set -x
+fi
+
+npm install --save-dev
+npm run build org-comp-lib

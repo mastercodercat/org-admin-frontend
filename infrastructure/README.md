@@ -1,59 +1,60 @@
-# Observer Frontend Infrastructure
-This project contains 2 CDK applications:
-    - [`ci-infrastructure`](./bin/ci-infrastructure.ts) creates an IAM role for pipelines to assume during a deployment.
-    - [`app-infrastructure`](./bin/app-infrastructure.ts) creates a CloudFront distribution to serve files from an S3 origin. The script also uploads build artifacts into the website bucket.
+# Infrastructure Scaffold
+This project contains 3 CDK applications:
 
-## Setting up CI for a new environment
-- (Optional, if this hasn't already been done): In the bitbucket UI, add a Deployment containing the following variables:
-    - AWS_ACCOUNT - the account ID of the target AWS account
-    - STAGE - the name of the corresponding stage/environment (i.e., `sandbox`, `staging`, `production`)
-- (Optional, if this hasn't already been done): Add the environment's stack properties in [`lib/config.ts`](./lib/config.ts)
-    - add your environment's settings in `getCiEnvironment`.
-- Add a `ContinuousIntegrationStack` in [`bin/ci-infrastructure.ts`](./bin/ci-infrastructure.ts). Ensure that the stack follows the naming convention `helm-organizer-frontend-ci-${STAGE}`, where `${STAGE}` is the value you added in the first step (e.g., the value of `STAGE` in your Deployment variables).
-- In `bitbucket-pipelines.yml` update the `ci-infrastructure` step to deploy CI for your stage.
-    - First, in the `definitions` section, add a step that inherits from `*deploy-ci-roles-base`, and sets the `deployment` key to the correct Deployment env. Name it `deploy-ci-roles-${STAGE}`, where `${STAGE}` is the name of your deployment environment.
-    - Then, in the `ci-infrastructure` pipeline, add a step to invoke `deploy-ci-roles-${STAGE}`. This will enable pipeline deploys for your stage.
-- Push your changes, then manually trigger the `ci-infrastructure` pipeline to provision.
+- [`ci-infrastructure`](./bin/ci-infrastructure.ts) creates resources needed to deploy this project from CI. 
+- [`app-infrastructure`](./bin/app-infrastructure.ts) creates the infrastructure for an API Gateway with a couple of lambda-backed endpoints, as defined in [`lib/app-infrastructure-stack.ts`](./lib/app-infrastructure-stack.ts).
+- [`frontend-infrastructure`](./bin/frontend-infrastructure.ts) creates the infrastructure for a angular single page app, as defined in [`lib/frontend-infrastructure-stack.ts`](./lib/frontend-infrastructure-stack.ts).
 
-#  Deploying shared services (optional)
-Shared services are those deployed into one account, but used by others. For example, top level hosted Zones are shared because they may be deployed into a prod/shared services account, but utilized by services in dev, staging, etc., that need to add a DNS record. If you've got shared services to deploy, continue reading this section.
 
-- Follow the steps above to setup CI infrastructure first.
-- Create your stack definition in `lib/`
-- Add a stack instance to `bin/shared-infrastructure.ts`. It should adhere to the `${STACK_NAME}-${STAGE}` convention outlined above.
-- Update the deployment pipeline to deploy your stack in addition to `helm-tld`.
-- Trigger the `custom:shared-infrastructure` build.
-- Take note of any resource or account IDs you want to share with other stacks.
+## How to use this project
+- set the following values in [`lib/config.ts`](./lib/config.ts):
+    - CONSTANTS.subdomain
+    - CONSTANTS.serviceName
+    - CONSTANTS.stackPrefix
+        - Take a note of the stack prefix, it'll be used later!
+- Add some CDK code to create AWS resources in [`lib/app-infrastructure-stack.ts`](./lib/app-infrastructure-stack.ts).
+- Push your changes to CI, or push your changes to AWS by doing a [local deployment](#local-usage).
+- Your service will be available at https://${STAGE}.${SERVICE}.${SUBDOMAIN}.helmahead.com, substituting your environment for `STAGE`, the value of `CONSTANTS.serviceName` for `SERVICE`, and the name of the top level application (i.e. organizer), for `SUBDOMNAIN`.
+
 
 # Setting up Application infrastructure for a new environment
-- Follow the steps above to set up CI infrastructure first.
 - If necessary, add shared services information to `cdk.context.json` under the `sharedServices` object.
+- Add any sensitive configuration valeus as environment variables in your bitbucket pipeline.
 - (Optional, if this hasn't already been done): Add the environment's stack properties in [`lib/config.ts`](./lib/config.ts)
     - add your environment's settings in `getApplicationEnvironment`
-- Add a `DnsInfrastructureStack` in [`bin/app-infrastructure.ts`](./bin/app-infrastructure.ts). Ensure that the stack follows the naming convention `helm-organizer-frontend-dns-${STAGE}`, where `${STAGE}` is the value you added in the first step (e.g., the value of `STAGE` in your Deployment variables).
-- Add an `AppInfrastructureStack` in [`bin/app-infrastructure.ts`](./bin/app-infrastructure.ts). Ensure that the stack follows the naming convention `helm-organizer-frontend-${STAGE}`, where `${STAGE}` is the value you added in the first step (e.g., the value of `STAGE` in your Deployment variables). To enable DNS, set your AppInfrastructureStack's `parentHostedZone` pparameter to your DnsInfrastructureStack's `domain` attribute.
+- Configure the `AppInfrastructureStack` in [`lib/app-infrastructure-stack.ts`](./lib/app-infrastructure-stack.ts) to add AWS resources. Either instantiate one of the highter level constructs in `lib/constructs`, or create some resources of your own. The included example creates an API Gateway with a default authorizer and `/graphql` endpoint that uses a Lambda integration.
+    - For sensitive values like DB credentials, pull them from the environment using `process.env.ENV_VAR_NAME`, substituting `ENV_VAR_NAME` for the environment variable you wish to access. Then, make sure the required env variables are set in your bitbucket pipeline.
 - In `bitbucket-pipelines.yml`, add a step to deploy the application for your stage.
-    - First, in the `definitions` section, add a step that inherits from `*deploy-base`, and sets the `deployment` key to the correct Deployment env. Name it `deploy-${STAGE}`, where `${STAGE}` is the name of your deployment environment.
-    - Then, in the `pipelines` section, add configuration to deploy your branch to the desired stage(s). You'll need to inherit from the following steps, at minimum:
-        - `install-deps`
-        - `install-deployment-deps`
-        - `deploy-${STAGE}`
-            - you can have more than one `deploy-${STAGE}` per branch, but you need to deploy them in order, i.e. pre-production environments before production ones.
-
+    - First, in the `definitions` section, find the deployment step for your stage. It inherits from `*deploy-base`, and should be named `deploy-${STAGE}`, where `${STAGE}` is the name of your deployment environment.
+    - Update the deploy command to deploy the `AppInfrastructureStack` configured in your CDK project. You should update the `-t` command, changing the name of your stack to the value of `CONSTANTS.stackPrefix` from the previous section.
+        - You can also get the stack prefix by running this commandfrom the infrastructure directory/:
+        ```bash
+        # npx ts-node -O '{"module": "commonjs"}' -e 'import {CONSTANTS} from "./lib/config"; console.log(CONSTANTS.stackPrefix);'
+        ```
+        - Deploying the `AppInfrastructureStack` will deploy any dependent stacks, including DNS.
+    - Once your changes are merged in, they'll be deployed automatically.
 ## Local Usage
-- Run `npm i` and `npm build` from the parent directory to build the asset bundle.
+- (Optional: frontends only) Run `npm i` and `npm build` from the parent directory to build the asset bundle.
 - Set your AWS credentials in the environment.
     - ***Note: using SSO + named profiles from the CLI does not work per https://github.com/aws/aws-cdk/issues/5455. That issue has a variety of workarounds, but the core concept is to extract your temporary credentials from `~/.aws/cli/cache` and export them into the environment (or profile in `~/.aws/config`). In general, though, there should be no reason to run this command locally once CI is wired up.***
 - In the infrastructure directory, run `npm i --save-dev` to install the CDK and deployment dependencies.
-- Run `bin/deploy -s ${STAGE} -t ${STACK} -a ${APP}`, where:
+- From the parent directory, run `bin/deploy -s ${STAGE} -t ${STACK} -a ${APP}`, where:
     - STAGE is the environment to deploy, i.e. sandbox, staging, production, etc.
     - STACK is the name of the stack you want to deploy, without the `STAGE` suffix (i.e. `helm-organizer-dns`, `helm-organizer-frontend`).
+        - By default, the name of the application infrastructure stack is the same as `config.CONSTANTS.stackPrefix` in the CDK app. You can get the stack prefix by running this command:
+        ```bash
+        # npx ts-node -O '{"module": "commonjs"}' -e 'import {CONSTANTS} from "./lib/config"; console.log(CONSTANTS.stackPrefix);'
+        ```
     - APP is the CDK app that contains your stacks. This should be the name of a CDK app file in `infrastructure/bin/`, i.e. `app-infrastructure`, or `shared-infrastructure`.
 
-## Architecture Diagram
-![Architecture Diagram](./doc/pipeline-architecture.png)
+## TODOS
+- Implement application infrastructure constructs
+    - Lambda with Postgres
+    - Lambda-backed SQS
+- Examples:
+    - Using/storing context
+- Architecture diagrams
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Useful commands
 

@@ -1,0 +1,9 @@
+<div class="selection-tool-tagbox">
+  <div class="selection-tool-tagbox-container">
+    <nz-tag
+      *ngFor="let region of regions; let i = index"
+      [nzMode]="closeable ? 'closeable' : 'default'"
+      (nzOnClose)="removeCommunity(region, i)"
+    >{{region.name}}</nz-tag>
+  </div>
+</div>

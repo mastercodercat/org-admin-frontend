@@ -1,0 +1,17 @@
+.faq-header {
+  margin: 0 40px;
+  font-size: 50px;
+}
+.faq-wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 10px;
+  padding-right: 10px;
+  margin: 40px 20px;
+  border-radius: 10px;
+}
+.faq {
+  margin: 10px 20px;
+  font-weight: lighter;
+}
+

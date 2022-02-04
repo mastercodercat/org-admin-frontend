@@ -1,0 +1,132 @@
+<nz-drawer
+  [nzClosable]="true"
+  [nzVisible]="isVisible"
+  [nzPlacement]="'left'"
+  nzTitle="Community"
+  [nzFooter]="footerButtons"
+  [nzWidth]="350"
+  (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <form
+      nz-form
+      [formGroup]="saveCommunityForm"
+      nzLayout="vertical"
+      class="community-save-form"
+      *ngIf="isVisible"
+      >
+      <nz-form-item>
+        <nz-form-label
+         nzRequired
+         nzFor="name"
+         >
+          Community Name
+        </nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="nameErrorMsg">
+          <input nz-input formControlName="name" placeholder="Community Name"/>
+          <ng-template #nameErrorMsg let-control>
+            <ng-container
+              *ngIf="control.hasError('required')">Community Name is required</ng-container>
+            <ng-container
+              *ngIf="control.hasError('minlength')">MinLength
+              is 6</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label
+         nzFor="description"
+         >
+          Description
+        </nz-form-label>
+        <nz-form-control>
+          <nz-textarea-count [nzMaxCharacterCount]="100">
+            <textarea
+             class="description"
+             [nzAutosize]="{ minRows: 1, maxRows: 3 }"
+             formControlName="description"
+             placeholder="A short description of this community"
+             nzErrorTip="Description"
+             nz-input></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label
+         nzFor="notes"
+         >
+          Notes
+        </nz-form-label>
+        <nz-form-control>
+          <textarea
+            formControlName="notes"
+            placeholder="Notes about this community"
+            [nzAutosize]="{ minRows: 6, maxRows: 8 }"
+            nz-input>
+          </textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <h3>Filters</h3>
+      <nz-form-item>
+        <nz-form-label
+         nzFor="criteriaFilter"
+         >
+          Criteria
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select
+            nzMode="multiple"
+            nzPlaceHolder="No filters Applied"
+            formControlName="criteriaFilters"
+            nzDisabled
+            >
+            <nz-option *ngFor="let option of _criteriaFilters"
+              [nzLabel]="configureCriteriaDisplayName(option)"
+              [nzValue]="option">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label
+         nzFor="geoFilters"
+         >
+          Geographies
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select
+            nzMode="multiple"
+            nzPlaceHolder="No filters Applied"
+            formControlName="geoFilters"
+            nzDisabled
+            >
+            <nz-option *ngFor="let option of _geoFilters"
+              [nzLabel]="option.name"
+              [nzValue]="option">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-template #footerButtons>
+    <div nz-row nzJustify="space-between">
+      <button nz-button nzType="link"
+        [disabled]="this.saveProcessing"
+        (click)="cancel($event)"
+      >Cancel</button>
+      <div>
+        <button nz-button nzType="link"
+          *ngIf="existingCommunity && existingCommunity.uuid"
+          [nzLoading]="saveAsNewProcessing"
+          [disabled]="!saveCommunityForm.valid || saveProcessing"
+          (click)="save(true)"
+        >Save As New</button>
+        <button nz-button nzType="primary"
+          [nzLoading]="saveProcessing"
+          [disabled]="!saveCommunityForm.valid || saveAsNewProcessing"
+          (click)="saveOrUpdate()"
+        >Save</button>
+      </div>
+    </div>
+  </ng-template>
+</nz-drawer>

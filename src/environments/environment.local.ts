@@ -9,12 +9,12 @@ export const environment = {
   mixpanel: true,
   auth: {
     domain: 'helm-sandbox.us.auth0.com',
-    clientId: 'rU8r90TON0aOtpIj00GSQ0dUuT2fe5IP',
+    clientId: 'D8ejI5YjzaVGaxlkSOvS4NR4P91kLpyi',
     audience: 'http://helmteam.us',
     redirectUri: window.location.origin,
   },
   httpInterceptor: {
     allowedList: [api + '/*'],
   },
-  hmr: false,
+  hmr: false
 };

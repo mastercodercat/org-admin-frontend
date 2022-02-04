@@ -1,0 +1,136 @@
+.geo-filters-drawer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  background-color: white;
+
+  .geo-filters-drawer-title h3 {
+    font-size: 20px;
+  }
+
+  .layer-selection {
+    margin: 10px 0;
+
+    .layer-selection-dropdown {
+      width: 100%;
+    }
+  }
+
+  &.expanded {
+    width: 450px;
+    padding: 40px 20px;
+    box-shadow: 5px 1px 10px 1px rgba(87,87,87,0.7);
+    -webkit-box-shadow: 5px 1px 10px 1px rgba(87,87,87,0.7);
+    -moz-box-shadow: 5px 1px 10px 1px rgba(87,87,87,0.7);
+  }
+
+  .search-box {
+    padding: 0 20px 20px 20px;
+  }
+
+  .my-community {
+    margin-top: 30px;
+  }
+
+  .panel-buttons {
+    margin-bottom: 30px;
+    
+    .build-community-buttons {
+      text-align: right;
+    }
+  }
+}
+
+.geo-filters-drawer .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.customize-community-button {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border: none;
+  position: fixed;
+  left: 0;
+  border-radius: 10px;
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 10px 0px rgba(0, 0, 0, 0.12),
+            0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.customize-community-tree {
+  .customize-community-tree-node {
+    .tree-icon {
+      margin-right: 5px;
+      color: #68a3f4;
+
+      &.selected {
+        color: #d34d99;
+      }
+
+      &.disabled {
+        color: #DDD;
+      }
+    }
+  }
+}
+
+.regions-table {
+  max-height: 50%;
+  overflow: auto;
+
+  .loading {
+    text-align: center;
+  }
+
+  .region-name {
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+  .expand-column {
+    float: right;
+    cursor: pointer;
+  }
+
+  .select-column {
+    cursor: pointer;
+
+    .tree-icon {
+      margin-right: 5px;
+      color: #68a3f4;
+
+      &.selected {
+        color: #d34d99;
+      }
+
+      &.disabled {
+        color: #DDD;
+        cursor: default;
+      }
+    }
+  }
+
+  .parent-rows {
+    td:first-child {
+      padding-left: 0px;
+    }
+  }
+
+  .child-rows {
+    td:first-child {
+      padding-left: 10px;
+    }
+  }
+}

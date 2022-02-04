@@ -1,0 +1,56 @@
+<nz-card class="selection-summary" [nzBodyStyle]="{ padding: 0 }">
+  <div nz-row class="selection-summary-info">
+    <div nz-col nzSpan="2" class="score-wrapper">
+      <div nzTooltipTitle="The average Civic Score ranking of the people in this community." nzTooltipPlacement="right"
+        nz-tooltip class="selection-score" [ngClass]="{
+            'tooltip-score-color-two' : score < 34,
+            'tooltip-score-color-three' : score > 33 && score < 47,
+            'tooltip-score-color-four' : score > 46 && score < 55,
+            'tooltip-score-color-five' : score > 54 && score < 60,
+            'tooltip-score-color-six' : score > 59 && score < 70,
+            'tooltip-score-color-seven' : score > 69
+            }">{{score}}</div>
+    </div>
+    <div nz-col nzSpan="15" class="selection-name">
+      <h4 *ngIf="isFiltersApplied">Custom Community</h4>
+      <h4 *ngIf="!isFiltersApplied && name !== 'US'">{{name}}</h4>
+      <h4 *ngIf="!isFiltersApplied && name === 'US'">United States of America</h4>
+      <span>{{state}}</span>
+<!--      TODO badges below need to be wired up.-->
+      <nz-tag *ngIf="unsavedChangesTag" class="saved-tags" nzColor="warning">
+        <i nz-icon nzType="close-circle"></i>
+        <span>Unsaved Changes</span>
+      </nz-tag>
+      <nz-tag *ngIf="savedChangesTag" class="saved-tags" nzColor="success">
+        <i nz-icon nzType="check-circle"></i>
+        <span>Saved</span>
+      </nz-tag>
+      <!--      <span>Civic Score is average of all available counties. <span class="highlight">Learn More</span></span>-->
+    </div>
+    <div nz-col nzSpan="3">
+      <div class="selection-data-title">
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        People <span nzTooltipTitle="The number of U.S. registered voters for whom we have a record in this community."
+          nzTooltipPlacement="right" nz-tooltip class="get-faq" routerLink="/faq"><i get-faq-icon nz-icon
+            nzType="info-circle" nzTheme="outline"></i></span>
+      </div>
+      <div class="selection-data-number">{{people | thousandSuff : 2}} </div>
+    </div>
+    <div nz-col nzSpan="3">
+      <div class="selection-data-title">
+        <i nz-icon nzType="home" nzTheme="fill"></i>
+        Households
+      </div>
+      <div class="selection-data-number">{{households | thousandSuff : 2}}</div>
+    </div>
+  </div>
+  <hr>
+  <div class="filter-box-wrapper">
+    <exp-filter-box
+      [mapSelections]="mapSelections"
+      (filterChange)="filtersChanged($event)"
+      (toggleGeoFilter)="toggleFilterPanel()"
+      [appliedFilters]="appliedFilters"
+    ></exp-filter-box>
+  </div>
+</nz-card>

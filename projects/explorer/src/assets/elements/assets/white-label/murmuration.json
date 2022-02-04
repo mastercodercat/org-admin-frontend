@@ -1,0 +1,81 @@
+{
+    "company": {
+        "name": "Murmuration",
+        "termsOfUse": {
+            "url": "http://info.murmuration.org/termsofuse.html"
+        },
+        "privacy": {
+            "url": "http://info.murmuration.org/privacy.html"
+        }
+    },
+    "app": {
+        "nav": {
+            "helpCenter": {
+                "title": "Visit Help Center",
+                "description": "Find out where you can go for support on all your mInsights questions.",
+                "url": "https: //help.murmuration.org/"
+            }
+        },
+        "emailDomain": {
+            "urlKnowledgeBase": "https: //help.murmuration.org/settings-and-account-management/account/email-domain-verification"
+        },
+        "landingPageDomain": {
+            "urlKnowledgeBase": "https: //help.murmuration.org/take-action/web-forms/setting-up-landing-page-domains"
+        }
+    },
+    "module": {
+        "gettingStarted": {
+            "intro": "The links below are a good start to help you get the most out of mInsights. If you choose to dismiss Getting Started, you can relaunch it at any time by clicking the gear icon in the upper right-hand corner.",
+            "audience": {
+                "title": "Finding Your Audience",
+                "description": "Build audiences based on a range of interactions and then take action with them.",
+                "order": "0"
+            },
+            "takeAction": {
+                "title": "Take Action On Your Audience",
+                "description": "Engage with your audience using mInsights curated toolbox!",
+                "order": "1"
+            },
+            "export": {
+                "title": "Exporting Data To A Third-Party Tool",
+                "description": "Learn how push your segments to the third-party tool of your choosing.",
+                "order": "2"
+            },
+            "form": {
+                "order": "3"
+            },
+            "charts": {
+                "title": "Visualize Your Data",
+                "description": "Use Charts to visualize the results of your campaigns.",
+                "order": "4"
+            },
+            "goals": {
+                "title": "Set Goals For Your Work",
+                "description": "Create Goals that will allow you to track the progress of your campaigns.",
+                "order": "5"
+            },
+            "import": {
+                "title": "Importing Your Data",
+                "description": "Add your existing spreadsheets and lists to analyze and visualize.",
+                "order": "6"
+            },
+            "tracking": {
+                "title": "Track The Visitors To Your Website",
+                "description": "Use tracking code on your web properties to see how engaged your audience is and retarget visitors.",
+                "order": "7"
+            },
+            "account": {
+                "order": "-1"
+            },
+            "users": {
+                "order": "-1"
+            },
+            "integrations": {
+                "order": "-1"
+            },
+            "email": {
+                "order": "-1"
+            }
+        }
+    }
+}

@@ -3,146 +3,58 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 image:
-  name: 790026602975.dkr.ecr.us-east-1.amazonaws.com/helm/base/node12-angular9:latest
-  aws:
-    access-key: $AWS_ACCESS_KEY_ID
-    secret-key: $AWS_SECRET_ACCESS_KEY
+  name: node:14
 
 definitions:
-  caches:
-    infra: infrastructure/node_modules
   steps:
     - step: &oidc-base
         oidc: true
     - step: &install-deps
         name: 'Install dependencies'
-        caches:
-          - node
         script:
-        - npm i --save-dev
+        - ./bin/bootstrap
+        - npm run build-${STAGE}
+        artifacts:
+        - node_modules/**
+        - dist/organizer-frontends/**
+        - dist/org-comp-lib/**
     - step: &run-tests
-        image:
-          name: 790026602975.dkr.ecr.us-east-1.amazonaws.com/helm/test/node12-angular9-browsers:latest
-          aws:
-            access-key: $AWS_ACCESS_KEY_ID
-            secret-key: $AWS_SECRET_ACCESS_KEY
         name: 'Run test suite'
-        caches:
-          - node
         script:
-        - npm run test:ci
+        - npm run test
     - step: &deploy-base
         name: 'Deploy (Base)'
         <<: *oidc-base
-        caches:
-          - infra
-          - node
+        services:
+          - docker
         script:
-        - npm run build-${STAGE}
+        - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        - unzip awscliv2.zip
+        - ./aws/install
         - . bin/setup-bitbucket-oidc-credentials
-        - ./bin/deploy -s ${STAGE} -a app-infrastructure -t helm-organizer-frontend
-    - step: &deploy-ci-roles-base
-        <<: *deploy-base
-        script:
-        - . bin/setup-bitbucket-iam-credentials
-        - ./bin/deploy -s ${STAGE} -a ci-infrastructure -t helm-organizer-frontend-ci
-    - step: &deploy-ci-roles-sandbox
-        <<: *deploy-ci-roles-base
-        name: 'Deploy CI infrastructure to sandbox'
-        deployment: test
-    - step: &deploy-ci-roles-staging
-        <<: *deploy-ci-roles-base
-        name: 'Deploy CI infrastructure to staging'
-        deployment: staging
-    - step: &deploy-ci-roles-production
-        <<: *deploy-ci-roles-base
-        name: 'Deploy CI infrastructure to production'
-        deployment: production
-    - step: &deploy-shared-infrastructure
-        <<: *deploy-base
-        name: 'Deploy shared infrastructure to the production account'
-        deployment: production
-        script:
-        - . bin/setup-bitbucket-iam-credentials
-        - ./bin/deploy -s shared -a shared-infrastructure --stack helm-tld
-        - ./bin/deploy -s shared -a shared-infrastructure --stack helm-organizer-tld
+        - ./bin/deploy -s ${STAGE} -a frontend-infrastructure -t HelmOrganizerFrontends-frontend
     - step: &deploy-sandbox
         <<: *deploy-base
-        deployment: test
+        deployment: Helm-Sandbox
         name: 'Deploy to Sandbox'
     - step: &deploy-staging
         <<: *deploy-base
-        deployment: staging
+        deployment: Helm-Staging
         name: 'Deploy to Staging'
     - step: &deploy-production
         <<: *deploy-base
-        deployment: production
+        deployment: Helm-Production
         name: 'Deploy to Production'
     - step: &install-deploy-deps
         <<: *oidc-base
         name: 'Install deploy dependencies'
-        caches:
-          - infra
         script:
         - cd infrastructure && npm i --save-dev
-    - step: &cleanup-base
-        name: "Cleaning up ${STACK}-${STAGE}"
-        oidc: true
-        caches:
-          - infra
-        script:
-          - if [ "${OIDC}" == "true" ]; then . bin/setup-bitbucket-oidc-credentials; else . bin/setup-bitbucket-iam-credentials; fi
-          - mkdir -p dist/organizer-front
-          - ./bin/deploy -s ${STAGE} -a ${APP} -t ${STACK} -e -f -d
-    - step: &cleanup-sandbox
-        <<: *cleanup-base
-        deployment: test
-    - step: &cleanup-staging
-        <<: *cleanup-base
-        deployment: staging
-    - step: &cleanup-prod
-        <<: *cleanup-base
-        deployment: production
+        artifacts:
+        - infrastructure/node_modules/**
 
 
 pipelines:
-  custom:
-    cleanup-stack-sandbox:
-      - variables:
-          - name: OIDC
-          - name: STACK
-          - name: APP
-      - step:
-          <<: *cleanup-sandbox
-    cleanup-stack-staging:
-      - variables:
-          - name: OIDC
-          - name: STACK
-          - name: APP
-      - step:
-          <<: *cleanup-staging
-    cleanup-stack-prod:
-      - variables:
-          - name: OIDC
-          - name: STACK
-          - name: APP
-          - name: STAGE
-      - step:
-          <<: *cleanup-prod
-    ci-infrastructure:
-      - step:
-          <<: *install-deploy-deps
-      - step:
-          <<: *deploy-ci-roles-sandbox
-      - step:
-          <<: *deploy-ci-roles-staging
-      - step:
-          <<: *deploy-ci-roles-production
-    shared-infrastructure:
-      - step:
-          <<: *install-deploy-deps
-      - step:
-          <<: *deploy-shared-infrastructure
   pull-requests:
     '**':
       - step:
@@ -150,6 +62,13 @@ pipelines:
       - step:
           <<: *run-tests
   branches:
+    'deploy/*':
+      - step:
+          <<: *install-deps
+      - step:
+          <<: *install-deploy-deps
+      - step:
+          <<: *deploy-sandbox
     'master':
       - step:
           <<: *install-deps
@@ -171,13 +90,6 @@ pipelines:
           <<: *install-deploy-deps
       - step:
           <<: *deploy-production
-    'deploy/**':
-      - step:
-          <<: *install-deps
-      - step:
-          <<: *install-deploy-deps
-      - step:
-          <<: *deploy-sandbox
     '**':
       - step:
           <<: *install-deps

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DEBUG=""
+
+# Keep track of absolute path to the working directory.
+
+usage() {
+    echo -n """
+$0
+Set up a fresh clone of this project.
+"""
+}
+
+while [ $# -gt 0 ]; do
+    case ${1} in
+        -d|--debug) DEBUG=true;;
+        -h|--help) usage; exit 0;;
+        *)
+            echo "Argument $1 not supported"
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+
+if [ -n "${DEBUG}" ];
+then
+    set -x
+fi
+
+DIR="$(cd $(dirname ${0})/../ && pwd)"
+
+if uname -a  | grep "Darwin" ;
+then
+    # Docker for mac uses a hard-coded SSH_AUTH_SOCK
+    SSH_AUTH_SOCK=/run/host-services/ssh-auth.sock
+fi
+export SSH_AUTH_SOCK
+
+# Install dependencies in a linux container so they're compatible with the AWS image.
+# Note: technically building on debian and deploying to centos. We haven't run into
+# any cross-platform dependency mismatches yet, but if there's any platform-specific
+# bindings required we _may_ need to switch images.
+
+docker run --rm -v ${DIR}:${DIR} -v ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK} \
+    -v ~/.ssh/known_hosts:/root/.ssh/known_hosts \
+    -e SSH_AUTH_SOCK \
+    -w ${DIR} \
+    --entrypoint '/bin/bash' node:14 -c 'ssh-add -L && ./bin/bootstrap'

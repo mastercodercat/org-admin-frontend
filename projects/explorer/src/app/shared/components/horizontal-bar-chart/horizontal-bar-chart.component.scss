@@ -1,0 +1,66 @@
+.view-by{
+  float: left;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+.switch-field {
+  display: flex;
+  overflow: hidden;
+  float: left;
+}
+
+.switch-field input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+  overflow: hidden;
+}
+
+.switch-field label {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 8px 16px;
+  margin-right: 15px;
+  //border: 1px solid rgba(0, 0, 0, 0.2);
+  //box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+  cursor: pointer;
+}
+
+.switch-field input:checked + label {
+  background-color: #d6f2ff;
+  box-shadow: none;
+}
+
+.switch-field label:first-of-type {
+  border-radius: 15px;
+}
+
+.switch-field label:last-of-type {
+  border-radius: 15px;
+}
+
+.ant-radio-button-checked {
+  background-color: #d6f2ff;
+  box-shadow: none;
+}
+.ant-radio-button-wrapper {
+  border: 1px solid #a5a5a5;
+}
+.ant-radio-button-wrapper:not(:first-child)::before{
+  content: none !important;
+}
+.horizontal-chart-wrapper{
+  background-color: white;
+  border-radius: 10px;
+  //box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 2px 4px -1px rgb(0 0 0 / 20%);
+  padding: 10px;
+}

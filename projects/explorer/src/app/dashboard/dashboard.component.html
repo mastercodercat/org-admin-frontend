@@ -1,0 +1,111 @@
+<div class="geo-filters-drawer-wrapper">
+  <exp-geo-filters-drawer
+    (toggleSidebar)="toggleSidebar($event)"
+    (regionsSelected)="regionsSelected($event)"
+    [remoteOpenPanel]="displaySidepanel"
+    #geofiltersdrawer
+  ></exp-geo-filters-drawer>
+</div>
+
+<div class="search-header" nz-row>
+  <div class="search-box-wrapper" nz-col nzSpan="20">
+    <exp-search-box (searchChange)="searchChange($event)"> </exp-search-box>
+  </div>
+  <div nz-col nzSpan="4">
+    <exp-my-communities-drawer
+      (communityLoaded)="communityLoaded($event)"
+    ></exp-my-communities-drawer>
+  </div>
+</div>
+<div class="selection-summary-wrapper">
+  <exp-selection-summary
+    [households]="households || 118852000"
+    [name]="name || 'United States of America'"
+    [score]="score || 50"
+    [people]="people || 207420000"
+    [state]="state"
+    [mapSelections]="mapSelections"
+    (filterChange)="filtersChanged($event)"
+    (toggleGeoFilter)="toggleSidebar(!displaySidepanel)"
+    [appliedFilters]="appliedFilters"
+  > </exp-selection-summary>
+</div>
+<div class="container">
+  <div id="dashboard" [ngClass]="{'expanded': displaySidepanel }">
+    <div *ngIf="mapSelectionDropdown === 'States' || mapSelectionDropdown === 'National Counties'" class="map-selection">
+      <nz-select class="map-select" [(ngModel)]="mapSelectionDropdown" [nzDropdownClassName]="'map-layer-dropdown'" (ngModelChange)="resetForNationalCounties($event)">
+        <nz-option nzValue="States" nzLabel="States"></nz-option>
+        <nz-option nzValue="National Counties" nzLabel="Counties"></nz-option>
+        <nz-option nzValue="National Congressional Districts" nzLabel="Congressional Districts" nzDisabled></nz-option>
+        <nz-option nzValue="National Zipcodes" nzLabel="Zipcodes" nzDisabled></nz-option>
+      </nz-select>
+    </div>
+    <div *ngIf="mapSelectionDropdown === 'Counties' || mapSelectionDropdown === 'Congressional Districts' || mapSelectionDropdown === 'Zipcodes'" class="map-selection" >
+      <nz-select class="map-select" [(ngModel)]="mapSelectionDropdown" [nzDropdownClassName]="'map-layer-dropdown'" [nzDisabled]="disableForSearch">
+        <nz-option nzValue="Counties" nzLabel="Counties"></nz-option>
+        <nz-option nzValue="Congressional Districts" nzLabel="Congressional Districts"></nz-option>
+        <nz-option nzValue="Zipcodes" nzLabel="Zipcodes"></nz-option>
+      </nz-select>
+    </div>
+    <div class="map-wrapper">
+      <exp-us-map *ngIf="mapSelectionDropdown === 'National Counties'" (changeSelection)="mapSelectionChange($event)" (mapReset)="mapReset()" [zoomIn]="zoomInMap" (national)="setNational($event)">
+      </exp-us-map>
+      <exp-us-map-states
+        *ngIf="mapSelectionDropdown !== 'National Counties'"
+        (changeSelection)="mapSelectionChange($event)"
+        [selectedRegions]="selectInMap"
+        [updateMapWidth]="setNewMapWidth"
+        [updateMapSelection]="mapSelectionDropdown"
+        [sidepanel]="geofiltersdrawer"
+        #usstatesmap
+      ></exp-us-map-states>
+<!--        <exp-us-map-congressional-districts  *ngIf="mapButton === 'States with Congressional Districts'" (changeSelection)="mapSelectionChange($event)"></exp-us-map-congressional-districts>-->
+    </div>
+<!--      <div class="search-box-wrapper">-->
+<!--        <exp-search-box (searchChange)="searchChange($event)"> </exp-search-box>-->
+<!--      </div>-->
+
+      <div class="compare-dropdown-wrapper" *ngIf="barCharts.length > 0">
+        <span>Compare {{name}}<span *ngIf="state !== ''">, {{state}}</span> to</span> &nbsp;
+        <nz-select class="compare-selected" [(ngModel)]="compareSelectedValue" (ngModelChange)="compareHasChanged()" [disabled]="compareSelectedDisabled">
+          <nz-option nzLabel="None" nzValue="None"></nz-option>
+          <nz-option *ngFor="let selection of compareSelectedArray" [nzLabel]="selection" [nzValue]="selection"></nz-option>
+        </nz-select>
+      </div>
+
+    <div *ngIf="barCharts.length > 0 && compareSelectedValue === 'None'" class="chart-wrapper" [ngClass]="{'set-chart-width': sizeCharts}">
+      <div *ngFor="let bar of barCharts">
+        <exp-horizontal-bar-chart *ngIf="barCharts.length > 0" [title]="bar['title']" [categories]="bar['categories']"
+          [series]="bar['series']" [percentage]="bar['percentage']" [type]="bar.type" [location]="name"></exp-horizontal-bar-chart>
+      </div>
+    </div>
+    <div *ngIf="barCharts.length == 0" class="chart-spinner">
+    <!--  <exp-loading-spinner [title]="'Charts Loading'"></exp-loading-spinner>-->
+      <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+      Charts Loading...
+    </div>
+      <div *ngIf="barCharts.length > 0 && compareSelectedValue !== 'None'" class="chart-wrapper" [ngClass]="{'set-chart-width': sizeCharts}">
+          <div *ngFor="let bar of barCharts">
+              <exp-compare-charts *ngIf="barCharts.length > 0" [title]="bar['title']" [categories]="bar['categories']"
+                [series]="bar['series']" [percentage]="bar['percentage']" [type]="bar.type" [location]="name" [mapSegment]="mapSelections.segment"
+                [compareSelected]="compareSelectedValue">
+              </exp-compare-charts>
+          </div>
+      </div>
+  </div>
+</div>
+<!--TODO need to be wired-->
+<div class="alert-banners-wrapper">
+    <nz-tag *ngIf="communityUpdateApplied" nzColor="success">
+        <i nz-icon nzType="check-circle"></i>
+        <span>Community Updated <span class="clickable-link">View in My Communities</span></span>
+    </nz-tag>
+    <nz-tag *ngIf="filtersHaveBeenApplied" nzColor="success">
+        <i nz-icon nzType="check-circle"></i>
+        <span>Filters applied</span>
+    </nz-tag>
+    <nz-tag *ngIf="filterSelectedButNotApplied" nzColor="processing">
+        <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+        <span>New filters added. <span class="clickable-link" (click)="applyFilters()">Apply Changes</span></span>
+    </nz-tag>
+</div>

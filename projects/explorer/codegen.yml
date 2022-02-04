@@ -1,0 +1,25 @@
+overwrite: true
+schema: "https://sandbox-api.civicexplorer.com/explorer/v2"
+generates:
+  src/types.ts:
+    plugins:
+      - typescript
+  src/:
+    documents: "src/**/*.graphql"
+    preset:
+      "near-operation-file"
+    presetConfig:
+      baseTypesPath: "types.ts"
+      extension: ".generated.ts"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+    config:
+      maybeValue: T | null | undefined
+      declarationKind: "interface"
+      namingConvention:
+        transformUnderscore: true
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

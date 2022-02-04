@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import { App } from '@aws-cdk/core';
-import { AppInfrastructureStackProps } from '../lib/app-infrastructure-stack';
+import * as cdk from '@aws-cdk/core';
+import { AppInfrastructureStack } from '../lib/app-infrastructure-stack';
 import { exit } from 'process';
 import { getAppEnvironment, getDnsEnvironment } from '../lib/config';
 import { DnsInfrastructureStack } from '../lib/dns-infrastructure-stack';
-
-const app = new App();
+import { CONSTANTS } from '../lib/config';
+const app = new cdk.App();
 
 /*
 Environment configurations
@@ -20,28 +20,19 @@ Stacks
 */
 
 // Sandbox stack
-try {
-  const sandboxDns = new DnsInfrastructureStack(app, 'helm-organizer-frontend-dns-sandbox', getDnsEnvironment('sandbox'));
-  const stagingDns = new DnsInfrastructureStack(app, 'helm-organizer-frontend-dns-staging', getDnsEnvironment('staging'));
-  const productionDns = new DnsInfrastructureStack(app, 'helm-organizer-frontend-dns-production', getDnsEnvironment('production'));
-
-  const sandboxApp: AppInfrastructureStackProps = getAppEnvironment('sandbox');
-  sandboxApp.publicHostedZone = sandboxDns.domain ;
-  const stagingApp: AppInfrastructureStackProps = getAppEnvironment('staging');
-  stagingApp.publicHostedZone = stagingDns.domain ;
-  const productionApp: AppInfrastructureStackProps = getAppEnvironment('production');
-  productionApp.publicHostedZone = productionDns.domain ;
-
-  // const sandboxAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-sandbox', sandboxApp);
-  // const stagingAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-staging', stagingApp);
-  // const productionAppInfra = new AppInfrastructureStack(app, 'helm-organizer-frontend-production', productionApp);
+const sandboxDns = new DnsInfrastructureStack(app, `${CONSTANTS.stackPrefix}-dns-sandbox`, getDnsEnvironment('sandbox'));
+const stagingDns = new DnsInfrastructureStack(app, `${CONSTANTS.stackPrefix}-dns-staging`, getDnsEnvironment('staging'));
+const productionDns = new DnsInfrastructureStack(app, `${CONSTANTS.stackPrefix}-dns-production`, getDnsEnvironment('production'));
 
 
+const sandboxAppConfig = getAppEnvironment('sandbox');
+sandboxAppConfig.hostedZone = sandboxDns.domain;
+const sandboxAppInfra = new AppInfrastructureStack(app, `${CONSTANTS.stackPrefix}-sandbox`, sandboxAppConfig);
 
-} catch(err) {
-  if (err instanceof Error) {
-    console.log(`Error launching stack: ${err.message}`);
-  }
-  throw err;
-  exit(1);
-}
+const stagingAppConfig = getAppEnvironment('staging');
+stagingAppConfig.hostedZone = stagingDns.domain;
+const stagingAppInfra = new AppInfrastructureStack(app, `${CONSTANTS.stackPrefix}-staging`, stagingAppConfig);
+
+const productionAppConfig = getAppEnvironment('production');
+productionAppConfig.hostedZone = productionDns.domain;
+const productionAppInfra = new AppInfrastructureStack(app, `${CONSTANTS.stackPrefix}-production`, productionAppConfig);
