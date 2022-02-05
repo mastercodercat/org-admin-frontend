@@ -22,7 +22,7 @@ if (environment.apiURL === '{PLACEHOLDER}') {
   uriHost = environment.apiURL;
 }
 
-const uri = uriHost + '/graphql' // <-- add the URL of the GraphQL server here
+const uri = uriHost // <-- add the URL of the GraphQL server here
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   const defaultOptions: DefaultOptions = {

@@ -17,11 +17,11 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { reducers, metaReducers } from './store/reducers';
 import { environment } from '../environments/environment';
 import { AppEffects } from './store/effects/app.effects';
 import { GraphQLModule } from './graphql.module';
 import { UserEffects } from './store/effects/user.effects';
+import * as fromUsers from './store/reducers/user.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,8 +32,9 @@ import { UserEffects } from './store/effects/user.effects';
     HttpClientModule,
 
     // NgRx
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([AppEffects, UserEffects]),
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forFeature([AppEffects, UserEffects]),
+    StoreModule.forFeature(fromUsers.userFeatureKey, fromUsers.userReducer),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })
       : [],

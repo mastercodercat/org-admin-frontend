@@ -1,4 +1,4 @@
-const api = 'https://api.sandbox.federation-service.organizer.helmahead.com';
+const api = 'https://sandbox.federation-service.organizer.helmahead.com';
 const track = 'cd5f22344c2ba0be1dd3964f898988c8';
 
 export const environment = {

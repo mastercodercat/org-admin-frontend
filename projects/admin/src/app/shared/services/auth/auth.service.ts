@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as auth0 from 'auth0-js';
-import * as fromActions from '../../../login/store/actions/login.actions';
 import { AppState } from '../../../store/reducers';
 import { AUTH_CONFIG } from './auth0-variables';
 
@@ -40,15 +39,6 @@ export class AuthService {
       },
       (err: auth0.Auth0Error | null, authResult: auth0.Auth0Result) => {
         if (err) {
-          // Dispatch loginFailure action and save error response to the store
-          this.store.dispatch(fromActions.loginFailure({
-            error: {
-              code: err.code,
-              description: err.description,
-              statusCode: err.statusCode,
-            },
-          }));
-
           return reject({
             error: {
               code: err.code,
@@ -59,9 +49,6 @@ export class AuthService {
 
         } else if (authResult) {
           this.setSession(authResult);
-          // Dispatch login success so we can act on it
-          this.store.dispatch(fromActions.loginSuccess());
-
           return resolve(true);
         }
 

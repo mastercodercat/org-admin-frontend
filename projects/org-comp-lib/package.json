@@ -4,7 +4,8 @@
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0",
-    "ng-zorro-antd": "^13.0.1"
+    "bootstrap": "^5.1.0",
+    "ng-zorro-antd": "^12.0.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"

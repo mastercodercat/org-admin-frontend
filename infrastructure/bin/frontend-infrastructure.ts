@@ -20,9 +20,9 @@ Stacks
 
 // Sandbox stack
 
-const sandboxDns = new DnsInfrastructureStack(app, `${CONSTANTS.stackPrefix}-frontend-dns-sandbox`, getDnsEnvironment('sandbox'));
+const sandboxDns = new DnsInfrastructureStack(app, `${CONSTANTS.stackPrefix}-dns-sandbox`, getDnsEnvironment('sandbox'));
 
-const sandboxApp = new FrontendStack(app, `${CONSTANTS.stackPrefix}-frontend-sandbox`, {
+const sandboxApp = new FrontendStack(app, `${CONSTANTS.stackPrefix}-sandbox`, {
     env: CONSTANTS.sandbox,
     stage: 'sandbox',
     hostedZone: sandboxDns.domain,

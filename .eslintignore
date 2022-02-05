@@ -1,2 +1,3 @@
 /infrastructure
+/dist
 **/graphql.service.ts

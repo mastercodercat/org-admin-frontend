@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import * as fromLoginSelectors from '../store/selectors/login.selectors';
 import * as fromUserSelectors from '../../store/selectors/user.selectors';
-import * as fromAppSelectors from '../../store/selectors/app.selectors';
 import { UserState } from '../../store/reducers/user.reducer';
 import { BaseComponent } from '../../core/base/base.component';
 import { AuthService } from '../../shared/services/auth/auth.service';
@@ -17,7 +15,7 @@ import { Organization } from '../../shared/models/organization.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent extends BaseComponent implements OnInit {
+export class LoginComponent extends BaseComponent {
   loginForm: FormGroup;
   showPassword = false;
   emailPassNotValid = false;
@@ -35,31 +33,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // Select login and org success value from store and if successful, navigate to home page
-    this.store.pipe(select(fromAppSelectors.selectLoginOrgSuccess), takeUntil(this.ngUnsubscribe$))
-      .subscribe(success => {
-        if (success) {
-          this.userService.getUserInfo();
-          this.navigateHome();
-        }
-      });
-
-    // Select login failure value from store and if login fails, show error
-    this.store.pipe(select(fromLoginSelectors.selectLoginFailure), takeUntil(this.ngUnsubscribe$))
-      .subscribe(failure => {
-        if (failure.failure) {
-          this.showLoginError();
-        }
-      });
-  }
 
   /**
    * Login using Auth0 to authenticate user
    *
    * @memberof LoginComponent
    */
-  async login(): Promise<void> {
+  login(): void {
     // Update form to show correct validation
     for (const i in this.loginForm.controls) {
       if (Object.prototype.hasOwnProperty.call(this.loginForm.controls, i)) {
@@ -70,7 +50,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
     // If form is filled out correctly, try to log in
     if (this.loginForm.status === 'VALID') {
       // Use auth service to send credentials to Auth0
-      await this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string);
+      this.auth.login(this.loginForm.get('email')?.value as string, this.loginForm.get('password')?.value as string)
+        .then(() => {
+          this.userService.getUserInfo();
+          this.navigateHome();
+        })
+        .catch(() => {
+          this.showLoginError();
+        });
     }
   }
 

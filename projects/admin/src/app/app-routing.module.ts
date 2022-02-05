@@ -26,10 +26,10 @@ const routes: Routes = [
       import('./select-organization/select-organization.module').then(m => m.SelectOrganizationModule),
     canActivate: [AuthGuardService],
   },
-  {
-    path: '**',
-    redirectTo: 'login',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'login',
+  // },
 ];
 
 @NgModule({

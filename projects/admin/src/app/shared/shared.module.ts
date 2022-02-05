@@ -33,8 +33,10 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzIconModule,
   ],
   exports: [
+    // Angular
     CommonModule,
     ReactiveFormsModule,
+
     // Ant Design
     NzAlertModule,
     NzLayoutModule,
@@ -58,6 +60,8 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzSpinModule,
     NzNotificationModule,
     NzPopoverModule,
+
+    // Helm
     PasswordValidatorComponent,
   ],
   providers: [],

@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
+DIR=$(cd "$(dirname ${0})/../" && pwd)
 DEBUG=""
+PROJECT_DIRECTORY="${DIR}/"
 
 usage() {
     echo -n """
@@ -15,6 +17,7 @@ while [ $# -gt 0 ]; do
     case ${1} in
         -d|--debug) DEBUG=true;;
         -h|--help) usage; exit 0;;
+        -i|--infrastructure) PROJECT_DIRECTORY="${DIR}/infrastructure" ;;
         *)
             echo "Argument $1 not supported"
             usage
@@ -30,5 +33,5 @@ then
     set -x
 fi
 
+cd ${PROJECT_DIRECTORY}
 npm install --save-dev
-npm run build org-comp-lib

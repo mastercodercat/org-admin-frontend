@@ -313,7 +313,7 @@
       },
       "root": "projects/admin",
       "sourceRoot": "projects/admin/src",
-      "prefix": "app",
+      "prefix": "org",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -334,8 +334,8 @@
               }
             ],
             "styles": [
-              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "projects/admin/src/styles.scss"
+              "projects/admin/src/styles.scss",
+              "dist/org-comp-lib/src/lib/styles/styles.less"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {

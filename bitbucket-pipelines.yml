@@ -3,7 +3,10 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 image:
-  name: node:14
+  name: 790026602975.dkr.ecr.us-east-1.amazonaws.com/helm/base/node12-angular9:latest
+  aws:
+    access-key: $AWS_ACCESS_KEY_ID
+    secret-key: $AWS_SECRET_ACCESS_KEY
 
 definitions:
   steps:
@@ -13,26 +16,28 @@ definitions:
         name: 'Install dependencies'
         script:
         - ./bin/bootstrap
-        - npm run build-${STAGE}
         artifacts:
         - node_modules/**
-        - dist/organizer-frontends/**
-        - dist/org-comp-lib/**
     - step: &run-tests
+        image:
+          name: 790026602975.dkr.ecr.us-east-1.amazonaws.com/helm/test/node12-angular9-browsers:latest
+          aws:
+            access-key: $AWS_ACCESS_KEY_ID
+            secret-key: $AWS_SECRET_ACCESS_KEY
         name: 'Run test suite'
         script:
         - npm run test
     - step: &deploy-base
         name: 'Deploy (Base)'
         <<: *oidc-base
-        services:
-          - docker
         script:
-        - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        - unzip awscliv2.zip
-        - ./aws/install
+        - npm run build org-comp-lib
+        - npm run build-${STAGE}
         - . bin/setup-bitbucket-oidc-credentials
-        - ./bin/deploy -s ${STAGE} -a frontend-infrastructure -t HelmOrganizerFrontends-frontend
+        - ./bin/deploy -s ${STAGE} -a frontend-infrastructure -t HelmOrganizerFrontends
+        artifacts:
+        - dist/organizer-frontends/**
+        - dist/org-comp-lib/**
     - step: &deploy-sandbox
         <<: *deploy-base
         deployment: Helm-Sandbox
@@ -48,10 +53,26 @@ definitions:
     - step: &install-deploy-deps
         <<: *oidc-base
         name: 'Install deploy dependencies'
-        script:
-        - cd infrastructure && npm i --save-dev
         artifacts:
         - infrastructure/node_modules/**
+        script:
+        - ./bin/bootstrap -i
+    - step: &cleanup-base
+        name: "Cleaning up ${STACK}-${STAGE}"
+        oidc: true
+        script:
+          - if [ "${OIDC}" == "true" ]; then . bin/setup-bitbucket-oidc-credentials; else . bin/setup-bitbucket-iam-credentials; fi
+          - mkdir -p dist/organizer-frontends
+          - ./bin/deploy -s ${STAGE} -a ${APP} -t ${STACK} -e -f -d
+    - step: &cleanup-sandbox
+        <<: *cleanup-base
+        deployment: Helm-Sandbox
+    - step: &cleanup-staging
+        <<: *cleanup-base
+        deployment: Helm-Staging
+    - step: &cleanup-prod
+        <<: *cleanup-base
+        deployment: Helm-Production
 
 
 pipelines:
@@ -62,13 +83,6 @@ pipelines:
       - step:
           <<: *run-tests
   branches:
-    'deploy/*':
-      - step:
-          <<: *install-deps
-      - step:
-          <<: *install-deploy-deps
-      - step:
-          <<: *deploy-sandbox
     'master':
       - step:
           <<: *install-deps
@@ -90,6 +104,13 @@ pipelines:
           <<: *install-deploy-deps
       - step:
           <<: *deploy-production
+    'deploy/**':
+      - step:
+          <<: *install-deps
+      - step:
+          <<: *install-deploy-deps
+      - step:
+          <<: *deploy-sandbox
     '**':
       - step:
           <<: *install-deps
