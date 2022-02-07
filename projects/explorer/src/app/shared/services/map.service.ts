@@ -40,7 +40,7 @@ export class MapService {
   }
 
   getStateData(): Observable<any> {
-    return this.apollo.watchQuery<any>({query: this.ChartDataGql.stateData}).valueChanges.pipe(map(res => {
+    return this.apollo.use('explorer').watchQuery<any>({query: this.ChartDataGql.stateData}).valueChanges.pipe(map(res => {
       const tempVal = res.data;
       const finalVersion: {states: any} = {states: ''};
       const tempHolder = tempVal.states.map((data: any) => ({
@@ -58,7 +58,7 @@ export class MapService {
   }
 
   getCountyData(selecetedMap: string, selected: string, filters?: string | null): Observable<any> {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.use('explorer').watchQuery<any>({
       query: this.ChartDataGql.multMapData,
       variables: {level: selecetedMap, segment: { state: selected}}})
       .valueChanges.pipe(map(res => res));
@@ -109,7 +109,7 @@ export class MapService {
 
   getAllChartData(segment: any | undefined, level?: string | null, filters?: string | null): Observable<any>{
     const abortController = new AbortController();
-    return this.apollo.watchQuery<any>
+    return this.apollo.use('explorer').watchQuery<any>
     ({
       query: this.ChartDataGql.chartDataGQL,
       variables: {level, segment, include: filters},
@@ -119,7 +119,7 @@ export class MapService {
 
   getAllChartDataNational(filters: any): Observable<any>{
     const abortController = new AbortController();
-    return this.apollo.watchQuery<any>
+    return this.apollo.use('explorer').watchQuery<any>
     ({
       query: this.ChartDataGql.chartDataNational,
       variables: {include: filters},
@@ -128,7 +128,7 @@ export class MapService {
   }
 
   getSearchData(input: any): Observable<any> {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.use('explorer').watchQuery<any>({
       query: this.ChartDataGql.searchData,
       variables: {input: {term: input}}})
       .valueChanges.pipe(map(res => res));

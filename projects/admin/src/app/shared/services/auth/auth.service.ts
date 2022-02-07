@@ -14,6 +14,7 @@ export class AuthService {
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.clientId,
     domain: AUTH_CONFIG.domain,
+    audience: AUTH_CONFIG.audience,
     redirectUri: AUTH_CONFIG.redirectUri,
     responseType: AUTH_CONFIG.responseType,
   });
@@ -34,6 +35,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.auth0.client.login({
         realm: 'Username-Password-Authentication',
+        audience: AUTH_CONFIG.audience,
         username: email,
         password,
       },
@@ -58,18 +60,17 @@ export class AuthService {
   }
 
   /**
-   * Set the access_token, id_token, and when token expires in the localstorage
+   * Set the access_token, and when token expires in the localstorage
    *
    * @param {auth0.Auth0Result} authResult
    * @memberof AuthService
    */
   setSession(authResult: auth0.Auth0Result): void {
-    if (authResult.expiresIn && authResult.accessToken && authResult.idToken) {
+    if (authResult.expiresIn && authResult.accessToken) {
       // Set the time that the access token will expire at
       const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
       // Set results in local storage for usage later
       localStorage.setItem('access_token', authResult.accessToken);
-      localStorage.setItem('id_token', authResult.idToken);
       localStorage.setItem('expires_at', expiresAt);
     }
   }
@@ -99,7 +100,6 @@ export class AuthService {
   logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('selected_org');
 

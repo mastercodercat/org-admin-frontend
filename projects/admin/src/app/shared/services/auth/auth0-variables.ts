@@ -4,7 +4,7 @@ import { environment as env } from '../../../../environments/environment';
 interface AuthConfig {
   clientId: string;
   domain: string;
-  apiURL: string;
+  audience: string;
   redirectUri: string;
   responseType: string;
 }
@@ -12,7 +12,7 @@ interface AuthConfig {
 export const AUTH_CONFIG: AuthConfig = {
   clientId: env.auth.clientId,
   domain: env.auth.domain,
-  apiURL: env.apiURL,
+  audience: env.auth.audience,
   redirectUri: env.auth.redirectUri,
   responseType: 'token',
 };

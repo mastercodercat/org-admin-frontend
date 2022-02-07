@@ -1,0 +1,7 @@
+/*
+ * Public API Surface of org-comp-lib
+ */
+export * from './lib/org-comp-lib.service';
+export * from './lib/org-comp-lib.component';
+export * from './lib/org-comp-lib.module';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3Byb2plY3RzL29yZy1jb21wLWxpYi9zcmMvcHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUVILGNBQWMsNEJBQTRCLENBQUM7QUFDM0MsY0FBYyw4QkFBOEIsQ0FBQztBQUM3QyxjQUFjLDJCQUEyQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFB1YmxpYyBBUEkgU3VyZmFjZSBvZiBvcmctY29tcC1saWJcbiAqL1xuXG5leHBvcnQgKiBmcm9tICcuL2xpYi9vcmctY29tcC1saWIuc2VydmljZSc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi9vcmctY29tcC1saWIuY29tcG9uZW50JztcbmV4cG9ydCAqIGZyb20gJy4vbGliL29yZy1jb21wLWxpYi5tb2R1bGUnO1xuIl19

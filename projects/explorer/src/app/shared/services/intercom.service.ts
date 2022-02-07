@@ -4,8 +4,8 @@ import { map } from 'rxjs/operators';
 import { Apollo, gql  } from 'apollo-angular';
 
 declare global {
-  interface Window { 
-    Intercom: any; 
+  interface Window {
+    Intercom: any;
     intercomSettings: any;
   }
 }
@@ -51,7 +51,7 @@ export class IntercomService {
   }
 
   fetchHash(email: string): Observable<any> {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.use('explorer').watchQuery<any>({
       query: GET_HASH,
       variables: {
         email: email,

@@ -1,0 +1,25 @@
+{
+  "name": "org-comp-lib",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0",
+    "bootstrap": "^5.1.0",
+    "ng-zorro-antd": "^12.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "exports": {
+    "./styles": {
+      "less": "./lib/styles/styles.less"
+    }
+  },
+  "main": "bundles/org-comp-lib.umd.js",
+  "module": "fesm2015/org-comp-lib.js",
+  "es2015": "fesm2015/org-comp-lib.js",
+  "esm2015": "esm2015/org-comp-lib.js",
+  "fesm2015": "fesm2015/org-comp-lib.js",
+  "typings": "org-comp-lib.d.ts",
+  "sideEffects": false
+}

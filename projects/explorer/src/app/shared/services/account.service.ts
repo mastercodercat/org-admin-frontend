@@ -22,7 +22,7 @@ export class AccountService {
   constructor(private apollo: Apollo) { }
 
   fetchAccounts(accountIds?: string[]): Observable<any> {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.use('explorer').watchQuery<any>({
       query: GET_ALL_ACCOUNTS,
     }).valueChanges.pipe(map((result) => result.data.listAccounts.map(this.transformAccountData)));
   }

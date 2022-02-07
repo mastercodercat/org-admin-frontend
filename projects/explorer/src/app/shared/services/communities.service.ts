@@ -57,8 +57,8 @@ export class CommunitiesService {
   }
 
   getCommunities(): Observable<any> {
-    const accountId = this.getCurrentAccount(); 
-    return this.apollo.watchQuery<any>({
+    const accountId = this.getCurrentAccount();
+    return this.apollo.use('explorer').watchQuery<any>({
       query: GET_ALL,
       variables: {
         accountId
@@ -67,8 +67,8 @@ export class CommunitiesService {
   }
 
   create(communityInput: any): Observable<any> {
-    const accountId = this.getCurrentAccount(); 
-    return this.apollo.mutate({
+    const accountId = this.getCurrentAccount();
+    return this.apollo.use('explorer').mutate({
       mutation: CREATE,
       variables: {
         input: {
@@ -80,8 +80,8 @@ export class CommunitiesService {
   }
 
   update(communityInput: any): Observable<any> {
-    const accountId = this.getCurrentAccount(); 
-    return this.apollo.mutate({
+    const accountId = this.getCurrentAccount();
+    return this.apollo.use('explorer').mutate({
       mutation: UPDATE,
       variables: {
         input: {
@@ -93,7 +93,7 @@ export class CommunitiesService {
   }
 
   deleteCommunity(uuid: string) {
-    return this.apollo.mutate<any>({
+    return this.apollo.use('explorer').mutate<any>({
       mutation: DELETE_COMMUNITY,
       variables: {
         input: {

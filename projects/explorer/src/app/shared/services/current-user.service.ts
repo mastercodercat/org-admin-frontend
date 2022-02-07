@@ -100,7 +100,7 @@ export class CurrentUserService {
   }
 
   getAccount(): Observable<any> {
-    const storage = localStorage.getItem('id_token');
+    const storage = localStorage.getItem('access_token');
     if (storage) {
       return of (true);
     } else {

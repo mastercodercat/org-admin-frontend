@@ -37,7 +37,7 @@ export class GeographicService {
   constructor(private apollo: Apollo) { }
 
   fetchAll(): Observable<any> {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.use('explorer').watchQuery<any>({
       query: GET_ALL,
     }).valueChanges.pipe(map((result) => result?.data?.segment));
   }
