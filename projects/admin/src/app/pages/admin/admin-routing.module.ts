@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MembersComponent } from './components/members/members.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { PermissionsComponent } from './components/permissions/permissions.component';
+import { DomainComponent } from './components/domain/domain.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'permissions',
     component: PermissionsComponent,
+  },
+  {
+    path: 'domain',
+    component: DomainComponent,
   },
 ];
 

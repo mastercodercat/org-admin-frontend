@@ -33,6 +33,7 @@ import * as fromUsers from './store/reducers/user.reducer';
 
     // NgRx
     StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
     EffectsModule.forFeature([AppEffects, UserEffects]),
     StoreModule.forFeature(fromUsers.userFeatureKey, fromUsers.userReducer),
     !environment.production
@@ -50,7 +51,7 @@ import * as fromUsers from './store/reducers/user.reducer';
 export class AppModule {}
 
 @NgModule({})
-export class AdminModule{
+export class AdminModule {
   static forRoot(): ModuleWithProviders<any> {
     return {
       ngModule: AppModule,

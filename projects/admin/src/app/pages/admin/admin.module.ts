@@ -9,6 +9,7 @@ import { AccountCollapseComponent } from './components/accounts/account-collapse
 import { PermissionsComponent } from './components/permissions/permissions.component';
 import { SubPermissionComponent } from './components/permissions/sub-permission/sub-permission.component';
 import { PermissionCardComponent } from './components/permissions/permission-card/permission-card.component';
+import { DomainComponent } from './components/domain/domain.component';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -23,6 +24,7 @@ import { SharedModule } from '../../shared/shared.module';
     PermissionsComponent,
     SubPermissionComponent,
     PermissionCardComponent,
+    DomainComponent,
   ],
   exports: [AdminComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule],

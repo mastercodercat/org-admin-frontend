@@ -1,0 +1,47 @@
+<div class="pt-4">
+  <div class="d-flex align-items-center justify-content-between pb-3">
+    <h3 nz-typography nzType="secondary">Landing Page Domains</h3>
+    <button nz-button nzSize="large" nzType="primary">NEW DOMAIN</button>
+  </div>
+  <nz-table #domainTable [nzData]="domains">
+    <thead>
+      <tr>
+        <th>DOMAIN NAME</th>
+        <th nzWidth="250px">VERIFIED STATUS</th>
+        <th nzWidth="100px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let domain of domainTable.data">
+        <td>{{ domain.name }}</td>
+        <td>
+          <span
+            nz-typography
+            [nzType]="domain.verified ? 'secondary' : 'danger'"
+          >
+            {{ domain.verified ? "Verified" : "Unverified" }}
+          </span>
+        </td>
+        <td>
+          <ng-container>
+            <button
+              nz-button
+              nz-dropdown
+              [nzDropdownMenu]="menu"
+              nzPlacement="bottomRight"
+              nzType="text"
+            >
+              <i nz-icon nzType="ellipsis"></i>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu" nzTrigger="click">
+              <ul nz-menu style="width: 150px">
+                <li nz-menu-item>View</li>
+                <li nz-menu-item>Delete</li>
+              </ul>
+            </nz-dropdown-menu>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
