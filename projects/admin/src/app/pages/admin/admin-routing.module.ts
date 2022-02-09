@@ -5,6 +5,7 @@ import { MembersComponent } from './components/members/members.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { PermissionsComponent } from './components/permissions/permissions.component';
 import { DomainComponent } from './components/domain/domain.component';
+import { DomainViewComponent } from './components/domain/domain-view/domain-view.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'domain',
     component: DomainComponent,
+  },
+  {
+    path: 'domain/:name',
+    component: DomainViewComponent,
   },
 ];
 

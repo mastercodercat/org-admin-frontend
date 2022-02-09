@@ -3,4 +3,5 @@ export interface Domain {
   verified: boolean;
   deleted: boolean;
   created_at: string;
+  verification_code?: string;
 }

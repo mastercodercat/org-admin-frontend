@@ -10,6 +10,7 @@ import { PermissionsComponent } from './components/permissions/permissions.compo
 import { SubPermissionComponent } from './components/permissions/sub-permission/sub-permission.component';
 import { PermissionCardComponent } from './components/permissions/permission-card/permission-card.component';
 import { DomainComponent } from './components/domain/domain.component';
+import { DomainViewComponent } from './components/domain/domain-view/domain-view.component';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -25,6 +26,7 @@ import { SharedModule } from '../../shared/shared.module';
     SubPermissionComponent,
     PermissionCardComponent,
     DomainComponent,
+    DomainViewComponent,
   ],
   exports: [AdminComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule],

@@ -15,7 +15,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let domain of domainTable.data">
-        <td>{{ domain.name }}</td>
+        <td>
+          <div>
+            <strong>{{ domain.name }}</strong>
+            <div>
+              <span v-if="domain.deleted">[deleted] | </span>
+              <span>Created: {{ domain.created_at }}</span>
+            </div>
+          </div>
+        </td>
         <td>
           <span
             nz-typography
@@ -37,7 +45,9 @@
             </button>
             <nz-dropdown-menu #menu="nzDropdownMenu" nzTrigger="click">
               <ul nz-menu style="width: 150px">
-                <li nz-menu-item>View</li>
+                <li nz-menu-item>
+                  <a [href]="'/dashboard/domain/' + domain.name">View</a>
+                </li>
                 <li nz-menu-item>Delete</li>
               </ul>
             </nz-dropdown-menu>
@@ -46,7 +56,11 @@
       </tr>
     </tbody>
   </nz-table>
-  <nz-modal [(nzVisible)]="isNewModal" nzTitle="NEW DOMAIN">
+  <nz-modal
+    [(nzVisible)]="isNewModal"
+    nzTitle="NEW DOMAIN"
+    (nzOnCancel)="handleClose()"
+  >
     <ng-container *nzModalContent>
       <form nz-form [formGroup]="validateForm" (ngSubmit)="handleOk()">
         <nz-form-item>
