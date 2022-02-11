@@ -24,6 +24,11 @@ export class AdminComponent {
       name: 'Accounts',
       icon: 'apartment',
     },
+    {
+      route: '/dashboard/domain',
+      name: 'Landing Page Domains',
+      icon: 'lock',
+    },
     /*
     {
       route: '/dashboard/activity',
@@ -47,11 +52,11 @@ export class AdminComponent {
 
   constructor(private router: Router) {
     // override the route reuse strategy
-    this.router.routeReuseStrategy.shouldReuseRoute = function(): boolean {
+    this.router.routeReuseStrategy.shouldReuseRoute = function (): boolean {
       return false;
     };
 
-    this.router.events.subscribe(evt => {
+    this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         const url = evt.url;
         this.activeTab = this.tabs.findIndex((tab: Tab) => tab.route === url);

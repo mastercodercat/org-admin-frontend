@@ -1,0 +1,79 @@
+<div class="pt-4">
+  <div class="d-flex align-items-center justify-content-between pb-3">
+    <h3 nz-typography nzType="secondary">Landing Page Domains</h3>
+    <button nz-button nzSize="large" nzType="primary" (click)="showNewModal()">
+      NEW DOMAIN
+    </button>
+  </div>
+  <nz-table #domainTable [nzData]="domains">
+    <thead>
+      <tr>
+        <th>DOMAIN NAME</th>
+        <th nzWidth="250px">VERIFIED STATUS</th>
+        <th nzWidth="100px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let domain of domainTable.data">
+        <td>
+          <div>
+            <strong>{{ domain.name }}</strong>
+            <div>
+              <span v-if="domain.deleted">[deleted] | </span>
+              <span>Created: {{ domain.created_at }}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span
+            nz-typography
+            [nzType]="domain.verified ? 'secondary' : 'danger'"
+          >
+            {{ domain.verified ? "Verified" : "Unverified" }}
+          </span>
+        </td>
+        <td>
+          <ng-container>
+            <button
+              nz-button
+              nz-dropdown
+              [nzDropdownMenu]="menu"
+              nzPlacement="bottomRight"
+              nzType="text"
+            >
+              <i nz-icon nzType="ellipsis"></i>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu" nzTrigger="click">
+              <ul nz-menu style="width: 150px">
+                <li nz-menu-item>
+                  <a [href]="'/dashboard/domain/' + domain.name">View</a>
+                </li>
+                <li nz-menu-item>Delete</li>
+              </ul>
+            </nz-dropdown-menu>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-modal
+    [(nzVisible)]="isNewModal"
+    nzTitle="NEW DOMAIN"
+    (nzOnCancel)="handleClose()"
+  >
+    <ng-container *nzModalContent>
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="handleOk()">
+        <nz-form-item>
+          <nz-form-label nzFor="domain">Domain</nz-form-label>
+          <nz-form-control nzErrorTip="Domain is required.">
+            <input nz-input formControlName="domain" id="domain" />
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+    <div *nzModalFooter class="d-flex justify-content-between">
+      <button nz-button nzType="default" (click)="handleClose()">CANCEL</button>
+      <button nz-button nzType="primary" (click)="handleOk()">CREATE</button>
+    </div>
+  </nz-modal>
+</div>

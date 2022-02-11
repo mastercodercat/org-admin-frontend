@@ -1,0 +1,50 @@
+<div class="pt-4">
+  <h3 nz-typography nzType="success">{{ domain.name }}</h3>
+  <nz-alert
+    [nzType]="domain.verified ? 'success' : 'warning'"
+    [nzMessage]="
+      domain.verified ? 'YOUR DOMAIN IS VERIFIED' : 'YOUR DOMAIN IS UNVEIRIFED'
+    "
+    class="text-center"
+  ></nz-alert>
+  <h4 class="pt-3">How to Verify Your Domain</h4>
+  <p>You may need help from your system administrator to complete this step.</p>
+  <p>
+    To verify a domain, you will need ownership or administrative access to your
+    domain name. You will need to acces sand log into your domain registrar(or
+    DNS provider) for your domain, e.g. GoDaddy, Namecheap, etc. For furthre
+    instructions on setting up your domain, including links to documentation of
+    common domain registrars, <a>please check our knowledge base.</a>
+  </p>
+  <p>
+    Add the following record to your domain's DNS zone file to verify your
+    ownership of this domain. After you've completed this step through your DNS
+    provider, click "Verify Now" in Crowdskout.
+  </p>
+  <p>
+    It may take up to 24 hours for the changes to take effect. If after 24
+    hours, you are still unable to successfully verify your domain, please
+    contact us.
+  </p>
+  <nz-table>
+    <thead>
+      <tr>
+        <th>TYPE</th>
+        <th>HOST</th>
+        <th>VALUE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CNAME</td>
+        <td>{{ domain.name }}</td>
+        <td>pages.tools</td>
+      </tr>
+      <tr>
+        <td>TXT</td>
+        <td>@</td>
+        <td>csverification: {{ domain.verification_code }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
