@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import * as fromUserSelectors from '../../store/selectors/user.selectors';
+import * as fromUserSelectors from '../../../../../../src/app/store/selectors/user.selectors';
 import {
   FindOrganizationsWithRolesGQL,
   FindRolesGQL,
@@ -15,8 +15,8 @@ import {
   UpdateUserGQL,
   DeleteOrganizationUserGQL,
 } from '../../shared/services/graphql/graphql.service';
-import { UserState } from '../../store/reducers/user.reducer';
-import { AppState } from '../../store/reducers';
+import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
+import { AppState } from '../../../../../../src/app/store/reducers';
 import { User } from '../../shared/models/user.model';
 import { Organization } from '../../shared/models/organization.model';
 import { Role } from '../../shared/models/role.model';
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
   removeOrganization: Organization | OrganizationUsers | undefined;
 
   changeOrganization: Organization | OrganizationUsers | undefined;
-  changeUserRole: Role;
+  changeUserRole!: Role;
   organizations: Organization[] = [];
 
   addOrganization: Organization | undefined;

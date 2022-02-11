@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 // import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
-import { reducers, metaReducers } from '../../../store/reducers';
+import { reducers, metaReducers } from '../../../../../../../src/app/store/reducers';
 import { StoreModule } from '@ngrx/store';
 // import { Router, RouterModule } from '@angular/router';
 

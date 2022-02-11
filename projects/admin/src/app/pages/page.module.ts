@@ -5,7 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FormsModule } from '@angular/forms';
 
-import { environment } from 'src/environments/environment';
 
 import { PageRoutingModule } from './page-routing.module';
 import { AdminModule } from './admin/admin.module';
@@ -14,8 +13,8 @@ import { CreateOrganizationComponent } from './organization/create-organization/
 import { OrganizationComponent } from './organization/organization.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
-import { LogoutComponent } from '../logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,6 @@ import { ProfileComponent } from './profile/profile.component';
     OrganizationComponent,
     CreateOrganizationComponent,
     HomeComponent,
-    LogoutComponent,
     ProfileComponent,
   ],
   exports: [],

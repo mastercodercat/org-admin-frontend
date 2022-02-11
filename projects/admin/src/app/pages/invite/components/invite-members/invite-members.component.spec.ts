@@ -3,7 +3,7 @@ import { Spectator, byText, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from '../../../../store/reducers';
+import { reducers, metaReducers } from '../../../../../../../../src/app/store/reducers';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline, UserAddOutline } from '@ant-design/icons-angular/icons';

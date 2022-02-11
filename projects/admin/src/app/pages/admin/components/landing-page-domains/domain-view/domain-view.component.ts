@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Domain } from '../domain';
+import { Domain } from '../domain.model';
 
 @Component({
   selector: 'org-admin-domain-view',
@@ -8,7 +8,7 @@ import { Domain } from '../domain';
   styleUrls: ['./domain-view.component.scss'],
 })
 export class DomainViewComponent implements OnInit {
-  domain: Domain = {
+  domain = {
     name: 'action.crowdskout.com',
     verified: true,
     deleted: true,

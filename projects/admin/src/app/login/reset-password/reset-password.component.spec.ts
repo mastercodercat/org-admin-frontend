@@ -11,7 +11,7 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { WarningOutline, UserOutline } from '@ant-design/icons-angular/icons';
 import { SharedModule } from '../../shared/shared.module';
-import { reducers, metaReducers } from '../../store/reducers';
+import { reducers, metaReducers } from '../../../../../../src/app/store/reducers';
 
 import { ResetPasswordComponent } from './reset-password.component';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';

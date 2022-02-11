@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import * as fromUserSelectors from '../../store/selectors/user.selectors';
-import { UserState } from '../../store/reducers/user.reducer';
+import * as fromUserSelectors from '../../../../../../src/app/store/selectors/user.selectors';
+import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
 import { BaseComponent } from '../../core/base/base.component';
 import { AuthService } from '../../shared/services/auth/auth.service';
-import { UserService } from '../../shared/services/user/user.service';
+import { UserService } from '../../../../../../src/app/services/user/user.service';
 import { Organization } from '../../shared/models/organization.model';
 
 @Component({

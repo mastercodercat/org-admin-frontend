@@ -1,0 +1,12 @@
+query getDomains($domainType: DomainTypeEnum) {
+  organizationHostnames(domainType: $domainType) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}

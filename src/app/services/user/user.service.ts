@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as fromActions from '../../../store/actions/user.actions';
-import * as fromSelectors from '../../../store/selectors/user.selectors';
-import { AuthService } from '../auth/auth.service';
-import { UserState } from '../../../store/reducers/user.reducer';
-import { User } from '../../models/user.model';
-import { Maybe, ValidatePasswordResetTokenGQL } from '../graphql/graphql.service';
+import * as fromActions from '../../store/actions/user.actions';
+import * as fromSelectors from '../../store/selectors/user.selectors';
+import { AuthService } from '../../../../projects/admin/src/app/shared/services/auth/auth.service';
+import { UserState } from '../../store/reducers/user.reducer';
+import { User } from '../../../../projects/admin/src/app/shared/models/user.model';
+import { Maybe, ValidatePasswordResetTokenGQL } from '../../../../projects/admin/src/app/shared/services/graphql/graphql.service';
 
 @Injectable({
   providedIn: 'root',

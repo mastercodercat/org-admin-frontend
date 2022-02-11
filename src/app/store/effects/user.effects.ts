@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { OrganizationService } from '../../select-organization/services/organization.service';
-import { Organization } from '../../shared/models/organization.model';
-import { UserService } from '../../shared/services/user/user.service';
+import { OrganizationService } from '../../../../projects/admin/src/app/select-organization/services/organization.service';
+import { Organization } from '../../../../projects/admin/src/app/shared/models/organization.model';
+import { UserService } from '../../services/user/user.service';
 import * as fromActions from '../actions/user.actions';
 
 

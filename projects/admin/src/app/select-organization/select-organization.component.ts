@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { AppState } from '../store/reducers';
-import * as fromUserSelectors from '../store/selectors/user.selectors';
+import { Observable } from 'rxjs';
+import { AppState } from '../../../../../src/app/store/reducers';
+import * as fromUserSelectors from '../../../../../src/app/store/selectors/user.selectors';
 import { AuthService } from '../shared/services/auth/auth.service';
-import { UserState } from '../store/reducers/user.reducer';
-import { UserService } from '../shared/services/user/user.service';
+import { UserState } from '../../../../../src/app/store/reducers/user.reducer';
+import { UserService } from '../../../../../src/app/services/user/user.service';
 import { Organization } from '../shared/models/organization.model';
 
 @Component({

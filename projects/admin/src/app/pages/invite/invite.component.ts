@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { take, mergeMap } from 'rxjs/operators';
 import { FindRolesGQL, SendInvitationGQL } from '../../shared/services/graphql/graphql.service';
-import * as fromUserSelectors from '../../store/selectors/user.selectors';
-import { UserState } from '../../store/reducers/user.reducer';
+import * as fromUserSelectors from '../../../../../../src/app/store/selectors/user.selectors';
+import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
 import { Role } from '../../shared/models/role.model';
 
 export interface Invite {

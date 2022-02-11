@@ -1,10 +1,10 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 // import { AuthService } from './auth.service';
 import { UserService } from './user.service';
-import { reducers, metaReducers } from '../../../store/reducers';
-import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from '../../store/reducers';
 
 describe('UserService', () => {
   let spectator: SpectatorService<UserService>;

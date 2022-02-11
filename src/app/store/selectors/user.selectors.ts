@@ -1,7 +1,7 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
-import { Organization } from '../../shared/models/organization.model';
-import { StatusEnum } from '../../shared/services/graphql/graphql.service';
+import { Organization } from '../../../../projects/admin/src/app/shared/models/organization.model';
+import { StatusEnum } from '../../../../projects/admin/src/app/shared/services/graphql/graphql.service';
 import * as fromUser from '../reducers/user.reducer';
 
 export const selectUserState = createFeatureSelector<fromUser.UserState>(

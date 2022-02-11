@@ -8,16 +8,16 @@
     >
       <nz-avatar
         nzIcon="user">
-<!--        [nzSrc]="(userInfo$ | async)?.picture"-->
+       [nzSrc]="(userInfo$ | async)?.picture"
       </nz-avatar>
       <div class="user-name d-inline ms-3 fs-5 fw-bold">
-<!--        {{ (currOrgInfo$ | async)?.name }}-->
+       {{ (currOrgInfo$ | async)?.name }}
       </div>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu>
           <li nz-menu-item routerLink="/select-organization">Select Organization</li>
           <li nz-menu-divider></li>
-<!--          <li nz-menu-item><org-logout></org-logout></li>-->
+          <li nz-menu-item><org-logout></org-logout></li>
         </ul>
       </nz-dropdown-menu>
     </div>

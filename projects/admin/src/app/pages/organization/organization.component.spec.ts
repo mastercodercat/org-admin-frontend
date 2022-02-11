@@ -1,17 +1,15 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { Spectator,
-  createComponentFactory } from '@ngneat/spectator';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../../shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from '../../store/reducers';
-import { IconDefinition } from '@ant-design/icons-angular';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserOutline } from '@ant-design/icons-angular/icons';
-
-import { OrganizationComponent } from './organization.component';
+import { StoreModule } from '@ngrx/store';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SharedModule } from '../../shared/shared.module';
+import { reducers, metaReducers } from '../../../../../../src/app/store/reducers';
+import { OrganizationComponent } from './organization.component';
 
 const icons: IconDefinition[] = [UserOutline];
 

@@ -9,11 +9,10 @@ import { AccountSelectionGuard } from './shared/services/account-selection.guard
 const routes: Routes = [
   { path: 'explorer', component: DashboardComponent, canActivate: [AccountSelectionGuard] },
   { path: 'faq', component: FaqComponent },
-  { path: '**', redirectTo: 'login', }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

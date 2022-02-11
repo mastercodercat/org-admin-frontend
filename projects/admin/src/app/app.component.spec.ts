@@ -7,7 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MailOutline, UserOutline } from '@ant-design/icons-angular/icons';
-import { reducers, metaReducers } from './store/reducers';
+import { reducers, metaReducers } from '../../../../src/app/store/reducers';
 
 import { AppComponent } from './app.component';
 

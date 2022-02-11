@@ -339,7 +339,9 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"]
+              "includePaths": [
+                "node_modules/"
+              ]
             }
           },
           "configurations": {
@@ -416,7 +418,7 @@
             },
             "development": {
               "browserTarget": "admin:build:development",
-              "port": 4200
+              "port": 4202
             }
           },
           "defaultConfiguration": "development"
@@ -454,7 +456,9 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"]
+              "includePaths": [
+                "node_modules/"
+              ]
             }
           }
         }
@@ -596,5 +600,8 @@
       }
     }
   },
-  "defaultProject": "organizer-frontends"
+  "defaultProject": "organizer-frontends",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

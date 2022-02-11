@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../shared/services/auth/auth.service';
+import { AuthService } from '../../../projects/admin/src/app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'org-logout',

@@ -26,8 +26,13 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
 
 @NgModule({
-  declarations: [PasswordValidatorComponent],
-  imports: [NzTypographyModule, NzIconModule],
+  declarations: [
+    PasswordValidatorComponent,
+  ],
+  imports: [
+    NzTypographyModule,
+    NzIconModule,
+  ],
   exports: [
     // Angular
     CommonModule,

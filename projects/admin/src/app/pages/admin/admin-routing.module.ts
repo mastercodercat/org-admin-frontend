@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MembersComponent } from './components/members/members.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { PermissionsComponent } from './components/permissions/permissions.component';
-import { DomainComponent } from './components/domain/domain.component';
-import { DomainViewComponent } from './components/domain/domain-view/domain-view.component';
+import { LandingPageDomainsComponent } from './components/landing-page-domains/landing-page-domains.component';
+import { DomainViewComponent } from './components/landing-page-domains/domain-view/domain-view.component';
 
 const routes: Routes = [
   {
@@ -21,11 +21,11 @@ const routes: Routes = [
     component: PermissionsComponent,
   },
   {
-    path: 'domain',
-    component: DomainComponent,
+    path: 'landing-page-domains',
+    component: LandingPageDomainsComponent,
   },
   {
-    path: 'domain/:name',
+    path: 'landing-page-domains/:id',
     component: DomainViewComponent,
   },
 ];

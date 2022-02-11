@@ -3,7 +3,7 @@ import {
   createComponentFactory,
 } from '@ngneat/spectator';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from '../../store/reducers';
+import { reducers, metaReducers } from '../../../../../../src/app/store/reducers';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 

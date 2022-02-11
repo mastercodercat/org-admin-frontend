@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as auth0 from 'auth0-js';
-import { AppState } from '../../../store/reducers';
+import { AppState } from '../../../../../../../src/app/store/reducers';
 import { AUTH_CONFIG } from './auth0-variables';
 
 @Injectable({

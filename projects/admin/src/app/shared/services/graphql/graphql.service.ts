@@ -53,7 +53,6 @@ export type AssignUserPermissionInputType = {
 
 export type CreateOrganizationHostnameInput = {
   hostname: Scalars['String'];
-  organizationUuid: Scalars['ID'];
   domainType: DomainTypeEnum;
   fromEmail?: Maybe<Scalars['String']>;
   fromName?: Maybe<Scalars['String']>;
@@ -348,7 +347,6 @@ export type QueryOrganizationHostnameArgs = {
 
 
 export type QueryOrganizationHostnamesArgs = {
-  organizationUuid: Scalars['ID'];
   domainType?: Maybe<DomainTypeEnum>;
 };
 
@@ -589,7 +587,9 @@ export enum StatusEnum {
   Blocked = 'BLOCKED',
   Suspended = 'SUSPENDED',
   Pending = 'PENDING',
-  Active = 'ACTIVE'
+  Active = 'ACTIVE',
+  Verified = 'VERIFIED',
+  Unverified = 'UNVERIFIED'
 }
 
 export enum SubscriptionEnum {
@@ -627,6 +627,23 @@ export type ValidateAssociationTokenPayload = {
   email?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
+
+export type GetDomainsQueryVariables = Exact<{
+  domainType?: Maybe<DomainTypeEnum>;
+}>;
+
+
+export type GetDomainsQuery = (
+  { __typename?: 'Query' }
+  & { organizationHostnames?: Maybe<Array<Maybe<(
+    { __typename?: 'SchemaOrganizationHostname' }
+    & Pick<SchemaOrganizationHostname, 'uuid' | 'createdAt' | 'status' | 'hostname'>
+    & { user?: Maybe<(
+      { __typename?: 'SchemaUser' }
+      & Pick<SchemaUser, 'firstName' | 'lastName'>
+    )> }
+  )>>> }
+);
 
 export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -948,6 +965,31 @@ export type AcceptOrganizationUserInviteMutation = (
   & Pick<Mutation, 'acceptOrganizationUserInvite'>
 );
 
+export const GetDomainsDocument = gql`
+    query getDomains($domainType: DomainTypeEnum) {
+  organizationHostnames(domainType: $domainType) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetDomainsGQL extends Apollo.Query<GetDomainsQuery, GetDomainsQueryVariables> {
+    document = GetDomainsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const FindOrganizationsDocument = gql`
     query findOrganizations {
   organizations {

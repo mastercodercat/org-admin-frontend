@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import * as fromUserSelectors from '../../../../store/selectors/user.selectors';
+import * as fromUserSelectors from '../../../../../../../../src/app/store/selectors/user.selectors';
 import { FindOrganizationTreesGQL } from '../../../../shared/services/graphql/graphql.service';
-import { UserService } from '../../../../shared/services/user/user.service';
+import { UserService } from '../../../../../../../../src/app/services/user/user.service';
 import { Account } from './account';
-import { UserState } from '../../../../store/reducers/user.reducer';
+import { UserState } from '../../../../../../../../src/app/store/reducers/user.reducer';
 import { Organization } from '../../../../shared/models/organization.model';
 @Component({
   selector: 'org-admin-accounts',

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Organization } from '../../shared/models/organization.model';
+import { Organization } from '../../../../projects/admin/src/app/shared/models/organization.model';
 import * as fromActions from '../actions/user.actions';
 
 export const userFeatureKey = 'user';
