@@ -645,6 +645,23 @@ export type GetDomainsQuery = (
   )>>> }
 );
 
+export type CreateDomainMutationVariables = Exact<{
+  input: CreateOrganizationHostnameInput;
+}>;
+
+
+export type CreateDomainMutation = (
+  { __typename?: 'Mutation' }
+  & { createOrganizationHostname?: Maybe<(
+    { __typename?: 'SchemaOrganizationHostname' }
+    & Pick<SchemaOrganizationHostname, 'uuid' | 'createdAt' | 'status' | 'hostname'>
+    & { user?: Maybe<(
+      { __typename?: 'SchemaUser' }
+      & Pick<SchemaUser, 'firstName' | 'lastName'>
+    )> }
+  )> }
+);
+
 export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -985,6 +1002,31 @@ export const GetDomainsDocument = gql`
   })
   export class GetDomainsGQL extends Apollo.Query<GetDomainsQuery, GetDomainsQueryVariables> {
     document = GetDomainsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateDomainDocument = gql`
+    mutation createDomain($input: CreateOrganizationHostnameInput!) {
+  createOrganizationHostname(input: $input) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateDomainGQL extends Apollo.Mutation<CreateDomainMutation, CreateDomainMutationVariables> {
+    document = CreateDomainDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

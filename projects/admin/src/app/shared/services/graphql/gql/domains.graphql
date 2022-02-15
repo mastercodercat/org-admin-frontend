@@ -11,8 +11,8 @@ query getDomains($domainType: DomainTypeEnum) {
   }
 }
 
-mutation createDomain($input: CreateDomainInput!) {
-  createDomain(input: $input) {
+mutation createDomain($input: CreateOrganizationHostnameInput!) {
+  createOrganizationHostname(input: $input) {
     uuid
     createdAt
     user {
