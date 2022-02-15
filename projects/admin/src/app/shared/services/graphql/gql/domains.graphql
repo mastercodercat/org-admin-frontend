@@ -10,3 +10,16 @@ query getDomains($domainType: DomainTypeEnum) {
     hostname
   }
 }
+
+mutation createDomain($input: CreateDomainInput!) {
+  createDomain(input: $input) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}
