@@ -1,0 +1,9 @@
+query allForms($organizationUuid: UUID!){
+  forms(organizationUuid: $organizationUuid) {
+    uuid
+    name
+    status
+    createdBy
+    createdAt
+  }
+}

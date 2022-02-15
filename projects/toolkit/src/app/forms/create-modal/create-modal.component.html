@@ -1,0 +1,40 @@
+<nz-modal
+  [nzOkText]="'Create Form'"
+  [nzOkDisabled]="!validateForm.valid"
+  [(nzVisible)]="showModal"
+  nzTitle="Create New"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [nzLayout]="'vertical'"
+      [formGroup]="validateForm"
+    >
+      <nz-form-item>
+        <nz-form-label>Form Name <span class="input-description">(REQUIRED)</span></nz-form-label>
+        <nz-form-control [nzErrorTip]="formNameErrorTpl">
+          <input nz-input formControlName="formName" placeholder="Form Name" />
+          <ng-template #formNameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <span class="form-error">
+                Form Name is required
+              </span>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('duplicated')">
+              <span class="form-error">
+                Form Name must be unique
+              </span>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('notvalid')">
+              <span class="form-error">
+                Form Name not valid
+              </span>  
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
+

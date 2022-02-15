@@ -1,0 +1,40 @@
+::ng-deep .input-description {
+  color: #223245;
+  opacity: 0.4;
+  font-size: 10px;
+  margin-left: 6px;
+}
+
+
+::ng-deep .form-error {
+  background: #F3BD32;
+  border-radius: 3px;
+  color: #223245;
+  padding: 3px 5px;
+  margin-top: 3px;
+  font-size: 10px;
+  display: inline-block;
+}
+
+.forms-table-operations {
+  margin-bottom: 12px;
+  button {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+}
+
+.form-detail {
+  p {
+    margin: 0px;
+  }
+}
+
+.form-extra-info {
+  font-size: 10px;
+  color: #00000070;
+}
+
+.left-border {
+  border-left: 1px solid #f0f0f0;
+}

@@ -464,7 +464,7 @@
         }
       }
     },
-    "forms": {
+    "toolkit": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -474,25 +474,25 @@
           "strict": true
         }
       },
-      "root": "projects/forms",
-      "sourceRoot": "projects/forms/src",
-      "prefix": "app",
+      "root": "projects/toolkit",
+      "sourceRoot": "projects/toolkit/src",
+      "prefix": "tool",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/forms",
-            "index": "projects/forms/src/index.html",
-            "main": "projects/forms/src/main.ts",
-            "polyfills": "projects/forms/src/polyfills.ts",
-            "tsConfig": "projects/forms/tsconfig.app.json",
+            "outputPath": "dist/toolkit",
+            "index": "projects/toolkit/src/index.html",
+            "main": "projects/toolkit/src/main.ts",
+            "polyfills": "projects/toolkit/src/polyfills.ts",
+            "tsConfig": "projects/toolkit/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/forms/src/favicon.ico",
-              "projects/forms/src/assets"
+              "projects/toolkit/src/favicon.ico",
+              "projects/toolkit/src/assets"
             ],
             "styles": [
-              "projects/forms/src/styles.scss"
+              "projects/toolkit/src/styles.scss"
             ],
             "scripts": []
           },
@@ -512,8 +512,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/forms/src/environments/environment.ts",
-                  "with": "projects/forms/src/environments/environment.prod.ts"
+                  "replace": "projects/toolkit/src/environments/environment.ts",
+                  "with": "projects/toolkit/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -533,10 +533,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "forms:build:production"
+              "browserTarget": "toolkit:build:production"
             },
             "development": {
-              "browserTarget": "forms:build:development",
+              "browserTarget": "toolkit:build:development",
               "port": 4203
             }
           },
@@ -545,23 +545,23 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "forms:build"
+            "browserTarget": "toolkit:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/forms/src/test.ts",
-            "polyfills": "projects/forms/src/polyfills.ts",
-            "tsConfig": "projects/forms/tsconfig.spec.json",
-            "karmaConfig": "projects/forms/karma.conf.js",
+            "main": "projects/toolkit/src/test.ts",
+            "polyfills": "projects/toolkit/src/polyfills.ts",
+            "tsConfig": "projects/toolkit/tsconfig.spec.json",
+            "karmaConfig": "projects/toolkit/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/forms/src/favicon.ico",
-              "projects/forms/src/assets"
+              "projects/toolkit/src/favicon.ico",
+              "projects/toolkit/src/assets"
             ],
             "styles": [
-              "projects/forms/src/styles.scss"
+              "projects/toolkit/src/styles.scss"
             ],
             "scripts": []
           }

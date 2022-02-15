@@ -1,0 +1,12 @@
+overwrite: true
+schema: "https://qr1pq657yb.execute-api.us-east-1.amazonaws.com"
+documents: "projects/toolkit/src/**/*.graphql"
+generates:
+  projects/toolkit/src/graphql/graphql.service.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+  projects/toolkit/src/graphql/codegen/graphql.schema.json:
+    plugins:
+      - "introspection"

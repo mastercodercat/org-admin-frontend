@@ -41,6 +41,11 @@
           </a>
         </li>
         <li nz-menu-item class="my-3">
+          <a routerLink="/forms">
+            <i nz-icon nzType="form" nzTheme="outline" class="fs-4"></i>
+          </a>
+        </li>
+        <li nz-menu-item class="my-3">
           <i nz-icon nzType="camera" nzTheme="fill" class="fs-4"></i>
         </li>
         <li nz-menu-item class="my-3">
@@ -62,6 +67,7 @@
     </nz-sider>
     <nz-content class="content px-5 py-3 overflow-auto">
       <router-outlet></router-outlet>
+      <router-outlet name="modal"></router-outlet> 
     </nz-content>
   </nz-layout>
 </nz-layout>

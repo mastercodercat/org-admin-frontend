@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminModule } from '../../projects/admin/src/app/app.module';
 import { ExplorerModule } from '../../projects/explorer/src/app/app.module';
-import { FormsModule } from '../../projects/forms/src/app/app.module';
+import { ToolkitModule } from '../../projects/toolkit/src/app/app.module';
 
 const routes: Routes = [
   {
@@ -13,8 +13,8 @@ const routes: Routes = [
     loadChildren: (): Promise<ExplorerModule> => import('../../projects/explorer/src/app/app.module') .then(m => m.ExplorerModule),
   }, {
     path: '',
-    loadChildren: (): Promise<FormsModule> => import('../../projects/forms/src/app/app.module') .then(m => m.FormsModule),
-  },
+    loadChildren: (): Promise<ToolkitModule> => import('../../projects/toolkit/src/app/app.module') .then(m => m.ToolkitModule),
+  }
 ];
 
 @NgModule({

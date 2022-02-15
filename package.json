@@ -17,10 +17,10 @@
     "test:ci": "npm run test -- --watch=false --browsers=ChromeHeadless",
     "generate-admin": "graphql-codegen --config projects/admin/src/app/shared/services/graphql/codegen/codegen.yml",
     "generate-explorer": "graphql-codegen --config codegen.yml",
-    "generate-forms": "graphql-codegen --config projects/forms/src/graphql/codegen/codegen.yml",
+    "generate-toolkit": "graphql-codegen --config projects/toolkit/src/graphql/codegen/codegen.yml",
     "admin": "ng serve --project=admin",
     "explorer": "ng serve --project=explorer",
-    "forms": "ng serve --project=forms",
+    "toolkit": "ng serve --project=toolkit",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "storybook": "npm run docs:json && start-storybook -p 6006",
     "build-storybook": "npm run docs:json && build-storybook"
@@ -50,6 +50,7 @@
     "@types/pako": "^1.0.2",
     "apollo-angular": "^2.6.0",
     "auth0-js": "^9.16.4",
+    "bootstrap": "^5.1.0",
     "graphql": "^15.6.0",
     "highcharts": "^9.2.2",
     "highcharts-angular": "^2.10.0",
@@ -58,8 +59,7 @@
     "pako": "^2.0.4",
     "rxjs": "^6.6.0",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4",
-    "bootstrap": "^5.1.0"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.2.7",

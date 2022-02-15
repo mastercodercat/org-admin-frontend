@@ -1,0 +1,18 @@
+<div nz-row nzAlign="middle" class="list-header">
+  <div nz-col nzSpan="8">
+    <div class="icon-wrapper">
+      <div class="header-icon">
+        <i nz-icon [nzType]="icon" [style.color]="iconColor"></i>
+      </div>
+    </div>
+    <div class="header-text">
+      <h3>{{title}}</h3>
+      <span>{{description}}</span>
+    </div>
+  </div>
+  <div nz-col nzSpan="16" class="header-actions">
+    <button nz-button [nzType]="'primary'" (click)="createElement()">
+      <span>Create New</span>
+    </button>
+  </div>
+</div>

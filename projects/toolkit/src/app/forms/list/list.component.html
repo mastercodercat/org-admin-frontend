@@ -1,0 +1,78 @@
+<tool-list-header
+  [title]="'Forms'"
+  [description]="'42 items'"
+  [iconColor]="'#5277F9'"
+  [icon]="'org:form'"
+  (createElementClick)="createNew()"
+></tool-list-header>
+
+<nz-modal class="create-new-modal" [nzFooter]="null" [(nzVisible)]="showCreateModal" nzTitle="Create New" (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="space-around">
+      <div nz-col nzSpan="8" class="create-new-item" [routerLink]="['../', { outlets: { modal: ['create'] } }]">
+        <i nzType="org:form" nz-icon [style.color]="'#5277F9'"> </i>
+        <h4>Form</h4>
+
+        <h5>Form for in-person data collection or use as an script for outreach</h5>
+      </div>
+      
+      <div class="create-new-item" nz-col nzSpan="8">
+        <i nzType="org:form" nz-icon [style.color]="'#CCC'"> </i>
+        <h4>Folder</h4>
+        <h5>Folders can help you better organize your growing list of Forms</h5>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<div *ngIf="formsList$ | async as formsList">
+   
+  <div class="forms-table-operations">
+    <button nz-button nzSize="small">Reset</button>
+    <button nz-button nzSize="small">Created by Me</button>
+    <button nz-button nzSize="small">Sort by Created Date</button>
+  </div> 
+  <nz-table #basicTable [nzData]="formsList">
+    <thead>
+      <tr>
+        <th>Form Details</th>
+        <th nzWidth="150px">Status</th>
+        <th nzWidth="200px">Submissions</th>
+        <th nzWidth="200px">Web Views</th>
+        <th nzWidth="200px">Web Conversion Rate</th>
+        <th nzWidth="200px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let form of basicTable.data">
+        <td class="form-detail">
+          <p>{{form.name}}</p>
+          <p class="form-extra-info">John Smith | {{form.createdAt |
+            date:'yyyy-MM-dd, h:mm aaa' }}</p>
+        </td>
+        <td>{{form.status | titlecase }}</td>
+        <td align="right">-</td>
+        <td align="right">-</td>
+        <td align="right">-</td>
+        <td class="align-baseline" class="left-border">
+          <button nz-button>Take Action</button>
+          <a nz-button nzTrigger="click" nzType="link" nz-dropdown [nzDropdownMenu]="menu">
+            <i nz-icon nzType="ellipsis"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+</div>
+
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item> Edit </li>
+    <li nz-menu-item> Duplicate </li>
+    <li nz-menu-item> Add to Campaign </li>
+    <li nz-menu-item> Add to Folder </li>
+    <li nz-menu-item> Delete </li>
+  </ul>
+</nz-dropdown-menu>
