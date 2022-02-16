@@ -5,6 +5,8 @@ export interface Domain {
   createdAt: string;
   status: StatusEnum;
   hostname: string;
-  firstName: string;
-  lastName: string;
+  user?: {
+    firstName?: string;
+    lastName?: string;
+  };
 }

@@ -4,15 +4,16 @@ import { FormGroup, FormBuilder, AbstractControl, FormControl } from '@angular/f
 import { Observable, of } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { FetchResult } from '@apollo/client';
 import { DomainsState } from '../../store/reducers/domains.reducer';
 import { Domain } from './domain.model';
 import * as fromSelectors from '../../store/selectors/domains.selectors';
 import * as fromActions from '../../store/actions/domains.actions';
 import { UserService } from '../../../../../../../../src/app/shared/services/user/user.service';
+import { DomainsService } from '../../services/domains.service';
 import { BaseComponent } from '../../../../../../../../src/app/core/base.component';
-import { Router } from '@angular/router';
-import { CreateDomainGQL } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
-import { DomainTypeEnum } from 'projects/toolkit/src/graphql/graphql.service';
+import { CreateDomainMutation } from '../../../../shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-landing-page-domains',
@@ -29,8 +30,11 @@ export class LandingPageDomainsComponent extends BaseComponent implements OnInit
   isAdmin$: Observable<boolean> = this.userService.isAdmin$();
 
   constructor(private fb: FormBuilder,
-    private createDomainService: CreateDomainGQL,
-    private router: Router, private store: Store<DomainsState>, private modal: NzModalService, private userService: UserService) {
+              private router: Router,
+              private store: Store<DomainsState>,
+              private modal: NzModalService,
+              private userService: UserService,
+              private domainService: DomainsService) {
     super();
   }
 
@@ -62,21 +66,17 @@ export class LandingPageDomainsComponent extends BaseComponent implements OnInit
 
   handleOk(): void {
     if (this.validateForm.valid) {
-      this.createDomainService.mutate({
-        input: {
-          hostname: this.validateForm.value['domain'],
-          domainType: DomainTypeEnum.LandingPage,
-        },
-      }).subscribe(result => {
-        console.log(result);
-        if (result?.errors && result?.errors.length > 0) {
-          // this.error = result?.errors.join(' ');
-        } else {
-          this.router.navigate([`/dashboard/landing-page-domains/${result?.data?.createOrganizationHostname?.uuid}`])
-            .then(() => { })
-            .catch(() => { });
-        }
-      });
+      this.domainService.createDomain(this.validateForm.value['domain'])
+        .subscribe((result: FetchResult<CreateDomainMutation>) => {
+          console.log(result);
+          if (result?.errors && result?.errors.length > 0) {
+            // this.error = result?.errors.join(' ');
+          } else {
+            this.router.navigate([`/dashboard/landing-page-domains/${result.data?.createOrganizationHostname?.uuid || ''}`])
+              .then(() => { })
+              .catch(() => { });
+          }
+        });
       console.log('submit', this.validateForm.value);
       this.isNewModal = false;
     } else {
@@ -86,7 +86,7 @@ export class LandingPageDomainsComponent extends BaseComponent implements OnInit
             control.markAsDirty();
             control.updateValueAndValidity({ onlySelf: true });
           }
-        }
+        },
       );
     }
   }
