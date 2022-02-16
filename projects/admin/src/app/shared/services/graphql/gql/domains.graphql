@@ -11,6 +11,19 @@ query getDomains($domainType: DomainTypeEnum) {
   }
 }
 
+query getDomain($uuid: ID!) {
+  organizationHostname(uuid: $uuid) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}
+
 mutation createDomain($input: CreateOrganizationHostnameInput!) {
   createOrganizationHostname(input: $input) {
     uuid
