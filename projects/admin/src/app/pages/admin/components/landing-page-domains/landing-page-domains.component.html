@@ -24,7 +24,7 @@
       </td>
       <td [class.error]="domain.status === 'UNVERIFIED'">{{domain.status}}</td>
       <td>
-        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" (mouseover)="setCurrent(domain)">
           <i nz-icon nzType="ellipsis"></i>
         </a>
       </td>
@@ -35,7 +35,7 @@
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
     <li nz-menu-item>
-      <a>View</a>
+      <a (click)="view()">View</a>
     </li>
     <li nz-menu-item>
       <a>Delete</a>

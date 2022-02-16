@@ -5,7 +5,9 @@ import { Domain } from './domain.model';
 import * as fromSelectors from '../../store/domains.selectors';
 import * as fromActions from '../../store/domains.actions';
 import { Observable, of } from 'rxjs';
-import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, AbstractControl, FormControl } from '@angular/forms';
+import { CreateDomainGQL, DomainTypeEnum } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
 
 @Component({
   selector: 'org-landing-page-domains',
@@ -16,12 +18,21 @@ export class LandingPageDomainsComponent implements OnInit {
   isNewModal = false;
   validateForm!: FormGroup;
   domains: Domain[] = [];
+  currentDomain: Domain = {} as Domain;
   isLoading$: Observable<boolean> = of<boolean>(true);
 
-  constructor(private fb: FormBuilder, private store: Store<DomainsState>) {
+  constructor(
+    private fb: FormBuilder,
+    private createDomainService: CreateDomainGQL,
+    private store: Store<DomainsState>,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
+    this.validateForm = new FormGroup({
+      domain: new FormControl(),
+    });
     this.store.dispatch(fromActions.loadDomains());
     this.isLoading$ = this.store.pipe(select(fromSelectors.selectIsLoading));
     this.store.pipe(select(fromSelectors.selectDomains))
@@ -34,6 +45,21 @@ export class LandingPageDomainsComponent implements OnInit {
 
   handleOk(): void {
     if (this.validateForm.valid) {
+      this.createDomainService.mutate({
+        input: {
+          hostname: this.validateForm.value['domain'],
+          domainType: DomainTypeEnum.Email,
+        },
+      }).subscribe(result => {
+        console.log(result);
+        if (result?.errors && result?.errors.length > 0) {
+          // this.error = result?.errors.join(' ');
+        } else {
+          this.router.navigate([result?.data?.domain?.uuid])
+            .then(() => {})
+            .catch(() => {});
+        }
+      });
       console.log('submit', this.validateForm.value);
       this.isNewModal = false;
     } else {
@@ -50,5 +76,17 @@ export class LandingPageDomainsComponent implements OnInit {
 
   handleClose(): void {
     this.isNewModal = false;
+  }
+
+  setCurrent(domain: Domain): void {
+    this.currentDomain = domain;
+  }
+
+  view(): void {
+    if (this.currentDomain) {
+      this.router.navigate([this.currentDomain.uuid])
+        .then(() => {})
+        .catch(() => {});
+    }
   }
 }
