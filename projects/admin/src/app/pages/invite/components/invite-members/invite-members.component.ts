@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
-import { Organization } from '../../../../shared/models/organization.model';
+import { Organization } from '../../../../../../../../src/app/shared/models/organization.model';
 import { UserState } from '../../../../../../../../src/app/store/reducers/user.reducer';
 import * as fromUserSelectors from '../../../../../../../../src/app/store/selectors/user.selectors';
 @Component({

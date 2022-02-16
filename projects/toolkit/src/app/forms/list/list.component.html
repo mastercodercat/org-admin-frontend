@@ -30,13 +30,38 @@
   <div class="forms-table-operations">
     <button nz-button nzSize="small">Reset</button>
     <button nz-button nzSize="small">Created by Me</button>
-    <button nz-button nzSize="small">Sort by Created Date</button>
+    <button nz-button nzSize="small" (click)="resetSort()">Sort by Created Date</button>
   </div> 
-  <nz-table #basicTable [nzData]="formsList">
+  <nz-table #basicTable [nzData]="formsList" [nzNoResult]="'No Forms Found'">
     <thead>
       <tr>
-        <th>Form Details</th>
-        <th nzWidth="150px">Status</th>
+        <th
+          *ngFor="let column of listOfColumns"
+          [nzWidth]="column.width" 
+          [(nzSortOrder)]="column.sortOrder"
+          [nzSortFn]="column.sortFn"
+          [nzSortDirections]="column.sortDirections"
+          >
+          <div class="form-list-column-header">
+            {{ column.name }}
+            <div 
+              class="form-detail-search"
+              *ngIf="column.name === 'Form Details'">
+              <nz-input-group [nzPrefix]="iconSearch">
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="search form name here"
+                  (click)="$event.stopPropagation()"
+                  [(ngModel)]="searchString"
+                  (ngModelChange)="onSearchChange($event)" />
+              </nz-input-group>
+              <ng-template #iconSearch>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+            </div>
+          </div>
+        </th>
         <th nzWidth="200px">Submissions</th>
         <th nzWidth="200px">Web Views</th>
         <th nzWidth="200px">Web Conversion Rate</th>

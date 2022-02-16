@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: httpLink.create({
-      uri: 'https://sandbox.federation-service.organizer.helmahead.com/graphql', // TODO: temporary until federation works
+      uri: 'https://sandbox-api.civicexplorer.com/graphql', // TODO: temporary until federation works
       headers: new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('id_token')}`,
         organizationUuid: `${localStorage.getItem('selected_org')}`,

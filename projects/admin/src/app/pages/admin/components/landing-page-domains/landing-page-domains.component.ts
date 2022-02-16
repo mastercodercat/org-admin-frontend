@@ -1,32 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { DomainsState } from '../../store/domains.reducer';
-import { Domain } from './domain.model';
-import * as fromSelectors from '../../store/domains.selectors';
-import * as fromActions from '../../store/domains.actions';
-import { Observable, of } from 'rxjs';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, AbstractControl, FormControl } from '@angular/forms';
-import { CreateDomainGQL, DomainTypeEnum } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
+import { Observable, of } from 'rxjs';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { takeUntil } from 'rxjs/operators';
+import { DomainsState } from '../../store/reducers/domains.reducer';
+import { Domain } from './domain.model';
+import * as fromSelectors from '../../store/selectors/domains.selectors';
+import * as fromActions from '../../store/actions/domains.actions';
+import { UserService } from '../../../../../../../../src/app/shared/services/user/user.service';
+import { BaseComponent } from '../../../../../../../../src/app/core/base.component';
+import { Router } from '@angular/router';
+import { CreateDomainGQL } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
+import { DomainTypeEnum } from 'projects/toolkit/src/graphql/graphql.service';
 
 @Component({
   selector: 'org-landing-page-domains',
   templateUrl: './landing-page-domains.component.html',
   styleUrls: ['./landing-page-domains.component.scss'],
 })
-export class LandingPageDomainsComponent implements OnInit {
+export class LandingPageDomainsComponent extends BaseComponent implements OnInit {
   isNewModal = false;
   validateForm!: FormGroup;
   domains: Domain[] = [];
   currentDomain: Domain = {} as Domain;
-  isLoading$: Observable<boolean> = of<boolean>(true);
 
-  constructor(
-    private fb: FormBuilder,
+  isLoading$: Observable<boolean> = this.store.pipe(select(fromSelectors.selectIsLoading));
+  isAdmin$: Observable<boolean> = this.userService.isAdmin$();
+
+  constructor(private fb: FormBuilder,
     private createDomainService: CreateDomainGQL,
-    private store: Store<DomainsState>,
-    private router: Router
-  ) {
+    private router: Router, private store: Store<DomainsState>, private modal: NzModalService, private userService: UserService) {
+    super();
   }
 
   ngOnInit(): void {
@@ -34,9 +39,21 @@ export class LandingPageDomainsComponent implements OnInit {
       domain: new FormControl(),
     });
     this.store.dispatch(fromActions.loadDomains());
-    this.isLoading$ = this.store.pipe(select(fromSelectors.selectIsLoading));
-    this.store.pipe(select(fromSelectors.selectDomains))
+    this.store.pipe(select(fromSelectors.selectDomains), takeUntil(this.ngUnsubscribe$))
       .subscribe((domains: Domain[]) => this.domains = domains);
+  }
+
+  handleDeleteDomain(domain: Domain, tplContent: TemplateRef<any>): void {
+    this.modal.create({
+      nzTitle: 'Delete Domain',
+      nzOkText: 'Yes, delete domain',
+      nzCancelText: 'No, do not delete domain',
+      nzContent: tplContent,
+      nzComponentParams: {
+        hostname: domain.hostname,
+      },
+      nzOnOk: () => this.store.dispatch(fromActions.deleteDomain({ uuid: domain.uuid })),
+    });
   }
 
   showNewModal(): void {
@@ -48,16 +65,16 @@ export class LandingPageDomainsComponent implements OnInit {
       this.createDomainService.mutate({
         input: {
           hostname: this.validateForm.value['domain'],
-          domainType: DomainTypeEnum.Email,
+          domainType: DomainTypeEnum.LandingPage,
         },
       }).subscribe(result => {
         console.log(result);
         if (result?.errors && result?.errors.length > 0) {
           // this.error = result?.errors.join(' ');
         } else {
-          this.router.navigate([result?.data?.domain?.uuid])
-            .then(() => {})
-            .catch(() => {});
+          this.router.navigate([`/dashboard/landing-page-domains/${result?.data?.createOrganizationHostname?.uuid}`])
+            .then(() => { })
+            .catch(() => { });
         }
       });
       console.log('submit', this.validateForm.value);
@@ -78,15 +95,9 @@ export class LandingPageDomainsComponent implements OnInit {
     this.isNewModal = false;
   }
 
-  setCurrent(domain: Domain): void {
-    this.currentDomain = domain;
-  }
-
-  view(): void {
-    if (this.currentDomain) {
-      this.router.navigate([this.currentDomain.uuid])
-        .then(() => {})
-        .catch(() => {});
-    }
+  handleView(domain: Domain): void {
+    this.router.navigate([`/dashboard/landing-page-domains/${domain.uuid}`])
+      .then(() => { })
+      .catch(() => { });
   }
 }

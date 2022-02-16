@@ -8,9 +8,8 @@
     >
       <nz-avatar
         nzIcon="user">
-       [nzSrc]="(userInfo$ | async)?.picture"
       </nz-avatar>
-      <div class="user-name d-inline ms-3 fs-5 fw-bold">
+      <div class="org-name d-inline ms-3 fs-5 fw-bold">
        {{ (currOrgInfo$ | async)?.name }}
       </div>
       <nz-dropdown-menu #menu="nzDropdownMenu">

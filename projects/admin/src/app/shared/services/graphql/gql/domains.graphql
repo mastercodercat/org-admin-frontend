@@ -11,6 +11,12 @@ query getDomains($domainType: DomainTypeEnum) {
   }
 }
 
+mutation deleteOrganizationHostname($input: DeleteOrganizationHostnameInput!) {
+  deleteOrganizationHostname(input: $input) {
+    uuid
+  }
+}
+
 query getDomain($uuid: ID!) {
   organizationHostname(uuid: $uuid) {
     uuid

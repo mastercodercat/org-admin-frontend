@@ -10,7 +10,7 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(ROOT_EFFECTS_INIT),
       switchMap(() => [
-        fromUserActions.requestUserInfo(),
+        fromUserActions.requestUserInfo({ uuid: localStorage.getItem('user_uuid') || '' }),
         fromUserActions.requestOrganizations(),
         fromUserActions.addSelectedOrgUuid({ selectedOrganizationUuid: localStorage.getItem('selected_org') || '' }),
       ]),

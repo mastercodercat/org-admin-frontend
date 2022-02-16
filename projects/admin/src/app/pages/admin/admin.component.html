@@ -6,13 +6,17 @@
   </div>
   <div nz-row class="pt-4">
     <nz-tabset [nzSelectedIndex]="activeTab" class="w-100" nzLinkRouter>
-      <nz-tab *ngFor="let tab of tabs; let i = index">
-        <a *nzTabLink nz-tab-link [routerLink]="tab.route" class="text-black">
-          <i nz-icon [nzType]="tab.icon"></i>
-          {{ tab.name }}
-        </a>
-        <router-outlet></router-outlet>
-      </nz-tab>
+      <ng-container *ngFor="let tab of tabs; let i = index">
+        <nz-tab *ngIf="tab.showTab | async">
+          <a *nzTabLink nz-tab-link [routerLink]="tab.route" class="text-black">
+            <i nz-icon [nzType]="tab.icon"></i>
+            {{ tab.name }}
+          </a>
+        </nz-tab>
+      </ng-container>
     </nz-tabset>
+    <div class="w-100">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

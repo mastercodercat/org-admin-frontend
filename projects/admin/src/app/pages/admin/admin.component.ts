@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { UserService } from '../../../../../../src/app/shared/services/user/user.service';
 
 interface Tab {
   route: string;
   name: string;
   icon: string;
+  showTab: Observable<boolean>;
 }
 
 @Component({
@@ -18,16 +21,19 @@ export class AdminComponent {
       route: '/dashboard/members',
       name: 'Members',
       icon: 'user',
+      showTab: this.userService.isAdminOrUser$(),
     },
     {
       route: '/dashboard/accounts',
       name: 'Accounts',
       icon: 'apartment',
+      showTab: this.userService.isAdminOrUser$(),
     },
     {
       route: '/dashboard/landing-page-domains',
       name: 'Landing Page Domains',
       icon: 'smile',
+      showTab: this.userService.isAdminOrUser$(),
     },
     /*
     {
@@ -50,7 +56,7 @@ export class AdminComponent {
 
   activeTab = 0;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: UserService) {
     // override the route reuse strategy
     this.router.routeReuseStrategy.shouldReuseRoute = function(): boolean {
       return false;

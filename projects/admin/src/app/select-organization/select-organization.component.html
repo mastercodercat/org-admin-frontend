@@ -1,7 +1,7 @@
 <h1>Organizer</h1>
 <div class="user-info mb-4 d-flex flex-column align-items-center">
-  <nz-avatar class="user-avatar mb-2" nz-icon="user" [nzSrc]="(userInfo$ | async)?.picture"></nz-avatar>
-  <p nz-typography>{{(userInfo$ | async)?.name}}</p>
+  <nz-avatar class="user-avatar mb-2" nz-icon="user" [nzSrc]="(userInfo$ | async)?.avatar"></nz-avatar>
+  <p nz-typography>{{(userInfo$ | async)?.firstName}} {{(userInfo$ | async)?.lastName }}</p>
 </div>
 <nz-card class="organization-list mb-2" nzTitle="Select an account">
   <ng-container *ngIf="(orgList$ | async)?.length === 0; else orgList">

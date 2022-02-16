@@ -1,14 +1,21 @@
 import { createAction, props } from '@ngrx/store';
-import { Organization } from '../../../../projects/admin/src/app/shared/models/organization.model';
-import { User } from '../../../../projects/admin/src/app/shared/models/user.model';
+import { OrganizationUser } from '../../shared/models/organization-user.model';
+import { Organization } from '../../shared/models/organization.model';
+import { User } from '../../shared/models/user.model';
 
 export const requestUserInfo = createAction(
   '[User] Request user info',
+  props<{ uuid: string }>(),
 );
 
-export const addUserInfo = createAction(
-  '[User] Add user info',
-  props<{ user: User }>(),
+export const requestUserInfoSuccess = createAction(
+  '[User] Request user info success',
+  props<{ user: User; orgUsers: OrganizationUser[] }>(),
+);
+
+export const requestUserInfoFailure = createAction(
+  '[User] Request user info failure',
+  props<{ err: any }>(),
 );
 
 export const addSelectedOrgUuid = createAction(

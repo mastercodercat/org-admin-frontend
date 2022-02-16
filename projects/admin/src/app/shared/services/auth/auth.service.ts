@@ -1,8 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import * as auth0 from 'auth0-js';
-import { AppState } from '../../../../../../../src/app/store/reducers';
 import { AUTH_CONFIG } from './auth0-variables';
 
 @Injectable({
@@ -21,7 +19,6 @@ export class AuthService {
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
-    private store: Store<AppState>,
   ) { }
 
   /**
@@ -31,7 +28,7 @@ export class AuthService {
    * @param {string} password
    * @memberof AuthService
    */
-  login(email: string, password: string): Promise<unknown> {
+  login(email: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.auth0.client.login({
         realm: 'Username-Password-Authentication',
@@ -57,22 +54,6 @@ export class AuthService {
         return reject(false);
       });
     });
-  }
-
-  /**
-   * Set the access_token, and when token expires in the localstorage
-   *
-   * @param {auth0.Auth0Result} authResult
-   * @memberof AuthService
-   */
-  setSession(authResult: auth0.Auth0Result): void {
-    if (authResult.expiresIn && authResult.accessToken) {
-      // Set the time that the access token will expire at
-      const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-      // Set results in local storage for usage later
-      localStorage.setItem('access_token', authResult.accessToken);
-      localStorage.setItem('expires_at', expiresAt);
-    }
   }
 
   /**
@@ -102,7 +83,24 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('selected_org');
+    localStorage.removeItem('user_uuid');
 
     this.auth0.logout({ clientID: AUTH_CONFIG.clientId, returnTo: `${this.doc.location.origin}/login` });
+  }
+
+  /**
+   * Set the access_token, and when token expires in the localstorage
+   *
+   * @param {auth0.Auth0Result} authResult
+   * @memberof AuthService
+   */
+  private setSession(authResult: auth0.Auth0Result): void {
+    if (authResult.expiresIn && authResult.accessToken) {
+      // Set the time that the access token will expire at
+      const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+      // Set results in local storage for usage later
+      localStorage.setItem('access_token', authResult.accessToken);
+      localStorage.setItem('expires_at', expiresAt);
+    }
   }
 }

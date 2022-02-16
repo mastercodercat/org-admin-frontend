@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as fromActions from '../../store/actions/user.actions';
-import * as fromSelectors from '../../store/selectors/user.selectors';
-import { AuthService } from '../../../../projects/admin/src/app/shared/services/auth/auth.service';
-import { UserState } from '../../store/reducers/user.reducer';
-import { User } from '../../../../projects/admin/src/app/shared/models/user.model';
-import { Maybe, ValidatePasswordResetTokenGQL } from '../../../../projects/admin/src/app/shared/services/graphql/graphql.service';
+import * as fromActions from '../../../store/actions/user.actions';
+import * as fromSelectors from '../../../store/selectors/user.selectors';
+import { AuthService } from '../../../../../projects/admin/src/app/shared/services/auth/auth.service';
+import { UserState } from '../../../store/reducers/user.reducer';
+import { Maybe, ValidatePasswordResetTokenGQL } from '../../../../../projects/admin/src/app/shared/services/graphql/graphql.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,28 +21,24 @@ export class UserService {
   ) { }
 
   /**
-   * Get user info from Auth0
+   * Request user information
    *
    * @memberof UserService
    */
   getUserInfo(): void {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-      throw new Error('Access token must exist to fetch profile');
+      throw new Error('Access token must exist to fetch user info');
     }
 
-    // Call auth0 using the access token to grab the user info and save to the store
-    this.auth.auth0.client.userInfo(accessToken, (err, userInfo) => {
-      if (userInfo) {
-        const user: User = {
-          name: userInfo.name,
-          nickname: userInfo.nickname,
-          email: userInfo.email || '',
-          picture: userInfo.picture,
-        };
-        this.store.dispatch(fromActions.addUserInfo({ user: { ...user }}));
-      }
-    });
+    // Decode jwt token to get the users uuid
+    const helper = new JwtHelperService();
+    const userInfo = helper.decodeToken(accessToken);
+    const uuid = userInfo['http://helmteam.us/app_metadata'].uuid as string;
+    // Set to localstorage
+    localStorage.setItem('user_uuid', uuid);
+    // Dispatch action to request current user information
+    this.store.dispatch(fromActions.requestUserInfo({ uuid }));
   }
 
   /**
@@ -63,6 +59,26 @@ export class UserService {
    */
   isHelmAdmin$(): Observable<boolean> {
     return this.store.pipe(select(fromSelectors.selectIsHelmAdmin));
+  }
+
+  /**
+   * A selector that returns if the user is an admin role
+   *
+   * @return {Observable<boolean>}
+   * @memberof UserService
+   */
+  isAdmin$(): Observable<boolean> {
+    return this.store.pipe(select(fromSelectors.selectIsAdmin));
+  }
+
+  /**
+   * A selector that returns if the user is an admin or user role
+   *
+   * @return {Observable<boolean>}
+   * @memberof UserService
+   */
+  isAdminOrUser$(): Observable<boolean> {
+    return this.store.pipe(select(fromSelectors.selectIsAdminOrUser));
   }
 
   /**

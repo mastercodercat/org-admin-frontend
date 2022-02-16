@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Member } from '../member';
+import { Member } from '../member.model';
 @Component({
   selector: '.org-admin-member-row',
   templateUrl: './member-row.component.html',
@@ -7,7 +7,6 @@ import { Member } from '../member';
 })
 export class MemberRowComponent {
   @Input() member!: Member;
-  @Input() members: Member[] = [];
 
   isDetail = false;
 

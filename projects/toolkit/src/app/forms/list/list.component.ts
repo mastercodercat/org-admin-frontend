@@ -2,37 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators'
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+
 import { Form } from '../models/form.model';
 import { FormState } from '../store/reducers/form.reducer';
 import * as fromFormActions from '../store/actions/form.actions';
 import * as fromFormSelectors from '../store/selectors/form.selectors';
 import { Router } from '@angular/router';
 
-export const FORMS: Form[] = [{
-  uuid: '1234-456-2344',
-  name: 'Campaign Whales Saving',
-  description: 'Lets save the whales and oceans',
-  organizationUuid: '3345-FCA-5523',
-  createdBy: 'chris A',
-  createdAt: Date(),
-  updatedAt: Date(),
-  status: 'Pending',
-  submissions: 10,
-  content: '<HTML>SOME DATA HERE</HTML>',
-},
-{
-  uuid: '2323-ABD-787874',
-  name: 'Survey for school support',
-  description: 'Lets save the schools',
-  organizationUuid: '7459-CAD-7738',
-  createdBy: 'chris B',
-  createdAt: Date(),
-  updatedAt: Date(),
-  status: 'Deleted',
-  submissions: 20,
-  content: '<HTML>SOME DATA HERE</HTML>',
-},
-];
+interface ColumnItem {
+  name: string;
+  width: string | null;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn<Form> | null;
+  sortDirections: NzTableSortOrder[];
+
+}
 
 @Component({
   selector: 'tool-list',
@@ -40,21 +26,47 @@ export const FORMS: Form[] = [{
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+  formsList$ = this.store.select(fromFormSelectors.selectFormsSortedByCreation);
+  searchString = ''
 
-  formsList$: Observable<Form[]> = of<Form[]>([]);
+  listOfColumns: ColumnItem[] = [
+    {
+      name: 'Form Details',
+      width: null,
+      sortOrder: null,
+      sortFn: (a: Form, b: Form) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend'],
+    },
+    {
+      name: 'Status',
+      width: '120px',
+      sortOrder: null,
+      sortFn: (a: Form, b: Form) => a.status.localeCompare(b.status),
+      sortDirections: ['ascend', 'descend'],
+    },
+  ];
 
-  constructor(
-    private store: Store<FormState>,
-    private router: Router,
-  ) { }
+  constructor(private store: Store<FormState>, private router: Router) { }
 
   showCreateModal: boolean = false;
 
   ngOnInit(): void {
     this.store.dispatch(fromFormActions.loadForms());
-    this.formsList$ = this.store.pipe(
-      select(fromFormSelectors.selectForms),
-    );
+  }
+
+  resetSort(): void {
+    this.listOfColumns = this.listOfColumns.map( (column: ColumnItem) => {
+      column.sortOrder = null;
+      return column;
+    }) 
+  }
+
+  onSearchChange(value: string): void {
+    this.formsList$ = this.store.select(fromFormSelectors.selectFormsSortedByCreation).pipe(
+      map( (form: Form[]) => [...form].filter(
+        form => form.name.toLowerCase().includes(value.toLowerCase()) 
+      ))
+    )
   }
 
   createNew() {

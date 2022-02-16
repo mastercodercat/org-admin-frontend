@@ -33,7 +33,7 @@
         nzShowSizeChanger
         [nzPageSize]="10"
         [nzData]="members"
-        [nzLoading]="isLoading"
+        [nzLoading]="isLoading$ | async"
         [nzNoResult]="'No Members available.'"
       >
         <thead>

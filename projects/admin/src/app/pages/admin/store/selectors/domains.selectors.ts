@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromDomains from './domains.reducer';
+import * as fromDomains from '../reducers/domains.reducer';
 
 export const selectDomainsState = createFeatureSelector<fromDomains.DomainsState>(fromDomains.domainsFeatureKey);
 

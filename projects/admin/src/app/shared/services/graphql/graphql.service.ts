@@ -645,6 +645,36 @@ export type GetDomainsQuery = (
   )>>> }
 );
 
+export type DeleteOrganizationHostnameMutationVariables = Exact<{
+  input: DeleteOrganizationHostnameInput;
+}>;
+
+
+export type DeleteOrganizationHostnameMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOrganizationHostname?: Maybe<(
+    { __typename?: 'SchemaOrganizationHostname' }
+    & Pick<SchemaOrganizationHostname, 'uuid'>
+  )> }
+);
+
+export type GetDomainQueryVariables = Exact<{
+  uuid: Scalars['ID'];
+}>;
+
+
+export type GetDomainQuery = (
+  { __typename?: 'Query' }
+  & { organizationHostname?: Maybe<(
+    { __typename?: 'SchemaOrganizationHostname' }
+    & Pick<SchemaOrganizationHostname, 'uuid' | 'createdAt' | 'status' | 'hostname'>
+    & { user?: Maybe<(
+      { __typename?: 'SchemaUser' }
+      & Pick<SchemaUser, 'firstName' | 'lastName'>
+    )> }
+  )> }
+);
+
 export type CreateDomainMutationVariables = Exact<{
   input: CreateOrganizationHostnameInput;
 }>;
@@ -880,7 +910,7 @@ export type FindUserQuery = (
     & Pick<SchemaUser, 'uuid' | 'status' | 'firstName' | 'lastName' | 'email' | 'phone' | 'resetToken'>
     & { organizationUsers?: Maybe<Array<Maybe<(
       { __typename?: 'SchemaOrganizationUser' }
-      & Pick<SchemaOrganizationUser, 'uuid' | 'status' | 'organizationUuid' | 'title'>
+      & Pick<SchemaOrganizationUser, 'uuid' | 'status' | 'organizationUuid' | 'title' | 'userUuid'>
       & { organization?: Maybe<(
         { __typename?: 'SchemaOrganization' }
         & Pick<SchemaOrganization, 'uuid' | 'name'>
@@ -1002,6 +1032,49 @@ export const GetDomainsDocument = gql`
   })
   export class GetDomainsGQL extends Apollo.Query<GetDomainsQuery, GetDomainsQueryVariables> {
     document = GetDomainsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteOrganizationHostnameDocument = gql`
+    mutation deleteOrganizationHostname($input: DeleteOrganizationHostnameInput!) {
+  deleteOrganizationHostname(input: $input) {
+    uuid
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteOrganizationHostnameGQL extends Apollo.Mutation<DeleteOrganizationHostnameMutation, DeleteOrganizationHostnameMutationVariables> {
+    document = DeleteOrganizationHostnameDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetDomainDocument = gql`
+    query getDomain($uuid: ID!) {
+  organizationHostname(uuid: $uuid) {
+    uuid
+    createdAt
+    user {
+      firstName
+      lastName
+    }
+    status
+    hostname
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetDomainGQL extends Apollo.Query<GetDomainQuery, GetDomainQueryVariables> {
+    document = GetDomainDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1349,6 +1422,8 @@ export const FindUserDocument = gql`
       uuid
       status
       organizationUuid
+      title
+      userUuid
       organization {
         uuid
         name
@@ -1357,7 +1432,6 @@ export const FindUserDocument = gql`
         uuid
         name
       }
-      title
     }
   }
 }
@@ -1382,6 +1456,7 @@ export const FindMembersDocument = gql`
     email
     phone
     organizationUsers {
+      title
       organization {
         uuid
         name
@@ -1390,7 +1465,6 @@ export const FindMembersDocument = gql`
         uuid
         name
       }
-      title
     }
   }
 }

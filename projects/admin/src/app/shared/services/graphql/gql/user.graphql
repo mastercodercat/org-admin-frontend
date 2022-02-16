@@ -11,6 +11,8 @@ query findUser($uuid: ID!) {
       uuid
       status
       organizationUuid
+      title
+      userUuid
       organization {
           uuid
           name
@@ -19,7 +21,6 @@ query findUser($uuid: ID!) {
           uuid
           name
       }
-      title
     }
   }
 }
@@ -32,6 +33,7 @@ query findMembers($search: String) {
     email
     phone
     organizationUsers {
+      title
       organization {
         uuid
         name
@@ -40,7 +42,6 @@ query findMembers($search: String) {
           uuid
           name
       }
-      title
     }
   }
 }

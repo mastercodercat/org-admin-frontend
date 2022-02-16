@@ -14,7 +14,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MailOutline } from '@ant-design/icons-angular/icons';
 
 import { AccountsComponent } from './accounts.component';
-import { UserService } from '../../../../../../../../src/app/services/user/user.service';
+import { UserService } from '../../../../../../../../src/app/shared/services/user/user.service';
 
 const icons: IconDefinition[] = [MailOutline];
 

@@ -1,24 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationService } from '../../../../select-organization/services/organization.service';
-import { Member } from './member';
-import { User } from '../../../../shared/models/user.model';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { MembersState } from '../../store/reducers/members.reducer';
+import { Member } from './member.model';
+import * as fromMembers from '../../store/selectors/members.selectors';
+import { BaseComponent } from '../../../../../../../../src/app/core/base.component';
 
 @Component({
   selector: 'org-admin-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss'],
 })
-export class MembersComponent implements OnInit {
+export class MembersComponent extends BaseComponent implements OnInit {
   members: Member[] = [];
-  isLoading = true;
+  isLoading$: Observable<boolean> = this.store.pipe(select(fromMembers.selectIsLoading));
 
-  constructor(private organizationService: OrganizationService) {}
+  constructor(private store: Store<MembersState>) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.organizationService.getUsers().subscribe(result => {
-      this.members = this.organizationService.mapUsersToMembers((result?.data.users as User[]));
-      this.isLoading = false;
-    });
+    this.store.pipe(select(fromMembers.selectMembers), takeUntil(this.ngUnsubscribe$))
+      .subscribe(members => this.members = members);
   }
 
 }

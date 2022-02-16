@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../../../shared/shared.module';
 
 import { MemberRowComponent } from './member-row.component';
-import { Member } from '../member';
+import { Member } from '../member.model';
 import { StatusEnum } from '../../../../../shared/services/graphql/graphql.service';
 
 const icons: IconDefinition[] = [
@@ -40,14 +40,14 @@ describe('MemberRowComponent', () => {
   });
   const member: Member = {
     uuid: '4',
-    name: 'Member',
     firstName: 'FirstName',
     lastName: 'lastName',
-    position: 'Position',
     email: 'Email',
     phone: 'Phone',
+    avatar: '',
     organizationUsers: [
       {
+        title: '',
         organization: {
           uuid: '1',
           name: 'Organization 1',
@@ -60,6 +60,7 @@ describe('MemberRowComponent', () => {
         },
       },
       {
+        title: '',
         organization: {
           uuid: '2',
           name: 'Organization 2',
@@ -84,8 +85,7 @@ describe('MemberRowComponent', () => {
   });
 
   it('should display ui', () => {
-    expect(spectator.query(byText(member.name))).toExist();
-    expect(spectator.query(byText(member.position))).toExist();
+    expect(spectator.query(byText(member.firstName))).toExist();
     expect(spectator.query(byText(member.email))).toExist();
     if (member.phone) {
       expect(spectator.query(byText(member.phone))).toExist();

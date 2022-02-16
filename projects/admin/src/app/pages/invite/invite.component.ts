@@ -4,7 +4,7 @@ import { take, mergeMap } from 'rxjs/operators';
 import { FindRolesGQL, SendInvitationGQL } from '../../shared/services/graphql/graphql.service';
 import * as fromUserSelectors from '../../../../../../src/app/store/selectors/user.selectors';
 import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
-import { Role } from '../../shared/models/role.model';
+import { Role } from '../../../../../../src/app/shared/models/role.model';
 
 export interface Invite {
   email: string;

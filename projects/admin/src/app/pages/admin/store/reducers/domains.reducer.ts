@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Domain } from '../components/landing-page-domains/domain.model';
-import * as fromActions from './domains.actions';
+import { Domain } from '../../components/landing-page-domains/domain.model';
+import * as fromActions from '../actions/domains.actions';
 
 export const domainsFeatureKey = 'domains';
 
@@ -42,5 +42,12 @@ export const domainsReducer = createReducer(
     success: false,
     failure: true,
     error,
+  })),
+
+  on(fromActions.deleteDomainSuccess, (state, { uuid }) => ({
+    ...state,
+    domains: [
+      ...state.domains.filter(domain => domain.uuid !== uuid),
+    ],
   })),
 );

@@ -1,7 +1,7 @@
 <nz-avatar
   class="user-avatar mb-2 mt-5"
   nz-icon="user"
-  [nzSrc]="(userInfo$ | async)?.picture"
+  [nzSrc]="(userInfo$ | async)?.avatar"
 ></nz-avatar>
 <h1 nz-typography>{{ user?.firstName }} {{ user?.lastName }}</h1>
 <p>{{ title }}</p>
@@ -36,7 +36,7 @@
   </nz-tab>
 
   <nz-tab nzTitle="Accounts">
-    <div *ngFor="let organizationUser of user?.organizationUsers">
+    <!-- <div *ngFor="let organizationUser of user?.organizationUsers">
       <div
         *ngIf="organizationUser?.status !== 'DELETED'"
         class="d-flex align-items-center mb-1"
@@ -81,7 +81,7 @@
           Remove access
         </button>
       </div>
-    </div>
+    </div> -->
     <a nz-dropdown [nzDropdownMenu]="organizationMenu">
       <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
       Add to another account
@@ -147,9 +147,9 @@
 >
   <ng-container *nzModalContent>
     <p>
-      You are changing {{ user?.firstName }}'s role in
+      <!-- You are changing {{ user?.firstName }}'s role in
       {{ changeOrganization?.name }} to {{ changeUserRole?.name }}. Do you want
-      to continue?
+      to continue? -->
     </p>
   </ng-container>
 </nz-modal>

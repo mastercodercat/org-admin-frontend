@@ -2,8 +2,7 @@
   <div class="d-flex align-items-center">
     <nz-avatar nzIcon="user" [nzSrc]="member.avatar"></nz-avatar>
     <div class="mx-2">
-      <div class="fw-bold">{{ member.name }}</div>
-      <div>{{ member.position }}</div>
+      <div class="fw-bold">{{ member.firstName }} {{ member.lastName }}</div>
     </div>
   </div>
 </td>
@@ -14,11 +13,11 @@
   {{ member.phone }}
 </td>
 <td class="align-baseline">
-  <div *ngFor="let organizationUser of member.organizationUsers; let i = index">
+  <div *ngFor="let account of member.organizationUsers; let i = index">
     <div *ngIf="i < 5 || isDetail">
-      <a href="#">{{ organizationUser.organization?.name }}</a>
+      <a href="#">{{ account.organization?.name }}</a>
       |
-      <span>{{ organizationUser.role?.name }}</span>
+      <span>{{ account.role?.name }}</span>
     </div>
   </div>
   <div *ngIf="member.organizationUsers.length > 5" class="px-2 py-3">

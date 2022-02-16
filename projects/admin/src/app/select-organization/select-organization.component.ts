@@ -6,8 +6,8 @@ import { AppState } from '../../../../../src/app/store/reducers';
 import * as fromUserSelectors from '../../../../../src/app/store/selectors/user.selectors';
 import { AuthService } from '../shared/services/auth/auth.service';
 import { UserState } from '../../../../../src/app/store/reducers/user.reducer';
-import { UserService } from '../../../../../src/app/services/user/user.service';
-import { Organization } from '../shared/models/organization.model';
+import { UserService } from '../../../../../src/app/shared/services/user/user.service';
+import { Organization } from '../../../../../src/app/shared/models/organization.model';
 
 @Component({
   selector: 'org-select-organization',

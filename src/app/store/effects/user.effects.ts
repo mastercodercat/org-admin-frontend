@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrganizationService } from '../../../../projects/admin/src/app/select-organization/services/organization.service';
-import { Organization } from '../../../../projects/admin/src/app/shared/models/organization.model';
-import { UserService } from '../../services/user/user.service';
+import { FindUserGQL } from '../../../../projects/admin/src/app/shared/services/graphql/graphql.service';
+import { OrganizationUser } from '../../shared/models/organization-user.model';
+import { Organization } from '../../shared/models/organization.model';
+import { User } from '../../shared/models/user.model';
 import * as fromActions from '../actions/user.actions';
 
 
@@ -13,11 +16,16 @@ export class UserEffects {
   requestUserInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromActions.requestUserInfo),
-      tap(() => {
-        this.userService.getUserInfo();
-      }),
+      switchMap(({uuid}) => this.findUser.fetch({ uuid })
+        .pipe(
+          map(result => fromActions.requestUserInfoSuccess({
+            user: result.data.user as User,
+            orgUsers: result.data.user?.organizationUsers as OrganizationUser[],
+          })),
+          catchError(err => of(fromActions.requestUserInfoFailure({ err }))),
+        ),
+      ),
     ),
-  { dispatch: false },
   );
 
   requestUserOrganizations$ = createEffect(() =>
@@ -31,6 +39,6 @@ export class UserEffects {
     ),
   );
 
-  constructor(private actions$: Actions, private userService: UserService, private orgService: OrganizationService) {}
+  constructor(private actions$: Actions, private orgService: OrganizationService, private findUser: FindUserGQL) {}
 
 }

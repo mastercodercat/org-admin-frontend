@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Role } from '../../../../shared/models/role.model';
+import { Role } from '../../../../../../../../src/app/shared/models/role.model';
 import { Invite } from '../../invite.component';
 
 @Component({

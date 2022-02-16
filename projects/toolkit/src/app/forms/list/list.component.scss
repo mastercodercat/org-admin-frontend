@@ -16,12 +16,24 @@
   display: inline-block;
 }
 
+.form-list-column-header {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
 .forms-table-operations {
   margin-bottom: 12px;
   button {
     margin-left: 6px;
     margin-right: 6px;
   }
+}
+
+.form-detail-search {
+  width: 400px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .form-detail {

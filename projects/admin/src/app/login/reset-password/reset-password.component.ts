@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { Observable } from 'rxjs';
 import { ResetUserPasswordGQL } from '../../shared/services/graphql/graphql.service';
-import { UserService } from '../../../../../../src/app/services/user/user.service';
+import { UserService } from '../../../../../../src/app/shared/services/user/user.service';
 import { passwordValidator } from '../../utils/input';
 
 @Component({

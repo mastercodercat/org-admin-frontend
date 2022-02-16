@@ -4,10 +4,10 @@ import { take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import * as fromUserSelectors from '../../../../../../../../src/app/store/selectors/user.selectors';
 import { FindOrganizationTreesGQL } from '../../../../shared/services/graphql/graphql.service';
-import { UserService } from '../../../../../../../../src/app/services/user/user.service';
+import { UserService } from '../../../../../../../../src/app/shared/services/user/user.service';
 import { Account } from './account';
 import { UserState } from '../../../../../../../../src/app/store/reducers/user.reducer';
-import { Organization } from '../../../../shared/models/organization.model';
+import { Organization } from '../../../../../../../../src/app/shared/models/organization.model';
 @Component({
   selector: 'org-admin-accounts',
   templateUrl: './accounts.component.html',

@@ -17,10 +17,10 @@ import {
 } from '../../shared/services/graphql/graphql.service';
 import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
 import { AppState } from '../../../../../../src/app/store/reducers';
-import { User } from '../../shared/models/user.model';
-import { Organization } from '../../shared/models/organization.model';
-import { Role } from '../../shared/models/role.model';
-import { OrganizationUsers } from '../admin/components/members/member';
+import { User } from '../../../../../../src/app/shared/models/user.model';
+import { Organization } from '../../../../../../src/app/shared/models/organization.model';
+import { Role } from '../../../../../../src/app/shared/models/role.model';
+import { OrganizationUser } from '../../../../../../src/app/shared/models/organization-user.model';
 
 @Component({
   selector: 'org-profile',
@@ -33,9 +33,9 @@ export class ProfileComponent implements OnInit {
   userRole: { [key: string]: Role } = {};
   organizationRoles: { [key: string]: Role[] } = {};
 
-  removeOrganization: Organization | OrganizationUsers | undefined;
+  removeOrganization: Organization | OrganizationUser | undefined;
 
-  changeOrganization: Organization | OrganizationUsers | undefined;
+  changeOrganization: Organization | OrganizationUser | undefined;
   changeUserRole!: Role;
   organizations: Organization[] = [];
 
@@ -61,21 +61,21 @@ export class ProfileComponent implements OnInit {
     this.findUserService.fetch({ uuid }).pipe(take(1)).subscribe(result => {
       this.user = result.data.user as User;
 
-      (this.user.organizationUsers || []).map(organizationUser => {
-        if (organizationUser) {
-          this.userRole[organizationUser?.organizationUuid] = organizationUser?.role;
-        }
+      // (this.user.organizationUsers || []).map(organizationUser => {
+      //   if (organizationUser) {
+      //     this.userRole[organizationUser?.organizationUuid] = organizationUser?.role;
+      //   }
 
-        if (organizationUser?.organizationUuid === localStorage.getItem('selected_org')) {
-          this.title = organizationUser.title || '';
-        }
+      //   if (organizationUser?.organizationUuid === localStorage.getItem('selected_org')) {
+      //     this.title = organizationUser.title || '';
+      //   }
 
-        this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid }).pipe(take(1)).subscribe(result => {
-          if (organizationUser?.organizationUuid) {
-            this.organizationRoles[organizationUser?.organizationUuid || ''] = (result.data.roles || []) as any;
-          }
-        });
-      });
+      //   this.findRolesService.fetch({ organizationUuid: organizationUser?.organizationUuid }).pipe(take(1)).subscribe(result => {
+      //     if (organizationUser?.organizationUuid) {
+      //       this.organizationRoles[organizationUser?.organizationUuid || ''] = (result.data.roles || []) as any;
+      //     }
+      //   });
+      // });
 
       this.findOrganizationsService.fetch().pipe(take(1)).subscribe(result => {
         this.mapOrganizations(result.data.organizations as Organization[] || []);
@@ -85,15 +85,15 @@ export class ProfileComponent implements OnInit {
 
   mapOrganizations(organizations: Organization[]): void {
     (organizations || []).map(organization => {
-      if (this.user?.organizationUsers?.findIndex(organizationUser => organizationUser?.organizationUuid === organization.uuid) === -1) {
-        this.organizations.push({
-          name: organization?.name || '',
-          uuid: organization?.uuid || '',
-          organizationUuid: organization?.organizationUuid || '',
-          roles: organization?.roles,
-          status: organization?.status,
-        });
-      }
+      // if (this.user?.organizationUsers?.findIndex(organizationUser => organizationUser?.organizationUuid === organization.uuid) === -1) {
+      //   this.organizations.push({
+      //     name: organization?.name || '',
+      //     uuid: organization?.uuid || '',
+      //     organizationUuid: organization?.organizationUuid || '',
+      //     roles: organization?.roles,
+      //     status: organization?.status,
+      //   });
+      // }
 
       if (organization?.organizations && organization?.organizations.length > 0) {
         this.mapOrganizations(organization?.organizations || []);
@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  openRoleUpdate(organization: Organization | OrganizationUsers, role: Role): void {
+  openRoleUpdate(organization: Organization | OrganizationUser, role: Role): void {
     this.changeOrganization = organization;
     this.changeUserRole = role;
   }
@@ -110,7 +110,7 @@ export class ProfileComponent implements OnInit {
     this.changeOrganization = undefined;
   }
 
-  openRemoveModal(organization: Organization | OrganizationUsers): void {
+  openRemoveModal(organization: Organization | OrganizationUser): void {
     this.removeOrganization = organization;
   }
 
@@ -143,23 +143,23 @@ export class ProfileComponent implements OnInit {
     this.deleteOrganizationUser.mutate({
       uuid: this.removeOrganization?.uuid || '',
     }).subscribe(result => {
-      if (this.user?.organizationUsers) {
-        const newOrganizationUsers = (this.user.organizationUsers || []).map(organizationUser => {
-          if (organizationUser) {
-            const newOrganizationUser = { ...organizationUser };
-            if (organizationUser && organizationUser?.organizationUuid === result.data?.deleteOrganizationUser?.organizationUuid) {
-              newOrganizationUser.status = StatusEnum.Deleted;
-            }
-            return newOrganizationUser;
-          }
-          return organizationUser;
-        });
+      // if (this.user?.organizationUsers) {
+      //   const newOrganizationUsers = (this.user.organizationUsers || []).map(organizationUser => {
+      //     if (organizationUser) {
+      //       const newOrganizationUser = { ...organizationUser };
+      //       if (organizationUser && organizationUser?.organizationUuid === result.data?.deleteOrganizationUser?.organizationUuid) {
+      //         newOrganizationUser.status = StatusEnum.Deleted;
+      //       }
+      //       return newOrganizationUser;
+      //     }
+      //     return organizationUser;
+      //   });
 
-        this.user = {
-          ...this.user,
-          organizationUsers: newOrganizationUsers,
-        };
-      }
+      //   this.user = {
+      //     ...this.user,
+      //     organizationUsers: newOrganizationUsers,
+      //   };
+      // }
     });
 
     this.handleRemoveCancel();

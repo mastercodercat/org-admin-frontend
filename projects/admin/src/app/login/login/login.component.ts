@@ -5,10 +5,10 @@ import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import * as fromUserSelectors from '../../../../../../src/app/store/selectors/user.selectors';
 import { UserState } from '../../../../../../src/app/store/reducers/user.reducer';
-import { BaseComponent } from '../../core/base/base.component';
+import { BaseComponent } from '../../../../../../src/app/core/base.component';
 import { AuthService } from '../../shared/services/auth/auth.service';
-import { UserService } from '../../../../../../src/app/services/user/user.service';
-import { Organization } from '../../shared/models/organization.model';
+import { UserService } from '../../../../../../src/app/shared/services/user/user.service';
+import { Organization } from '../../../../../../src/app/shared/models/organization.model';
 
 @Component({
   selector: 'org-login',

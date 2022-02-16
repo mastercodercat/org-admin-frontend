@@ -12,8 +12,8 @@ describe('DomainsEffects', () => {
     TestBed.configureTestingModule({
       providers: [
         DomainsEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effects = TestBed.inject(DomainsEffects);

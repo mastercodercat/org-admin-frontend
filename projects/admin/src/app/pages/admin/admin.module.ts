@@ -11,13 +11,14 @@ import { AccountCollapseComponent } from './components/accounts/account-collapse
 import { PermissionsComponent } from './components/permissions/permissions.component';
 import { SubPermissionComponent } from './components/permissions/sub-permission/sub-permission.component';
 import { PermissionCardComponent } from './components/permissions/permission-card/permission-card.component';
-
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { LandingPageDomainsComponent } from './components/landing-page-domains/landing-page-domains.component';
-import { DomainsEffects } from './store/domains.effects';
-import * as fromDomains from './store/domains.reducer';
 import { DomainViewComponent } from './components/landing-page-domains/domain-view/domain-view.component';
+import { DomainsEffects } from './store/effects/domains.effects';
+import * as fromDomains from './store/reducers/domains.reducer';
+import { MembersEffects } from './store/effects/members.effects';
+import * as fromMembers from './store/reducers/members.reducer';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DomainViewComponent } from './components/landing-page-domains/domain-vi
     AdminRoutingModule,
     SharedModule,
     StoreModule.forFeature(fromDomains.domainsFeatureKey, fromDomains.domainsReducer),
-    EffectsModule.forFeature([DomainsEffects]),
+    StoreModule.forFeature(fromMembers.membersFeatureKey, fromMembers.membersReducer),
+    EffectsModule.forFeature([DomainsEffects, MembersEffects]),
   ],
 })
 export class AdminModule {}

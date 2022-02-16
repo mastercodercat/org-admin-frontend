@@ -5,10 +5,7 @@
   </button>
 </div>
 
-<nz-table
-  #table
-  [nzData]="domains"
-  [nzLoading]="isLoading$ | async">
+<nz-table #table [nzData]="domains" [nzLoading]="isLoading$ | async">
   <thead>
     <tr>
       <th>Domain</th>
@@ -24,30 +21,31 @@
       </td>
       <td [class.error]="domain.status === 'UNVERIFIED'">{{domain.status}}</td>
       <td>
-        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" (mouseover)="setCurrent(domain)">
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
           <i nz-icon nzType="ellipsis"></i>
         </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <a (click)="handleView(domain)">View</a>
+            </li>
+            <li *ngIf="isAdmin$ | async" nz-menu-item>
+              <a (click)="handleDeleteDomain(domain, tplContent)">Delete</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
       </td>
     </tr>
   </tbody>
 </nz-table>
 
-<nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu nzSelectable>
-    <li nz-menu-item>
-      <a (click)="view()">View</a>
-    </li>
-    <li nz-menu-item>
-      <a>Delete</a>
-    </li>
-  </ul>
-</nz-dropdown-menu>
+<!-- Delete Domain -->
 
-<nz-modal
-  [(nzVisible)]="isNewModal"
-  nzTitle="NEW DOMAIN"
-  (nzOnCancel)="handleClose()"
->
+<ng-template #tplContent let-params>
+  <p>Are you sure you want to delete {{ params.hostname }}?</p>
+</ng-template>
+
+<nz-modal [(nzVisible)]="isNewModal" nzTitle="NEW DOMAIN" (nzOnCancel)="handleClose()">
   <ng-container *nzModalContent>
     <form nz-form [formGroup]="validateForm" (ngSubmit)="handleOk()">
       <nz-form-item>

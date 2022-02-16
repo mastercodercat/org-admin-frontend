@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GetDomainGQL } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
 import { Domain } from '../domain.model';
 
 @Component({
@@ -16,9 +17,15 @@ export class DomainViewComponent implements OnInit {
     verification_code: 'FQfKpiKv79wkcBEqiQRoARiYxBnS2uJzHEd52NHB',
   };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,
+    private getDomainService: GetDomainGQL) { }
 
   ngOnInit(): void {
     const uuid: string = this.route.snapshot.paramMap.get('id') || '';
+    if (uuid) {
+      this.getDomainService.fetch({ uuid }).subscribe(result => {
+        console.log(result.data.organizationHostname);
+      })
+    }
   }
 }

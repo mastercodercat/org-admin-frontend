@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 
 // import { AuthService } from './auth.service';
 import { UserService } from './user.service';
-import { reducers, metaReducers } from '../../store/reducers';
+import { reducers, metaReducers } from '../../../store/reducers';
 
 describe('UserService', () => {
   let spectator: SpectatorService<UserService>;
