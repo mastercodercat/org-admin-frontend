@@ -30,11 +30,11 @@ export class LandingPageDomainsComponent extends BaseComponent implements OnInit
   isAdmin$: Observable<boolean> = this.userService.isAdmin$();
 
   constructor(private fb: FormBuilder,
-              private router: Router,
-              private store: Store<DomainsState>,
-              private modal: NzModalService,
-              private userService: UserService,
-              private domainService: DomainsService) {
+    private router: Router,
+    private store: Store<DomainsState>,
+    private modal: NzModalService,
+    private userService: UserService,
+    private domainService: DomainsService) {
     super();
   }
 
@@ -68,16 +68,14 @@ export class LandingPageDomainsComponent extends BaseComponent implements OnInit
     if (this.validateForm.valid) {
       this.domainService.createDomain(this.validateForm.value['domain'])
         .subscribe((result: FetchResult<CreateDomainMutation>) => {
-          console.log(result);
           if (result?.errors && result?.errors.length > 0) {
-            // this.error = result?.errors.join(' ');
+            console.log(result?.errors);
           } else {
             this.router.navigate([`/dashboard/landing-page-domains/${result.data?.createOrganizationHostname?.uuid || ''}`])
               .then(() => { })
               .catch(() => { });
           }
         });
-      console.log('submit', this.validateForm.value);
       this.isNewModal = false;
     } else {
       Object.values(this.validateForm.controls).forEach(
