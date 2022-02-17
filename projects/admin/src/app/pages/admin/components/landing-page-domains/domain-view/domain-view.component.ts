@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GetDomainGQL } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
+import { ApolloQueryResult } from '@apollo/client';
+import { StatusEnum, GetDomainQuery } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
 import { Domain } from '../domain.model';
+import { DomainsService } from '../../../services/domains.service';
 
 @Component({
   selector: 'org-admin-domain-view',
@@ -9,23 +11,29 @@ import { Domain } from '../domain.model';
   styleUrls: ['./domain-view.component.scss'],
 })
 export class DomainViewComponent implements OnInit {
-  domain = {
-    name: 'action.crowdskout.com',
-    verified: true,
-    deleted: true,
-    created_at: '4/30/18 9:24 AM',
-    verification_code: 'FQfKpiKv79wkcBEqiQRoARiYxBnS2uJzHEd52NHB',
+  domain: Domain = {
+    uuid: '',
+    createdAt: '',
+    status: StatusEnum.Active,
+    hostname: '',
+    user: {
+      firstName: '',
+      lastName: '',
+    },
   };
 
-  constructor(private route: ActivatedRoute,
-    private getDomainService: GetDomainGQL) { }
+  constructor(private route: ActivatedRoute, private domainService: DomainsService) { }
 
   ngOnInit(): void {
     const uuid: string = this.route.snapshot.paramMap.get('id') || '';
     if (uuid) {
-      this.getDomainService.fetch({ uuid }).subscribe(result => {
-        console.log(result.data.organizationHostname);
-      })
+      this.domainService
+        .getDomain(uuid)
+        .subscribe((result: ApolloQueryResult<GetDomainQuery>) => {
+          if (result.data?.organizationHostname) {
+            this.domain = result.data.organizationHostname as Domain;
+          }
+        });
     }
   }
 }

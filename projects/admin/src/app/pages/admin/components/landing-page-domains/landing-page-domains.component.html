@@ -17,7 +17,7 @@
     <tr *ngFor="let domain of table.data">
       <td>
         <p class="fw-bold">{{ domain.hostname }}</p>
-        <p>[{{ domain.firstName }} {{ domain.lastName }}] | Created: {{ domain.createdAt | date: 'short' }}</p>
+        <p>[{{ domain.user?.firstName }} {{ domain.user?.lastName }}] | Created: {{ domain.createdAt | date: 'short' }}</p>
       </td>
       <td [class.error]="domain.status === 'UNVERIFIED'">{{domain.status}}</td>
       <td>

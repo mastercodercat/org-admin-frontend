@@ -1,10 +1,8 @@
 <div class="pt-4">
-  <h3 nz-typography nzType="success">{{ domain.name }}</h3>
+  <h3 nz-typography nzType="success">{{ domain.hostname }}</h3>
   <nz-alert
-    [nzType]="domain.verified ? 'success' : 'warning'"
-    [nzMessage]="
-      domain.verified ? 'YOUR DOMAIN IS VERIFIED' : 'YOUR DOMAIN IS UNVEIRIFED'
-    "
+    [nzType]="(domain.status === 'VERIFIED' || domain.status === 'ACTIVE') ? 'success' : 'warning'"
+    [nzMessage]="'YOUR DOMAIN IS ' + domain.status"
     class="text-center"
   ></nz-alert>
   <h4 class="pt-3">How to Verify Your Domain</h4>
@@ -37,13 +35,13 @@
     <tbody>
       <tr>
         <td>CNAME</td>
-        <td>{{ domain.name }}</td>
+        <td>{{ domain.hostname }}</td>
         <td>pages.tools</td>
       </tr>
       <tr>
         <td>TXT</td>
         <td>@</td>
-        <td>csverification: {{ domain.verification_code }}</td>
+        <td>csverification: {{ domain.status }}</td>
       </tr>
     </tbody>
   </nz-table>
