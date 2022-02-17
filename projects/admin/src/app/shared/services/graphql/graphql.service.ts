@@ -667,7 +667,7 @@ export type GetDomainQuery = (
   { __typename?: 'Query' }
   & { organizationHostname?: Maybe<(
     { __typename?: 'SchemaOrganizationHostname' }
-    & Pick<SchemaOrganizationHostname, 'uuid' | 'createdAt' | 'status' | 'hostname'>
+    & Pick<SchemaOrganizationHostname, 'uuid' | 'createdAt' | 'status' | 'hostname' | 'txtValue'>
     & { user?: Maybe<(
       { __typename?: 'SchemaUser' }
       & Pick<SchemaUser, 'firstName' | 'lastName'>
@@ -1066,6 +1066,7 @@ export const GetDomainDocument = gql`
     }
     status
     hostname
+    txtValue
   }
 }
     `;

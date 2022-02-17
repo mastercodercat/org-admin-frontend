@@ -27,6 +27,7 @@ query getDomain($uuid: ID!) {
     }
     status
     hostname
+    txtValue
   }
 }
 

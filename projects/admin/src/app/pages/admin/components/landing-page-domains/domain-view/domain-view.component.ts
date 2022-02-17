@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client';
-import { StatusEnum, GetDomainQuery } from 'projects/admin/src/app/shared/services/graphql/graphql.service';
+import { StatusEnum, GetDomainQuery } from '../../../../../shared/services/graphql/graphql.service';
 import { Domain } from '../domain.model';
 import { DomainsService } from '../../../services/domains.service';
 
@@ -16,6 +16,7 @@ export class DomainViewComponent implements OnInit {
     createdAt: '',
     status: StatusEnum.Active,
     hostname: '',
+    txtValue: '',
     user: {
       firstName: '',
       lastName: '',
