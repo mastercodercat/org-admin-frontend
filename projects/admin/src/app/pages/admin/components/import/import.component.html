@@ -1,0 +1,45 @@
+<div class="pt-4">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <i nz-icon nzType="import"></i>Import
+  </button>
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="Import Data" (nzOnCancel)="handleCancel()" nzWidth="800px" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+      <nz-steps [nzCurrent]="current">
+        <nz-step nzTitle="Choose File"></nz-step>
+        <nz-step nzTitle="Mapping"></nz-step>
+        <nz-step nzTitle="Preview"></nz-step>
+        <nz-step nzTitle="Import"></nz-step>
+      </nz-steps>
+  
+      <div class="steps-content mt-4">
+        <div *ngIf="current === 0">
+          <nz-upload
+            nzType="drag"
+            [nzLimit]="512000"
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          >
+            <p class="ant-upload-drag-icon">
+              <i nz-icon nzType="inbox"></i>
+            </p>
+            <p class="ant-upload-text">Click or drag file to upload</p>
+            <p class="ant-upload-hint">
+              .csv spreadsheets accepted. Maximum File Size: 500MB
+            </p>
+          </nz-upload>
+          <div class="d-flex justify-content-end pt-3">
+            <span nz-tooltip nzTooltipTitle="500MB, must be CSV, should include headers, highly recommend a unique identifier">
+              <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+              Upload Tips
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #modalFooter>
+      <div class="d-flex justify-content-between">
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleNext()">Next</button>
+      </div>
+    </ng-template>
+  </nz-modal>
+</div>

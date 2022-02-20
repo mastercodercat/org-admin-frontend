@@ -23,6 +23,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
 
 @NgModule({
@@ -62,6 +64,8 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzNotificationModule,
     NzPopoverModule,
     NzDividerModule,
+    NzStepsModule,
+    NzToolTipModule,
 
     // Helm
     PasswordValidatorComponent,

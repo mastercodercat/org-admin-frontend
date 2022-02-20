@@ -11,6 +11,7 @@ import { AccountCollapseComponent } from './components/accounts/account-collapse
 import { PermissionsComponent } from './components/permissions/permissions.component';
 import { SubPermissionComponent } from './components/permissions/sub-permission/sub-permission.component';
 import { PermissionCardComponent } from './components/permissions/permission-card/permission-card.component';
+import { ImportComponent } from './components/import/import.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { LandingPageDomainsComponent } from './components/landing-page-domains/landing-page-domains.component';
@@ -32,6 +33,7 @@ import * as fromMembers from './store/reducers/members.reducer';
     PermissionCardComponent,
     LandingPageDomainsComponent,
     DomainViewComponent,
+    ImportComponent,
   ],
   exports: [AdminComponent],
   imports: [

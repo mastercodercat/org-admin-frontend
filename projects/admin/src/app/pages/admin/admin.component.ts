@@ -35,6 +35,12 @@ export class AdminComponent {
       icon: 'smile',
       showTab: this.userService.isAdminOrUser$(),
     },
+    {
+      route: '/dashboard/import',
+      name: 'Import',
+      icon: 'import',
+      showTab: this.userService.isAdminOrUser$(),
+    },
     /*
     {
       route: '/dashboard/activity',
