@@ -6,6 +6,7 @@ import { AccountsComponent } from './components/accounts/accounts.component';
 import { PermissionsComponent } from './components/permissions/permissions.component';
 import { LandingPageDomainsComponent } from './components/landing-page-domains/landing-page-domains.component';
 import { DomainViewComponent } from './components/landing-page-domains/domain-view/domain-view.component';
+import { ImportComponent } from './components/import/import.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'landing-page-domains/:id',
     component: DomainViewComponent,
+  },
+  {
+    path: 'import',
+    component: ImportComponent,
   },
 ];
 
