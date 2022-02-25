@@ -15,16 +15,38 @@
         <div *ngIf="current === 0">
           <nz-upload
             nzType="drag"
-            [nzLimit]="512000"
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzLimit]="1"
+            [nzSize]="512000"
+            nzAction="https://www.googleapis.com/upload/drive/v3/files"
+            [nzCustomRequest]="handleUpload"
+            (nzChange)="handleChange($event)"
           >
-            <p class="ant-upload-drag-icon">
-              <i nz-icon nzType="inbox"></i>
-            </p>
-            <p class="ant-upload-text">Click or drag file to upload</p>
-            <p class="ant-upload-hint">
-              .csv spreadsheets accepted. Maximum File Size: 500MB
-            </p>
+            <div class="ant-upload-drag-container d-block w-50 mx-auto">
+              <ng-container *ngIf="status === 'before'">
+                <p class="ant-upload-drag-icon">
+                  <i nz-icon nzType="inbox"></i>
+                </p>
+                <p class="ant-upload-text">Click or drag file to upload</p>
+                <p class="ant-upload-hint">
+                  .csv spreadsheets accepted. Maximum File Size: 500MB
+                </p>
+              </ng-container>
+              <ng-container *ngIf="status === 'progress' || status === 'start'">
+                <p class="ant-upload-text">Uploading...</p>
+                <nz-progress [nzPercent]="percent"></nz-progress>
+              </ng-container>
+              <ng-container *ngIf="status === 'success'">
+                <p class="ant-upload-text">Upload Success</p>
+                <nz-progress [nzPercent]="percent"></nz-progress>
+              </ng-container>
+              <ng-container *ngIf="status === 'error'">
+                <p class="ant-upload-text">Upload Failed</p>
+                <p class="ant-upload-hint">
+                  Please confirm file is .csv and under 500MB
+                </p>
+                <nz-progress [nzPercent]="percent" nzStatus="exception"></nz-progress>
+              </ng-container>
+            </div>
           </nz-upload>
           <div class="d-flex justify-content-end pt-3">
             <span nz-tooltip nzTooltipTitle="500MB, must be CSV, should include headers, highly recommend a unique identifier">
@@ -38,7 +60,7 @@
     <ng-template #modalFooter>
       <div class="d-flex justify-content-between">
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-        <button nz-button nzType="primary" (click)="handleNext()">Next</button>
+        <button nz-button nzType="primary" (click)="handleNext()" [disabled]="status !== 'success'">Next</button>
       </div>
     </ng-template>
   </nz-modal>
