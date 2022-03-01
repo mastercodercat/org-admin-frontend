@@ -6,7 +6,7 @@ import { CreateModalComponent } from './create-modal/create-modal.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list'
+    redirectTo: 'list',
   },
   {
     path: 'list',
@@ -16,11 +16,11 @@ const routes: Routes = [
     path: 'create',
     component: CreateModalComponent,
     outlet: 'modal',
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class FormsRoutingModule { }

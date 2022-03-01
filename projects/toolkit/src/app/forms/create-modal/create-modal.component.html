@@ -4,6 +4,7 @@
   [(nzVisible)]="showModal"
   nzTitle="Create New"
   (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
     <form
@@ -17,19 +18,13 @@
           <input nz-input formControlName="formName" placeholder="Form Name" />
           <ng-template #formNameErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
-              <span class="form-error">
-                Form Name is required
-              </span>
+              <tool-input-error text="Form Name is required"></tool-input-error>
             </ng-container>
             <ng-container *ngIf="control.hasError('duplicated')">
-              <span class="form-error">
-                Form Name must be unique
-              </span>
+              <tool-input-error text="Form Name must be unique"></tool-input-error>
             </ng-container>
             <ng-container *ngIf="control.hasError('notvalid')">
-              <span class="form-error">
-                Form Name not valid
-              </span>  
+              <tool-input-error text="Form Name not valid"></tool-input-error>
             </ng-container>
           </ng-template>
         </nz-form-control>

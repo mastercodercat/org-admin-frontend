@@ -64,14 +64,14 @@ export class AdminComponent {
 
   constructor(private router: Router, private userService: UserService) {
     // override the route reuse strategy
-    this.router.routeReuseStrategy.shouldReuseRoute = function(): boolean {
+    this.router.routeReuseStrategy.shouldReuseRoute = function (): boolean {
       return false;
     };
 
     this.router.events.subscribe(evt => {
       if (evt instanceof NavigationEnd) {
         const url = evt.url;
-        this.activeTab = this.tabs.findIndex((tab: Tab) => tab.route === url);
+        this.activeTab = this.tabs.findIndex((tab: Tab) => url.indexOf(tab.route) !== -1);
 
         // trick the Router into believing it's last link wasn't previously loaded
         this.router.navigated = false;

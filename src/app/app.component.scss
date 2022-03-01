@@ -36,7 +36,11 @@
   background-color: white;
 }
 
-.bottom-menu {
-  position: absolute;
-  bottom: 0;
+.side-nav {
+  display: flex;
+  flex-direction: column;
+
+  .bottom-nav {
+    margin-top: auto;
+  }
 }

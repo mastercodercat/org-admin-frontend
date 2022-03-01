@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://qr1pq657yb.execute-api.us-east-1.amazonaws.com"
+schema: "https://6w3bk33iua.execute-api.us-east-1.amazonaws.com"
 documents: "projects/toolkit/src/**/*.graphql"
 generates:
   projects/toolkit/src/graphql/graphql.service.ts:

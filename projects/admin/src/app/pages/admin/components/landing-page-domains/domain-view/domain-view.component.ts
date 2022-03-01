@@ -11,17 +11,11 @@ import { DomainsService } from '../../../services/domains.service';
   styleUrls: ['./domain-view.component.scss'],
 })
 export class DomainViewComponent implements OnInit {
-  domain: Domain = {
-    uuid: '',
-    createdAt: '',
-    status: StatusEnum.Active,
-    hostname: '',
-    txtValue: '',
-    user: {
-      firstName: '',
-      lastName: '',
-    },
-  };
+  domain: Domain | undefined;
+
+  get isDomainUnverified() {
+    return this.domain?.status === StatusEnum.Unverified
+  }
 
   constructor(private route: ActivatedRoute, private domainService: DomainsService) { }
 

@@ -34,6 +34,7 @@ export class UserEffects {
       switchMap(() => this.orgService.getOrganizations()
         .pipe(
           map(result => fromActions.requestOrganizationsSuccess({ organizations: result.data.myOrganizations as Organization[] })),
+          catchError(err => of(fromActions.requestOrganizationsFailure())),
         ),
       ),
     ),

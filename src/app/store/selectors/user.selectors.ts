@@ -24,6 +24,7 @@ export const selectOrganizationUsersCount = createSelector(selectOrganizationUse
 
 /** User selectors */
 export const selectUser = createSelector(selectUserState, (user: fromUser.UserState) => user);
+export const selectCurrentUserUuid = createSelector(selectUserState, (user: fromUser.UserState) => user.uuid);
 export const selectCurrentOrganizationUuid = createSelector(selectUserState, (user: fromUser.UserState) => user.selectedOrganizationUuid);
 export const selectCurrentOrganization = createSelector(selectUserState, selectAllOrganizationEntities,
   (user: fromUser.UserState, orgs: Dictionary<Organization>) => orgs[user.selectedOrganizationUuid]);

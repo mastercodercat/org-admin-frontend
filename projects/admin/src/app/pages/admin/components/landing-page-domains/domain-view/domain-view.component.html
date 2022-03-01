@@ -1,10 +1,18 @@
 <div class="pt-4">
-  <h3 nz-typography nzType="success">{{ domain.hostname }}</h3>
-  <nz-alert
+  <div class="d-flex align-items-center pb-3">
+    <a routerLink='/dashboard/landing-page-domains/' nz-button nzType="link"
+      class=" d-flex align-items-center justify-content-center">
+      <i nz-icon nzType="left"></i>
+    </a>
+    <h3 nz-typography class="mb-0">{{ domain?.hostname }}</h3>
+    <button class="ms-auto" nz-button nzSize="large" nzType="primary" *ngIf="isDomainUnverified">
+      Verify Now
+    </button>
+  </div>
+
+  <nz-alert *ngIf="domain"
     [nzType]="(domain.status === 'VERIFIED' || domain.status === 'ACTIVE') ? 'success' : 'warning'"
-    [nzMessage]="'YOUR DOMAIN IS ' + domain.status"
-    class="text-center"
-  ></nz-alert>
+    [nzMessage]="'YOUR DOMAIN IS ' + domain.status" class="text-center"></nz-alert>
   <h4 class="pt-3">How to Verify Your Domain</h4>
   <p>You may need help from your system administrator to complete this step.</p>
   <p>
@@ -12,7 +20,8 @@
     domain name. You will need to access and log into your domain registrar(or
     DNS provider) for your domain, e.g. GoDaddy, Namecheap, etc. For further
     instructions on setting up your domain, including links to documentation of
-    common domain registrars, <a>please check our knowledge base.</a>
+    common domain registrars, <a href="http://support.crowdskout.com/en/articles/1939985-setting-up-landing-page-domain"
+      target="_blank">please check our knowledge base.</a>
   </p>
   <p>
     Add the following record to your domain's DNS zone file to verify your
@@ -24,7 +33,7 @@
     hours, you are still unable to successfully verify your domain, please
     contact us.
   </p>
-  <nz-table>
+  <nz-table nzTemplateMode>
     <thead>
       <tr>
         <th>TYPE</th>
@@ -35,13 +44,13 @@
     <tbody>
       <tr>
         <td>CNAME</td>
-        <td>{{ domain.hostname }}</td>
+        <td>{{ domain?.hostname }}</td>
         <td>pages.tools</td>
       </tr>
       <tr>
         <td>TXT</td>
         <td>@</td>
-        <td>{{ domain.txtValue }}</td>
+        <td>{{ domain?.txtValue }}</td>
       </tr>
     </tbody>
   </nz-table>

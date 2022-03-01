@@ -7,3 +7,15 @@ query allForms($organizationUuid: UUID!){
     createdAt
   }
 }
+
+mutation CreateForm($input: CreateFormInput!) {
+  createForm(input: $input) {
+    form {
+      uuid
+      name
+      status
+      createdBy
+      createdAt
+    }
+  }
+}

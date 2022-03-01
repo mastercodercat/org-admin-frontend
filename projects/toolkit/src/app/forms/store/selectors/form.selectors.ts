@@ -1,5 +1,5 @@
 import { Form } from '../../../forms/models/form.model';
-import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromForm from '../reducers/form.reducer';
 
 export const selectFormState = createFeatureSelector<fromForm.FormState>(
@@ -11,11 +11,10 @@ export const selectForms = createSelector(
   (formState: fromForm.FormState) => formState.forms,
 );
 
+export const selectInsertedForm = createSelector(selectFormState, (formState: fromForm.FormState) => formState.insertedForm);
+export const formCreationErrors = createSelector(selectFormState, (formState: fromForm.FormState) => formState.error);
 export const selectFormsSortedByCreation = createSelector(
   selectForms,
-  (forms: Form[]) => {
-    return [...forms].sort( (a: Form, b: Form) => {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    })
-  }
+  (forms: Form[]) => [...forms].sort(
+    (a: Form, b: Form) => b.createdAt && a.createdAt ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() : 0),
 );

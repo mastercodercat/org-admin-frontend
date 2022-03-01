@@ -13,10 +13,12 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { IconsModule } from 'org-comp-lib';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { InputErrorComponent } from './components/input-error/input-error.component';
 
 @NgModule({
   declarations: [
     ListHeaderComponent,
+    InputErrorComponent,
   ],
   imports: [
     CommonModule,
@@ -29,8 +31,9 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     FormsModule,
     ReactiveFormsModule,
     IconsModule,
-    
+
     ListHeaderComponent,
+    InputErrorComponent,
 
     NzButtonModule,
     NzDropDownModule,
@@ -42,7 +45,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzGridModule,
     NzInputModule,
     NzPopoverModule,
-    
-  ]
+
+  ],
 })
 export class SharedModule { }

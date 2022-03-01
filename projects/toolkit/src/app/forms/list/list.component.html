@@ -9,7 +9,7 @@
 <nz-modal class="create-new-modal" [nzFooter]="null" [(nzVisible)]="showCreateModal" nzTitle="Create New" (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <div nz-row nzJustify="space-around">
-      <div nz-col nzSpan="8" class="create-new-item" [routerLink]="['../', { outlets: { modal: ['create'] } }]">
+      <div nz-col nzSpan="8" class="create-new-item" [routerLink]="['../', { outlets: { modal: ['create'] } }]" (click)="showCreateModal = false">
         <i nzType="org:form" nz-icon [style.color]="'#5277F9'"> </i>
         <h4>Form</h4>
 

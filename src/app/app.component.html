@@ -16,52 +16,55 @@
         <ul nz-menu>
           <li nz-menu-item routerLink="/select-organization">Select Organization</li>
           <li nz-menu-divider></li>
-          <li nz-menu-item><org-logout></org-logout></li>
+         <li nz-menu-item><org-logout></org-logout></li>
         </ul>
       </nz-dropdown-menu>
     </div>
   </nz-header>
   <nz-layout>
     <nz-sider
-      nz-collapsed
+      nzCollapsible
       nzTheme="light"
-      nzWidth="58px"
       class="bg-light border-end"
     >
-      <ul nz-menu nzMode="inline" [nzInlineIndent]="16" class="bg-light h-100">
-        <li nz-menu-item class="my-3">
+      <ul nz-menu nzMode="inline" [nzInlineIndent]="16" class="bg-light h-100 side-nav">
+        <li nz-menu-item>
           <a routerLink="/dashboard/members">
             <i nz-icon nzType="appstore" nzTheme="fill" class="fs-4"></i>
           </a>
         </li>
-        <li nz-menu-item class="my-3">
+        <li nz-menu-item>
           <a routerLink="/explorer">
             <i nz-icon nzType="reconciliation" nzTheme="fill" class="fs-4"></i>
           </a>
         </li>
-        <li nz-menu-item class="my-3">
+        <li nz-menu-item>
           <a routerLink="/forms">
             <i nz-icon nzType="form" nzTheme="outline" class="fs-4"></i>
           </a>
         </li>
-        <li nz-menu-item class="my-3">
+        <li nz-menu-item>
           <i nz-icon nzType="camera" nzTheme="fill" class="fs-4"></i>
         </li>
-        <li nz-menu-item class="my-3">
+        <li nz-menu-item>
           <i nz-icon nzType="flag" nzTheme="fill" class="fs-4"></i>
         </li>
-        <div class="bottom-menu">
-          <li nz-menu-item class="my-3">
-            <a routerLink="/faq">
-              <i nz-icon nzType="question-circle" nzTheme="fill" class="fs-4"></i>
-            </a>
-          </li>
-          <li nz-menu-item class="my-3">
-            <a routerLink="/profile">
-              <i nz-icon nzType="user" class="fs-4"></i>
-            </a>
-          </li>
-        </div>
+        <li nz-submenu nzTitle="My Universe" nzIcon="contacts">
+          <ul>
+            <li nz-menu-item>Imports</li>
+          </ul>
+        </li>
+        <li nz-menu-item class="bottom-nav">
+          <a routerLink="/faq">
+            <i nz-icon nzType="question-circle" nzTheme="fill" class="fs-4"></i>
+          </a>
+        </li>
+        <li nz-menu-item>
+          <a routerLink="/profile">
+            <i nz-icon nzType="user" class="fs-4"></i>
+          </a>
+        </li>
+        <li nz-menu-item></li>
       </ul>
     </nz-sider>
     <nz-content class="content px-5 py-3 overflow-auto">
@@ -70,11 +73,11 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
-  <div class="tracking-warning-wrapper" *ngIf="showTrackingWarning">
-    <div class="tracking-warning">
-      <b>Explorer notice:</b> Hi there! While you use Explorer, we may collect analytics data from you with the help of our vendors. This data is only
-      used for helping us improve our platform and troubleshooting user issues. To learn more about our general privacy
-      practices, please visit <a href="https://www.helmteam.us/privacy-policy" target="_blank" >https://www.helmteam.us/privacy-policy</a>.
-      <button (click)="acceptTracking()" class="dismiss-button" nz-button nzType="primary">Accept</button>
-    </div>
+<div class="tracking-warning-wrapper" *ngIf="showTrackingWarning">
+  <div class="tracking-warning">
+    <b>Explorer notice:</b> Hi there! While you use Explorer, we may collect analytics data from you with the help of our vendors. This data is only
+    used for helping us improve our platform and troubleshooting user issues. To learn more about our general privacy
+    practices, please visit <a href="https://www.helmteam.us/privacy-policy" target="_blank" >https://www.helmteam.us/privacy-policy</a>.
+    <button (click)="acceptTracking()" class="dismiss-button" nz-button nzType="primary">Accept</button>
   </div>
+</div>

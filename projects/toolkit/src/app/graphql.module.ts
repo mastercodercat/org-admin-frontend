@@ -4,21 +4,21 @@ import {ApolloClientOptions, DefaultOptions, InMemoryCache} from '@apollo/client
 import {HttpLink} from 'apollo-angular/http';
 
 import { environment  } from '../environments/environment';
-import {HttpHeaders} from "@angular/common/http";
+import {HttpHeaders} from '@angular/common/http';
 
 export function createApollo(httpLink: HttpLink): NamedOptions {
   return {
     toolkit: {
       link: httpLink.create({
-        uri: 'https://cq46pyf4l9.execute-api.us-east-1.amazonaws.com/graphql',
+        uri: 'https://sandbox.federation-service.organizer.helmahead.com/',
         headers: new HttpHeaders({
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           organizationUuid: `${localStorage.getItem('selected_org')}`,
-          Origin: window.location.origin
-        })
+          Origin: window.location.origin,
+        }),
       }),
       cache: new InMemoryCache(),
-    }
+    },
   };
 }
 

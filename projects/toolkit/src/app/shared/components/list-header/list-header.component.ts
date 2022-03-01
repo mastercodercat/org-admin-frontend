@@ -1,24 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'tool-list-header',
   templateUrl: './list-header.component.html',
-  styleUrls: ['./list-header.component.less']
+  styleUrls: ['./list-header.component.less'],
 })
-export class ListHeaderComponent implements OnInit {
+export class ListHeaderComponent {
 
-  constructor() { }
-  @Input() title: string = '';
-  @Input() description: string = '';
-  @Input() icon: string = '';
-  @Input() iconColor: string = '';
+  @Input() title = '';
+  @Input() description = '';
+  @Input() icon = '';
+  @Input() iconColor = '';
 
   @Output() createElementClick = new EventEmitter();
 
-  ngOnInit(): void {
-  }
+  constructor() { }
 
-  createElement() {
+  createElement(): void {
     this.createElementClick.emit();
   }
 }

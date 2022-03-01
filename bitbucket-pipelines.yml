@@ -31,7 +31,7 @@ definitions:
         name: 'Deploy (Base)'
         <<: *oidc-base
         script:
-        - npm run build org-comp-lib
+        - npm run build-library
         - npm run build-${STAGE}
         - . bin/setup-bitbucket-oidc-credentials
         - ./bin/deploy -s ${STAGE} -a frontend-infrastructure -t HelmOrganizerFrontends

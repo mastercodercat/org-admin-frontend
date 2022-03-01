@@ -82,6 +82,26 @@ export class UserService {
   }
 
   /**
+   * A selector that returns the user uuid
+   *
+   * @return {Observable<string>}
+   * @memberof UserService
+   */
+  getCurrentUserUuid$(): Observable<string> {
+    return this.store.pipe(select(fromSelectors.selectCurrentUserUuid));
+  }
+
+  /**
+   * A selector that returns the current organization uuid
+   *
+   * @return {Observable<string>}
+   * @memberof UserService
+   */
+  getCurrentOrganizationUuid$(): Observable<string> {
+    return this.store.pipe(select(fromSelectors.selectCurrentOrganizationUuid));
+  }
+
+  /**
    * Query password reset token validation
    *
    * @param {string} token

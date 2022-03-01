@@ -9,12 +9,14 @@ export const formFeatureKey = 'form';
 export interface FormState {
   forms: Form[];
   loading: boolean;
-  /* error: any; */
+  insertedForm?: Form;
+  error: string;
 }
 
 export const initialState: FormState = {
   forms: [],
   loading: false,
+  error: '',
 };
 
 
@@ -35,9 +37,32 @@ export const formReducer = createReducer(
   on(fromActions.loadFormsFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    /* error: error, // add later */
   })),
 
+  on(fromActions.createForm, state => ({
+    ...state,
+    loading: true,
+    error: '',
+  })),
+
+  on(fromActions.createFormSuccess, (state, { data }) => ({
+    ...state,
+    forms: [...state.forms, data],
+    loading: false,
+    insertedForm: data,
+    error: '',
+  })),
+
+  on(fromActions.createFormFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  on(fromActions.clearInsertedForm, state => ({
+    ...state,
+    insertedForm: undefined,
+  })),
 
 );
 

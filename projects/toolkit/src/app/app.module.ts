@@ -8,7 +8,7 @@ import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -17,7 +17,7 @@ import { GraphQLModule } from './graphql.module';
     StoreModule.forRoot({}, {}),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
 
@@ -26,7 +26,7 @@ export class ToolkitModule {
   static forRoot(): ModuleWithProviders<any> {
     return {
       ngModule: AppModule,
-      providers: []
-    }
+      providers: [],
+    };
   }
 }
