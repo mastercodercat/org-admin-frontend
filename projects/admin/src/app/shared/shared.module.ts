@@ -24,6 +24,8 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzListModule } from 'ng-zorro-antd/list';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
 
@@ -66,6 +68,8 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzDividerModule,
     NzStepsModule,
     NzToolTipModule,
+    NzProgressModule,
+    NzListModule,
 
     // Helm
     PasswordValidatorComponent,
