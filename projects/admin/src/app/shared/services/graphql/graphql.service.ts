@@ -150,6 +150,7 @@ export type Mutation = {
   updateUser?: Maybe<SchemaUser>;
   createOrganizationHostname?: Maybe<SchemaOrganizationHostname>;
   deleteOrganizationHostname?: Maybe<SchemaOrganizationHostname>;
+  verifyOrganizationHostname?: Maybe<SchemaOrganizationHostname>;
 };
 
 
@@ -260,6 +261,11 @@ export type MutationCreateOrganizationHostnameArgs = {
 
 export type MutationDeleteOrganizationHostnameArgs = {
   input: DeleteOrganizationHostnameInput;
+};
+
+
+export type MutationVerifyOrganizationHostnameArgs = {
+  input: VerifyOrganizationHostnameInput;
 };
 
 export enum OrganizationEnum {
@@ -628,6 +634,10 @@ export type ValidateAssociationTokenPayload = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type VerifyOrganizationHostnameInput = {
+  hostnameUuid: Scalars['String'];
+};
+
 export type GetDomainsQueryVariables = Exact<{
   domainType?: Maybe<DomainTypeEnum>;
 }>;
@@ -689,6 +699,19 @@ export type CreateDomainMutation = (
       { __typename?: 'SchemaUser' }
       & Pick<SchemaUser, 'firstName' | 'lastName'>
     )> }
+  )> }
+);
+
+export type VerifyOrganizationHostnameMutationVariables = Exact<{
+  input: VerifyOrganizationHostnameInput;
+}>;
+
+
+export type VerifyOrganizationHostnameMutation = (
+  { __typename?: 'Mutation' }
+  & { verifyOrganizationHostname?: Maybe<(
+    { __typename?: 'SchemaOrganizationHostname' }
+    & Pick<SchemaOrganizationHostname, 'uuid' | 'status'>
   )> }
 );
 
@@ -1101,6 +1124,25 @@ export const CreateDomainDocument = gql`
   })
   export class CreateDomainGQL extends Apollo.Mutation<CreateDomainMutation, CreateDomainMutationVariables> {
     document = CreateDomainDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VerifyOrganizationHostnameDocument = gql`
+    mutation verifyOrganizationHostname($input: VerifyOrganizationHostnameInput!) {
+  verifyOrganizationHostname(input: $input) {
+    uuid
+    status
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VerifyOrganizationHostnameGQL extends Apollo.Mutation<VerifyOrganizationHostnameMutation, VerifyOrganizationHostnameMutationVariables> {
+    document = VerifyOrganizationHostnameDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

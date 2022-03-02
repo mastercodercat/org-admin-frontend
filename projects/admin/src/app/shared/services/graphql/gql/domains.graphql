@@ -43,3 +43,10 @@ mutation createDomain($input: CreateOrganizationHostnameInput!) {
     hostname
   }
 }
+
+mutation verifyOrganizationHostname($input: VerifyOrganizationHostnameInput!) {
+  verifyOrganizationHostname(input: $input) {
+    uuid
+    status
+  }
+}
