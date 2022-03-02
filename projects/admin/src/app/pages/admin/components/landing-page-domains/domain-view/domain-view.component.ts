@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApolloQueryResult } from '@apollo/client';
-import { StatusEnum, GetDomainQuery } from '../../../../../shared/services/graphql/graphql.service';
+import { ApolloQueryResult, FetchResult } from '@apollo/client';
+import { StatusEnum, GetDomainQuery, VerifyOrganizationHostnameMutation } from '../../../../../shared/services/graphql/graphql.service';
 import { Domain } from '../domain.model';
 import { DomainsService } from '../../../services/domains.service';
 
@@ -27,6 +27,17 @@ export class DomainViewComponent implements OnInit {
         .subscribe((result: ApolloQueryResult<GetDomainQuery>) => {
           if (result.data?.organizationHostname) {
             this.domain = result.data.organizationHostname as Domain;
+          }
+        });
+    }
+  }
+
+  verify(): void {
+    if (this.domain) {
+      this.domainService.verifyDomain(this.domain.uuid)
+        .subscribe((result: FetchResult<VerifyOrganizationHostnameMutation>) => {
+          if (result?.errors && result?.errors.length > 0) {
+            console.log(result?.errors);
           }
         });
     }

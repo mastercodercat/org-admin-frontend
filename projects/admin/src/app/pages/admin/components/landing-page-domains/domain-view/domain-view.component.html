@@ -5,7 +5,7 @@
       <i nz-icon nzType="left"></i>
     </a>
     <h3 nz-typography class="mb-0">{{ domain?.hostname }}</h3>
-    <button class="ms-auto" nz-button nzSize="large" nzType="primary" *ngIf="isDomainUnverified">
+    <button class="ms-auto" nz-button nzSize="large" nzType="primary" *ngIf="isDomainUnverified" (click)="verify()">
       Verify Now
     </button>
   </div>

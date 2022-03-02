@@ -10,6 +10,8 @@ import { DomainTypeEnum,
   CreateDomainMutation,
   DeleteOrganizationHostnameGQL,
   DeleteOrganizationHostnameMutation,
+  VerifyOrganizationHostnameGQL,
+  VerifyOrganizationHostnameMutation,
 } from '../../../shared/services/graphql/graphql.service';
 
 @Injectable({
@@ -20,7 +22,8 @@ export class DomainsService {
   constructor(private getDomains: GetDomainsGQL,
               private createDomainGQL: CreateDomainGQL,
               private getDomainGQL: GetDomainGQL,
-              private deleteDomainGQL: DeleteOrganizationHostnameGQL) {
+              private deleteDomainGQL: DeleteOrganizationHostnameGQL,
+              private verifyDomainGQL: VerifyOrganizationHostnameGQL) {
   }
 
   loadLandingPageDomains(): Observable<ApolloQueryResult<GetDomainsQuery>> {
@@ -44,6 +47,14 @@ export class DomainsService {
     return this.deleteDomainGQL.mutate({
       input: {
         uuid,
+      },
+    });
+  }
+
+  verifyDomain(hostnameUuid: string): Observable<FetchResult<VerifyOrganizationHostnameMutation>> {
+    return this.verifyDomainGQL.mutate({
+      input: {
+        hostnameUuid,
       },
     });
   }
