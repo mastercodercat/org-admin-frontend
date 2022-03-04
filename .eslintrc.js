@@ -303,9 +303,6 @@ module.exports = {
         "@angular-eslint/template/banana-in-box": [
           "error"
         ],
-        "@angular-eslint/template/accessibility-label-for": [
-          "error"
-        ],
         "@angular-eslint/template/accessibility-elements-content": [
           "error"
         ],

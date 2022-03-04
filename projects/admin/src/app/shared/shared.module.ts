@@ -27,6 +27,8 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { PasswordValidatorComponent } from './components/password-validator/password-validator.component';
 
 @NgModule({
@@ -70,6 +72,8 @@ import { PasswordValidatorComponent } from './components/password-validator/pass
     NzToolTipModule,
     NzProgressModule,
     NzListModule,
+    NzCheckboxModule,
+    NzBadgeModule,
 
     // Helm
     PasswordValidatorComponent,

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
 import { MembersComponent } from './components/members/members.component';
@@ -40,6 +41,8 @@ import * as fromMembers from './store/reducers/members.reducer';
     CommonModule,
     AdminRoutingModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     StoreModule.forFeature(fromDomains.domainsFeatureKey, fromDomains.domainsReducer),
     StoreModule.forFeature(fromMembers.membersFeatureKey, fromMembers.membersReducer),
     EffectsModule.forFeature([DomainsEffects, MembersEffects]),

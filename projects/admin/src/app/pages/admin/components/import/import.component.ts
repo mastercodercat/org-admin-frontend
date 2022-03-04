@@ -13,6 +13,43 @@ export class ImportComponent {
   current = 0;
   percent = 0;
   status = 'before';
+  data = [
+    {
+      include: true,
+      source: 'Firstname',
+      destination: 'First name',
+      data_type: 'string',
+      sample: 'Jane',
+    },
+    {
+      include: true,
+      source: 'Lastname',
+      destination: 'Last name',
+      data_type: 'string',
+      sample: 'Smith',
+    },
+    {
+      include: true,
+      source: 'State',
+      destination: 'State',
+      data_type: 'string',
+      sample: 'Maine',
+    },
+    {
+      include: false,
+      source: 'Email Address',
+      destination: 'Email',
+      data_type: 'string',
+      sample: 'js@maine.gov',
+    },
+    {
+      include: false,
+      source: 'Favorite Cookie',
+      destination: 'No Match',
+      data_type: 'string',
+      sample: 'snickerdoodle',
+    },
+  ];
 
   constructor(private http: HttpClient) {}
 
